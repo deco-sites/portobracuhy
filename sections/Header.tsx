@@ -53,7 +53,7 @@ export default function Header({
           className="modal-toggle peer"
         />
         <div
-          className="mob-menu-modal fixed -top-full peer-checked:flex flex-col peer-checked:top-0 transition-all duration-500 w-full h-[calc(100vh_-_80px)] left-0 bg-accent"
+          className="mob-menu-modal fixed -top-full peer-checked:flex flex-col peer-checked:top-0 transition-all duration-500 w-full h-[calc(100vh_-_80px)] left-0 bg-accent z-50"
           role="dialog"
         >
           <label

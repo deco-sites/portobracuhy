@@ -9,6 +9,9 @@
       "__resolveType": "site/sections/Hero.tsx"
     },
     {
+      "__resolveType": "site/sections/BuscaImovel.tsx"
+    },
+    {
       "__resolveType": "site/sections/ItWorks.tsx",
       "name": "It Works!"
     },

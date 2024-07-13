@@ -114,7 +114,7 @@ function Hero({
     },
   ],
   preload,
-  interval,
+  interval = 4,
 }: Props) {
   const id = useId();
 
