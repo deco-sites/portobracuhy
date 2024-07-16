@@ -1,9 +1,19 @@
+import { Secret } from "apps/website/loaders/secret.ts";
 import { App, AppContext as AC } from "deco/mod.ts";
-import website, { Props } from "apps/website/mod.ts";
+import website, { Props as SiteAppProps } from "apps/website/mod.ts";
 
 import manifest, { Manifest } from "../manifest.gen.ts";
 
 type WebsiteApp = ReturnType<typeof website>;
+
+type LoftCrmProps = {
+  baseUrl?: string;
+  apiKey: Secret;
+};
+
+type Props = SiteAppProps & {
+  loft: LoftCrmProps;
+};
 
 /**
  * @title Site
@@ -11,17 +21,11 @@ type WebsiteApp = ReturnType<typeof website>;
  * @category Tool
  * @logo https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/1/0ac02239-61e6-4289-8a36-e78c0975bcc8
  */
-export default function Site(
-  state: Props,
-): App<Manifest, Props, [
-  WebsiteApp,
-]> {
+export default function Site(state: Props): App<Manifest, Props, [WebsiteApp]> {
   return {
     state,
     manifest,
-    dependencies: [
-      website(state),
-    ],
+    dependencies: [website(state)],
   };
 }
 

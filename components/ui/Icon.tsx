@@ -33,6 +33,7 @@ export type AvailableIcons =
   | "Discord"
   | "Trash"
   | "FilterList"
+  | "Filter"
   | "WhatsApp"
   | "ArrowsPointingOut"
   | "Square"

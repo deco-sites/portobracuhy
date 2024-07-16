@@ -1,1 +1,1 @@
-export { default } from "../islands/BuscaImovel.tsx";
+export { default, loader, LoadingFallback } from "../islands/BuscaImovel.tsx";
