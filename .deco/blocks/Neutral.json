@@ -27,7 +27,16 @@
   },
   "font": {
     "__resolveType": "website/loaders/fonts/googleFonts.ts",
-    "fonts": []
+    "fonts": [
+      {
+        "variations": [],
+        "family": "Roboto"
+      }
+    ]
   },
-  "mode": "light"
+  "mode": "light",
+  "complementaryColors": {
+    "base-200": "#000000",
+    "secondary-content": "#7d0408"
+  }
 }
