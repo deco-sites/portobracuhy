@@ -21,8 +21,7 @@
     },
     {
       "__resolveType": "website/loaders/redirects.ts"
-    },
-    []
+    }
   ],
   "caching": {
     "directives": []
@@ -40,13 +39,5 @@
   },
   "flavor": {
     "framework": "fresh"
-  },
-  "loft": {
-    "apiKey": {
-      "__resolveType": "website/loaders/secret.ts",
-      "encrypted": "b207b954842ba05aefab9e69ac34159a370ebefc813a6df60fd5167c38338f43c1af4d91b1ff11badba404afcb6e1c11",
-      "name": "LOFT_API_KEY"
-    },
-    "baseUrl": "https://sandbox-rest.vistahost.com.br"
   }
 }

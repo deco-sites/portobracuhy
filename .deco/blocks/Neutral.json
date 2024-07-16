@@ -9,9 +9,9 @@
   "mainColors": {
     "base-100": "#ffffff",
     "primary": "#171717",
-    "secondary": "#a92d13",
-    "tertiary": "#2b4c5a",
-    "neutral": "#333333",
+    "secondary": "#c7c7c7",
+    "tertiary": "#404040",
+    "neutral": "#4a4a4a",
     "success": "#008060",
     "warning": "#ffc453",
     "error": "#d82c0d",
@@ -27,16 +27,7 @@
   },
   "font": {
     "__resolveType": "website/loaders/fonts/googleFonts.ts",
-    "fonts": [
-      {
-        "variations": [],
-        "family": "Roboto"
-      }
-    ]
+    "fonts": []
   },
-  "mode": "light",
-  "complementaryColors": {
-    "base-200": "#000000",
-    "secondary-content": "#7d0408"
-  }
+  "mode": "light"
 }
