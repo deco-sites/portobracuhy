@@ -9,9 +9,9 @@
   "mainColors": {
     "base-100": "#ffffff",
     "primary": "#171717",
-    "secondary": "#c7c7c7",
-    "tertiary": "#404040",
-    "neutral": "#4a4a4a",
+    "secondary": "#a92d13",
+    "tertiary": "#2b4c5a",
+    "neutral": "#333333",
     "success": "#008060",
     "warning": "#ffc453",
     "error": "#d82c0d",

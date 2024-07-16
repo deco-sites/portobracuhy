@@ -39,5 +39,13 @@
   },
   "flavor": {
     "framework": "fresh"
+  },
+  "loft": {
+    "apiKey": {
+      "__resolveType": "website/loaders/secret.ts",
+      "name": "LOFT_API_KEY",
+      "encrypted": "bedde0e7781a6acf2fcc7cb0d9e0ad4a6edb480595b0e5619d82dfb1d76d948bd7171c6b7e50180c9e92a638123df41a"
+    },
+    "baseUrl": "https://sandbox-rest.vistahost.com.br"
   }
 }
