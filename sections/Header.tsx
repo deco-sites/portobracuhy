@@ -1,6 +1,7 @@
 import { ImageWidget } from "apps/admin/widgets.ts";
 import Image from "apps/website/components/Image.tsx";
 import Icon from "site/components/ui/Icon.tsx";
+import { clx } from "site/sdk/clx.ts";
 
 export interface NavLink {
   label: string;
@@ -58,7 +59,7 @@ export default function Header({
         >
           <label
             htmlFor="mobile_menu_modal"
-            class="text-white m-5 flex flex-row-reverse"
+            class="text-white m-5 flex flex-row-reverse cursor-pointer"
           >
             <Icon id="Close" width={26} height={39} />
           </label>
@@ -66,13 +67,15 @@ export default function Header({
             <ul class="flex flex-col">
               {navLinks.map((link, index) => (
                 <li
-                  class={`py-4 px-6 text-center ${
-                    index > 0 ? "border-t border-white" : ""
-                  } `}
+                  class={clx(
+                    `py-4 px-6 text-center`,
+                    index > 0 && "border-t border-white",
+                    "hover:bg-white group transition-colors"
+                  )}
                 >
                   <a
                     href={link.href}
-                    class="text-white text-[15.6px] font-medium"
+                    class="text-white text-[15.6px] font-medium group-hover:text-neutral transition-colors"
                   >
                     {link.label}
                   </a>
