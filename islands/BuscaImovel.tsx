@@ -14,84 +14,126 @@ export interface Props {
 function RegularSearch({
   bairros,
   categorias,
+  finalidade,
+  setFinalidade,
 }: {
   bairros: string[];
   categorias: string[];
+  finalidade: string;
+  setFinalidade: StateUpdater<"Venda" | "Aluguel" | "Temporada">;
 }) {
   const [selectOpened, setSelectOpened] = useState("none");
 
   return (
     <div class="flex flex-col pb-[3px]">
-      <div class="flex flex-wrap w-full text-white text-[16.9px]">
-        <div class="w-1/2 h-12 rounded-tl-[30px] bg-secondary flex justify-center items-center uppercase">
+      <div class="flex flex-wrap w-full text-white text-[16.9px] lg:justify-center lg:gap-[10px] lg:items-end">
+        <div
+          class={clx(
+            "w-1/2 rounded-tl-[30px] bg-secondary",
+            "flex justify-center items-center",
+            "uppercase lg:min-w-[186px] lg:w-auto lg:rounded-none",
+            finalidade === "Venda" ? "h-12 lg:h-10" : "h-12 lg:h-max"
+          )}
+        >
           <input
             class="hidden"
             type="radio"
             name="finalidade"
             value="Venda"
             id="comprar"
+            onChange={() => setFinalidade("Venda")}
+            checked={finalidade === "Venda"}
           />
-          <label for="comprar" class="font-slab">
+          <label
+            for="comprar"
+            class="font-slab w-full flex justify-center items-center h-full cursor-pointer"
+          >
             Venda
           </label>
         </div>
-        <div class="w-1/2 h-12 rounded-tr-[30px] bg-secondary flex justify-center items-center uppercase">
+        <div
+          class={clx(
+            "w-1/2 rounded-tr-[30px] bg-secondary",
+            "flex justify-center items-center",
+            "uppercase lg:min-w-[186px] lg:w-auto lg:rounded-none",
+            finalidade === "Aluguel" ? "h-12 lg:h-10" : "h-12 lg:h-max"
+          )}
+        >
           <input
             class="hidden"
             type="radio"
             name="finalidade"
             value="Aluguel"
             id="alugar"
+            onChange={() => setFinalidade("Aluguel")}
+            checked={finalidade === "Aluguel"}
           />
-          <label for="alugar" class="font-slab">
+          <label
+            for="alugar"
+            class="font-slab w-full flex justify-center items-center h-full cursor-pointer"
+          >
             Aluguel
           </label>
         </div>
-        <div class="w-full h-12 bg-secondary flex justify-center items-center uppercase">
+        <div
+          class={clx(
+            "w-full bg-secondary",
+            "flex justify-center items-center",
+            "uppercase lg:min-w-[186px] lg:w-auto lg:rounded-none",
+            finalidade === "Temporada" ? "h-12 lg:h-10" : "h-12 lg:h-max"
+          )}
+        >
           <input
             class="hidden"
             type="radio"
             name="finalidade"
             value="Temporada"
             id="temporada"
+            onChange={() => setFinalidade("Temporada")}
+            checked={finalidade === "Temporada"}
           />
-          <label for="alugar" class="font-slab">
+          <label
+            for="temporada"
+            class="font-slab w-full flex justify-center items-center h-full cursor-pointer"
+          >
             Temporada
           </label>
         </div>
       </div>
 
-      <SearchSelect
-        label="Tipos de imóvel"
-        options={categorias}
-        barClass="rounded-tr-[30px] rounded-tl-[30px] mb-[3px]"
-        searchable
-        searchPlaceholder="Que tipo de imóvel procura?"
-        setOpened={() =>
-          selectOpened === "imovel"
-            ? setSelectOpened("none")
-            : setSelectOpened("imovel")
-        }
-        opened={selectOpened === "imovel"}
-      />
-      <SearchSelect
-        label="Condomínios"
-        options={bairros}
-        barClass="mb-[3px]"
-        searchable
-        searchPlaceholder="Escolha o(s) Bairro(s)"
-        setOpened={() =>
-          selectOpened === "condominio"
-            ? setSelectOpened("none")
-            : setSelectOpened("condominio")
-        }
-        opened={selectOpened === "condominio"}
-      />
+      <div class="flex flex-col lg:flex-row lg:gap-[3px]">
+        <SearchSelect
+          label="Tipos de imóvel"
+          options={categorias}
+          barClass="rounded-tr-[30px] rounded-tl-[30px] mb-[3px] lg:rounded-tr-none lg:rounded-bl-[30px]"
+          searchable
+          searchPlaceholder="Que tipo de imóvel procura?"
+          setOpened={() =>
+            selectOpened === "imovel"
+              ? setSelectOpened("none")
+              : setSelectOpened("imovel")
+          }
+          opened={selectOpened === "imovel"}
+        />
+        <SearchSelect
+          label="Condomínios"
+          options={bairros}
+          barClass="mb-[3px]"
+          searchable
+          searchPlaceholder="Escolha o(s) Bairro(s)"
+          setOpened={() =>
+            selectOpened === "condominio"
+              ? setSelectOpened("none")
+              : setSelectOpened("condominio")
+          }
+          opened={selectOpened === "condominio"}
+        />
 
-      <div class="rounded-[30px] shadow-[0px_3px_7px_#00000059]">
-        <button class="w-full bg-secondary text-white rounded-br-[30px] rounded-bl-[30px] h-[60px] flex justify-center items-center text-[24px]">
-          Buscar
-        </button>
+        <div class="rounded-[30px] lg:rounded-bl-none lg:rounded-tl-none shadow-[0px_3px_7px_#00000059] lg:h-16 lg:w-full">
+          <button class="w-full bg-secondary text-white rounded-br-[30px] rounded-bl-[30px] h-[60px] flex justify-center items-center text-[24px] lg:rounded-bl-none lg:rounded-tr-[30px] lg:h-16">
+            Buscar
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -123,76 +165,88 @@ function MoreFilters({
   handleMoreFilters,
   setSearchType,
   bairros,
+  finalidade,
 }: {
   handleMoreFilters: () => void;
   setSearchType: StateUpdater<"normal" | "code" | "filtering">;
   bairros: string[];
+  finalidade: string;
 }) {
   const [selectOpened, setSelectOpened] = useState("none");
 
   return (
     <div class="pt-[30px] pb-5 px-5 shadow-[0px_3px_7px_#00000059] flex flex-wrap bg-white">
       <div class="w-full px-[15px]">
-        <span class="font-bold text-accent text-[13px] leading-[1.8] mb-[10px] block">
-          Dormitório(s)
-        </span>
-        <SearchSelect
-          variant="small"
-          label="Dormitório"
-          options={["1", "2", "3", "4+"]}
-          barClass="mb-5"
-          setOpened={() =>
-            selectOpened === "dormitorio"
-              ? setSelectOpened("none")
-              : setSelectOpened("dormitorio")
-          }
-          opened={selectOpened === "dormitorio"}
-          showFooter={false}
-        />
+        <div class="flex flex-col lg:flex-row lg:gap-[30px]">
+          <div class="flex flex-col lg:w-[16.66666667%]">
+            <span class="font-bold text-accent text-[13px] leading-[1.8] mb-[10px] block">
+              Dormitório(s)
+            </span>
+            <SearchSelect
+              variant="small"
+              label="Dormitório"
+              options={["1", "2", "3", "4+"]}
+              barClass="mb-5"
+              setOpened={() =>
+                selectOpened === "dormitorio"
+                  ? setSelectOpened("none")
+                  : setSelectOpened("dormitorio")
+              }
+              opened={selectOpened === "dormitorio"}
+              showFooter={false}
+            />
+          </div>
 
-        <span class="font-bold text-accent text-[13px] leading-[1.8] mb-[10px] block">
-          Suíte(s)
-        </span>
-        <SearchSelect
-          variant="small"
-          label="Suíte"
-          options={["1", "2", "3", "4+"]}
-          barClass="mb-5"
-          setOpened={() =>
-            selectOpened === "suite"
-              ? setSelectOpened("none")
-              : setSelectOpened("suite")
-          }
-          opened={selectOpened === "suite"}
-          showFooter={false}
-        />
+          <div class="flex flex-col lg:w-[16.66666667%]">
+            <span class="font-bold text-accent text-[13px] leading-[1.8] mb-[10px] block">
+              Suíte(s)
+            </span>
+            <SearchSelect
+              variant="small"
+              label="Suíte"
+              options={["1", "2", "3", "4+"]}
+              barClass="mb-5"
+              setOpened={() =>
+                selectOpened === "suite"
+                  ? setSelectOpened("none")
+                  : setSelectOpened("suite")
+              }
+              opened={selectOpened === "suite"}
+              showFooter={false}
+            />
+          </div>
 
-        <span class="font-bold text-accent text-[13px] leading-[1.8] mb-[10px] block">
-          Faixa de preço para Venda
-        </span>
-        <div class="flex flex-col gap-5 mb-5">
-          <TextInput placeholder="Valor mín." isCurrency />
-          <TextInput placeholder="Valor máx." isCurrency />
+          <div class="flex flex-col lg:w-1/2">
+            <span class="font-bold text-accent text-[13px] leading-[1.8] mb-[10px] block">
+              Faixa de preço para {finalidade}
+            </span>
+            <div class="flex flex-col lg:flex-row gap-5 mb-5">
+              <TextInput placeholder="Valor mín." isCurrency />
+              <TextInput placeholder="Valor máx." isCurrency />
+            </div>
+          </div>
         </div>
 
-        <span class="font-bold text-accent text-[13px] leading-[1.8] mb-[10px] block">
-          Empreendimento(s)
-        </span>
-        <SearchSelect
-          variant="small"
-          label="Empreendimento"
-          options={bairros}
-          barClass="mb-5"
-          setOpened={() =>
-            selectOpened === "empreendimento"
-              ? setSelectOpened("none")
-              : setSelectOpened("empreendimento")
-          }
-          opened={selectOpened === "empreendimento"}
-          showFooter
-          searchable
-          searchPlaceholder="Escolha o(s) empreendimento(s)"
-        />
+        <div class="flex flex-col lg:w-1/4">
+          <span class="font-bold text-accent text-[13px] leading-[1.8] mb-[10px] block">
+            Empreendimento(s)
+          </span>
+          <SearchSelect
+            variant="small"
+            label="Empreendimento"
+            options={bairros}
+            barClass="mb-5"
+            setOpened={() =>
+              selectOpened === "empreendimento"
+                ? setSelectOpened("none")
+                : setSelectOpened("empreendimento")
+            }
+            opened={selectOpened === "empreendimento"}
+            showFooter
+            searchable
+            searchPlaceholder="Escolha o(s) empreendimento(s)"
+          />
+        </div>
 
         <button class="whitespace-pre bg-secondary text-white text-2xl flex justify-center items-center h-[60px] px-5 mx-auto">
           <Icon id="MagnifyingGlass" width={24} height={25} /> {" Buscar "}
@@ -228,6 +282,10 @@ export default function BuscaImovel({
     "normal"
   );
 
+  const [finalidade, setFinalidade] = useState<
+    "Venda" | "Aluguel" | "Temporada"
+  >("Venda");
+
   const handleMoreFilters = () => {
     if (searchType === "code" || searchType === "filtering") {
       setSearchType("normal");
@@ -248,7 +306,7 @@ export default function BuscaImovel({
   };
 
   return (
-    <div class="m-[2vh]">
+    <div class="m-[2vh] lg:m-[5vh]">
       <h1 class="text-secondary-content text-[26px] md:text-[52px] my-5 font-black">
         {title}
       </h1>
@@ -272,7 +330,12 @@ export default function BuscaImovel({
             : "opacity-0 pointer-events-none absolute top-0 left-0"
         )}
       >
-        <RegularSearch bairros={bairros} categorias={categorias} />
+        <RegularSearch
+          finalidade={finalidade}
+          setFinalidade={setFinalidade}
+          bairros={bairros}
+          categorias={categorias}
+        />
       </div>
 
       <div
@@ -287,6 +350,7 @@ export default function BuscaImovel({
           handleMoreFilters={handleMoreFilters}
           setSearchType={setSearchType}
           bairros={bairros}
+          finalidade={finalidade}
         />
       </div>
 

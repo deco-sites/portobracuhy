@@ -77,7 +77,7 @@ export default function SearchSelect({
         class={clx(
           "flex group items-center justify-between w-full",
           variant === "default"
-            ? "h-[60px] pb-[10px] px-[15px] shadow-[0px_3px_7px_#00000059]"
+            ? "h-[60px] lg:h-16 pb-[10px] lg:pb-0 px-[15px] shadow-[0px_3px_7px_#00000059]"
             : "h-[35px] py-[6px] px-3 border border-accent",
           barClass
         )}
