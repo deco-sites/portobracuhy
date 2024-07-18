@@ -105,7 +105,7 @@ function RegularSearch({
         <SearchSelect
           label="Tipos de imóvel"
           options={categorias}
-          barClass="rounded-tr-[30px] rounded-tl-[30px] mb-[3px] lg:rounded-tr-none lg:rounded-bl-[30px]"
+          barClass="cursor-pointer rounded-tr-[30px] rounded-tl-[30px] mb-[3px] lg:rounded-tr-none lg:rounded-bl-[30px]"
           searchable
           searchPlaceholder="Que tipo de imóvel procura?"
           setOpened={() =>
@@ -118,7 +118,7 @@ function RegularSearch({
         <SearchSelect
           label="Condomínios"
           options={bairros}
-          barClass="mb-[3px]"
+          barClass="cursor-pointer mb-[3px]"
           searchable
           searchPlaceholder="Escolha o(s) Bairro(s)"
           setOpened={() =>
