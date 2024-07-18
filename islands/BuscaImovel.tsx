@@ -141,16 +141,16 @@ function RegularSearch({
 
 function CodeSearch() {
   return (
-    <div class="flex items-center">
+    <div class="flex items-center lg:mb-[30px]">
       <div class="w-full px-[15px]">
         <input
-          class="w-full bg-secondary text-black placeholder:text-black text-2xl px-[15px] h-12"
+          class="w-full bg-secondary outline-none text-black placeholder:text-black text-2xl px-[15px] h-12 lg:h-16"
           type="text"
           placeholder="Código"
         />
       </div>
-      <div class="w-full">
-        <button class="w-full bg-secondary text-white text-2xl flex justify-center items-center h-12">
+      <div class="w-full lg:w-[16.66666667%]">
+        <button class="w-full bg-secondary text-white text-2xl flex justify-center items-center h-12 lg:h-16">
           <span class="flex items-baseline whitespace-pre">
             <Icon id="MagnifyingGlass" width={24} height={25} />
             {" Buscar "}
