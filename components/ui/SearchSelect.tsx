@@ -11,6 +11,8 @@ interface Props {
   barClass?: string;
   opened?: boolean;
   setOpened?: () => void;
+  variant?: "default" | "small";
+  showFooter?: boolean;
 }
 
 export default function SearchSelect({
@@ -22,6 +24,8 @@ export default function SearchSelect({
   barClass,
   opened,
   setOpened,
+  variant = "default",
+  showFooter = true,
 }: Props) {
   const [search, setSearch] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -71,11 +75,22 @@ export default function SearchSelect({
       <div
         onClick={setOpened}
         class={clx(
-          "flex group items-center justify-between w-full shadow-[0px_3px_7px_#00000059] h-[60px] pb-[10px] px-[15px]",
+          "flex group items-center justify-between w-full",
+          variant === "default"
+            ? "h-[60px] pb-[10px] px-[15px] shadow-[0px_3px_7px_#00000059]"
+            : "h-[35px] py-[6px] px-3 border border-accent",
           barClass
         )}
       >
-        <span>{getLabel()}</span>
+        <span
+          class={clx(
+            variant === "default"
+              ? "text-[16.705px] text-[#4a4a4a]"
+              : "text-[13px] text-base-200 font-light"
+          )}
+        >
+          {getLabel()}
+        </span>
         <span
           class={clx(
             "text-neutral",
@@ -84,7 +99,11 @@ export default function SearchSelect({
             "transition-colors"
           )}
         >
-          <Icon id="CaretDown" width={17.5} height={29} />
+          <Icon
+            id="CaretDown"
+            width={variant === "default" ? 17.5 : 16}
+            height={variant === "default" ? 29 : 8}
+          />
         </span>
       </div>
 
@@ -129,26 +148,28 @@ export default function SearchSelect({
               </li>
             ))}
           </ul>
-          <div class="bg-[#eee] flex flex-col items-start gap-[2.6px] border-t border-[#9b9b9b] pt-[4.375px] pr-[4.375px] pl-[6.125px] font-sans">
-            <button
-              onClick={handleSelectAll}
-              class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
-            >
-              Marcar todos
-            </button>
-            <button
-              onClick={handleSelectAll}
-              class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
-            >
-              Desmarcar todos
-            </button>
-            <button
-              onClick={setOpened}
-              class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
-            >
-              Confirmar
-            </button>
-          </div>
+          {showFooter && (
+            <div class="bg-[#eee] flex flex-col items-start gap-[2.6px] border-t border-[#9b9b9b] pt-[4.375px] pr-[4.375px] pl-[6.125px] font-sans">
+              <button
+                onClick={handleSelectAll}
+                class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
+              >
+                Marcar todos
+              </button>
+              <button
+                onClick={handleSelectAll}
+                class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
+              >
+                Desmarcar todos
+              </button>
+              <button
+                onClick={setOpened}
+                class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
+              >
+                Confirmar
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
