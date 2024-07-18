@@ -342,8 +342,8 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
 
   return {
     ...props,
-    bairros: content.Bairro,
-    cidades: content.Cidade,
-    categorias: content.Categoria,
+    bairros: content.Bairro.sort(),
+    cidades: content.Cidade.sort(),
+    categorias: content.Categoria.sort(),
   };
 }
