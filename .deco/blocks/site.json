@@ -44,8 +44,8 @@
     "apiKey": {
       "__resolveType": "website/loaders/secret.ts",
       "name": "LOFT_API_KEY",
-      "encrypted": "bedde0e7781a6acf2fcc7cb0d9e0ad4a6edb480595b0e5619d82dfb1d76d948bd7171c6b7e50180c9e92a638123df41a"
+      "encrypted": "7df78b5cd3310d0996b894839f1dd4977c876ac28aeb9ac00700f9cf3aa23a8f92bccf476bcae0781651754105c1a370"
     },
-    "baseUrl": "https://sandbox-rest.vistahost.com.br"
+    "baseUrl": "https://portobra18098-rest.vistahost.com.br"
   }
 }
