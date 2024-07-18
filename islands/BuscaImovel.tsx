@@ -122,9 +122,11 @@ function CodeSearch() {
 function MoreFilters({
   handleMoreFilters,
   setSearchType,
+  bairros,
 }: {
   handleMoreFilters: () => void;
   setSearchType: StateUpdater<"normal" | "code" | "filtering">;
+  bairros: string[];
 }) {
   const [selectOpened, setSelectOpened] = useState("none");
 
@@ -179,7 +181,7 @@ function MoreFilters({
         <SearchSelect
           variant="small"
           label="Empreendimento"
-          options={["1", "2", "3", "4+"]}
+          options={bairros}
           barClass="mb-5"
           setOpened={() =>
             selectOpened === "empreendimento"
@@ -284,6 +286,7 @@ export default function BuscaImovel({
         <MoreFilters
           handleMoreFilters={handleMoreFilters}
           setSearchType={setSearchType}
+          bairros={bairros}
         />
       </div>
 
