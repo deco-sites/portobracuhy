@@ -43,11 +43,33 @@ export default function Header({
   ],
 }: Props) {
   return (
-    <header class="flex justify-between items-center container px-[15px]">
-      <a href="/">
+    <header class="flex justify-between items-center w-full mx-auto px-[15px] lg:w-[95%] lg:justify-start">
+      <a class="lg:my-[10px]" href="/">
         <Image alt="Logo" src={logo} width={120} />
       </a>
-      <div class="block">
+      <div class="block lg:w-full">
+        {/* Desktop menu */}
+        <nav class="hidden lg:flex lg:justify-center lg:w-full">
+          <ul class="flex gap-[30px]">
+            {navLinks.map((link) => (
+              <li
+                class={clx(
+                  `text-accent text-[16.705px] font-medium`,
+                  "hover:text-secondary group transition-colors"
+                )}
+              >
+                <a
+                  href={link.href}
+                  class="group-hover:text-secondary transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Mobile menu */}
         <input
           type="checkbox"
           id="mobile_menu_modal"
@@ -87,7 +109,7 @@ export default function Header({
         {/* The button to open modal */}
         <label
           htmlFor="mobile_menu_modal"
-          className="btn-modal flex flex-col bg-accent w-[50px] h-[50px] gap-2 justify-center items-center"
+          className="btn-modal flex lg:hidden flex-col bg-accent w-[50px] h-[50px] gap-2 justify-center items-center"
         >
           <div class="bg-white h-[3px] w-[30px] rounded-[1px] mx-auto shrink-0"></div>
           <div class="bg-white h-[3px] w-[30px] rounded-[1px] mx-auto shrink-0"></div>
