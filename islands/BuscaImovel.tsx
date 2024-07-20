@@ -248,7 +248,7 @@ function MoreFilters({
           />
         </div>
 
-        <button class="whitespace-pre bg-secondary text-white text-2xl flex justify-center items-center h-[60px] px-5 mx-auto">
+        <button class="whitespace-pre bg-secondary text-white text-2xl flex lg:hidden justify-center items-center h-[60px] px-5 mx-auto">
           <Icon id="MagnifyingGlass" width={24} height={25} /> {" Buscar "}
         </button>
 

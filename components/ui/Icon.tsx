@@ -39,6 +39,8 @@ export type AvailableIcons =
   | "Square"
   | "SquareCheck"
   | "CaretDown"
+  | "LocationDot"
+  | "DollarSign"
   | "Close";
 
 interface Props extends JSX.SVGAttributes<SVGSVGElement> {

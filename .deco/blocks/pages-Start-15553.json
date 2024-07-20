@@ -12,11 +12,16 @@
       "__resolveType": "site/sections/BuscaImovel.tsx"
     },
     {
-      "__resolveType": "site/sections/ItWorks.tsx",
-      "name": "It Works!"
-    },
-    {
-      "__resolveType": "Footer"
+      "__resolveType": "site/sections/Shelf.tsx",
+      "title": "Destaques Porto Bracuhy",
+      "properties": [],
+      "count": 9,
+      "filters": {
+        "DestaqueWeb": "Sim",
+        "ExibirNoSite": "Sim",
+        "Exclusivo": "Sim"
+      },
+      "order": {}
     }
   ],
   "__resolveType": "website/pages/Page.tsx"

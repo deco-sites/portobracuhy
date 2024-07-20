@@ -10,6 +10,7 @@ export interface NavLink {
 export interface Props {
   logo?: ImageWidget;
   navLinks?: NavLink[];
+  // TODO: add prop to make it sticky
 }
 
 const script = () => {
