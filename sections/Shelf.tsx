@@ -77,56 +77,84 @@ export default function Shelf({ title, imoveis }: SectionProps<typeof loader>) {
   };
 
   return (
-    <div class="flex flex-col w-[90%] mx-auto bg-[#F2F2F2] pt-[15px] pb-[5px] my-[25px]">
+    <div class="flex flex-col w-[90%] mx-auto bg-[#F2F2F2] lg:bg-base-100 pt-[15px] pb-[5px] my-[25px]">
       <h2 class="text-secondary font-medium text-[26px] lg:text-[39px] mb-[30px] lg:mb-[60px] text-center">
         {title}
       </h2>
-      <div id={id}>
-        <div class="col-start-1 col-span-3 row-start-1 row-span-1">
-          <Slider class="carousel carousel-center sm:carousel-end gap-5 sm:gap-10 w-full px-[10px] pb-[5px]">
-            {imoveis?.map((imovel, index) => (
-              <Slider.Item index={index} class={clx("carousel-item", "w-full")}>
-                <div class="w-full flex flex-col bg-info shadow-[2px_4px_7px_#00000024]">
-                  <div class="relative h-[350px]">
-                    <Image
-                      class="w-full h-full object-cover"
-                      src={imovel.FotoDestaque}
-                      width={810}
-                      height={350}
-                    />
-                    <div
-                      class={clx(
-                        "absolute top-[10px] left-[10px]",
-                        "py-1 px-[10px]",
-                        "text-[14.3px] text-white font-light",
-                        "bg-[rgba(51,51,51,0.8)]"
-                      )}
-                    >
-                      Cód: {imovel.Codigo}
-                    </div>
-                  </div>
-                  <div class="flex flex-col p-[15px] min-h-[300px] text-base-200">
-                    <h3 class="text-[16.705px] font-normal mb-2">
-                      {imovel.Categoria}
-                    </h3>
-                    <span class="text-[13px] font-normal flex items-center gap-2">
-                      <Icon class="text-[#ff4646]" id="LocationDot" size={22} />{" "}
-                      {imovel.Bairro} - {imovel.Cidade}/{imovel.UF}
-                    </span>
-                    <span class="text-[19.5px] font-medium flex items-center gap-2 h-[39px] flex-wrap">
-                      <Icon class="text-[#87CE74]" id="DollarSign" size={22} />
-                      R$ {getPrice(imovel)}
-                      <span class="font-normal text-info-content text-[16.9px]">
-                        {" - "} {imovel.Status}
-                      </span>
-                    </span>
+      <div id={id} class="relative">
+        <Slider class="carousel carousel-center sm:carousel-end gap-5 sm:gap-10 w-full px-[10px] pb-[5px] lg:px-0 lg:gap-0 lg:-mx-[15px]">
+          {imoveis?.map((imovel, index) => (
+            <Slider.Item
+              index={index}
+              class={clx("carousel-item", "w-full box-border lg:w-1/3 lg:px-[15px]")}
+            >
+              <div class="w-full flex flex-col bg-info shadow-[2px_4px_7px_#00000024]">
+                <div class="relative h-[350px]">
+                  <Image
+                    class="w-full h-full object-cover"
+                    src={imovel.FotoDestaque}
+                    width={551}
+                    height={350}
+                  />
+                  <div
+                    class={clx(
+                      "absolute top-[10px] left-[10px]",
+                      "py-1 px-[10px]",
+                      "text-[14.3px] text-white font-light",
+                      "bg-[rgba(51,51,51,0.8)]"
+                    )}
+                  >
+                    Cód: {imovel.Codigo}
                   </div>
                 </div>
-              </Slider.Item>
-            ))}
-          </Slider>
+                <div class="flex flex-col p-[15px] min-h-[300px] text-base-200">
+                  <h3 class="text-[16.705px] font-normal mb-2">
+                    {imovel.Categoria}
+                  </h3>
+                  <span class="text-[13px] font-normal flex items-center gap-2">
+                    <Icon class="text-[#ff4646]" id="LocationDot" size={22} />{" "}
+                    {imovel.Bairro} - {imovel.Cidade}/{imovel.UF}
+                  </span>
+                  <span class="text-[19.5px] font-medium flex items-center gap-2 h-[39px] flex-wrap">
+                    <Icon class="text-[#87CE74]" id="DollarSign" size={22} />
+                    R$ {getPrice(imovel)}
+                    <span class="font-normal text-info-content text-[16.9px]">
+                      {" - "} {imovel.Status}
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </Slider.Item>
+          ))}
+        </Slider>
+
+        <div class="w-full flex justify-between absolute z-10 right-0 top-[40%]">
+          <Slider.PrevButton
+            class={clx(
+              "hidden sm:flex justify-center items-center",
+              "absolute -left-[45px]",
+              "border-2 border-black",
+              "w-[41.5px] h-[45.59px] rounded-[30px]",
+              "hover:bg-black hover:text-white transition-colors cursor-pointer"
+            )}
+          >
+            <Icon id="ChevronLeft" width={7.5} height={13} />
+          </Slider.PrevButton>
+
+          <Slider.NextButton
+            class={clx(
+              "hidden sm:flex justify-center items-center",
+              "absolute -right-[15px]",
+              "border-2 border-black",
+              "w-[41.5px] h-[45.59px] rounded-[30px]",
+              "hover:bg-black hover:text-white transition-colors cursor-pointer"
+            )}
+          >
+            <Icon id="ChevronLeft" class="rotate-180" width={7.5} height={13} />
+          </Slider.NextButton>
         </div>
       </div>
+      <Slider.JS rootId={id} />
     </div>
   );
 }

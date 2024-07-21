@@ -19,7 +19,33 @@
       "filters": {
         "DestaqueWeb": "Sim",
         "ExibirNoSite": "Sim",
-        "Exclusivo": "Sim"
+        "Exclusivo": "Nao"
+      },
+      "order": {}
+    },
+    {
+      "__resolveType": "site/sections/Shelf.tsx",
+      "title": "Destaque de Venda",
+      "properties": [],
+      "count": 9,
+      "filters": {
+        "DestaqueWeb": "Sim",
+        "ExibirNoSite": "Sim",
+        "Exclusivo": "Nao",
+        "Status": "Venda"
+      },
+      "order": {}
+    },
+    {
+      "__resolveType": "site/sections/Shelf.tsx",
+      "title": "Destaques Temporada",
+      "properties": [],
+      "count": 9,
+      "filters": {
+        "DestaqueWeb": "Sim",
+        "ExibirNoSite": "Sim",
+        "Exclusivo": "Nao",
+        "Status": "Aluguel temporada"
       },
       "order": {}
     }
