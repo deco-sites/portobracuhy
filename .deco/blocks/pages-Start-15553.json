@@ -48,6 +48,9 @@
         "Status": "Aluguel temporada"
       },
       "order": {}
+    },
+    {
+      "__resolveType": "site/sections/Curadoria.tsx"
     }
   ],
   "__resolveType": "website/pages/Page.tsx"
