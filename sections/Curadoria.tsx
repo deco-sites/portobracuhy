@@ -101,7 +101,7 @@ export default function Curadoria({
   ],
 }: Props) {
   return (
-    <div class="flex flex-col">
+    <div class="flex flex-col mb-[25px] lg:mb-[10px]">
       <h2 class="font-medium text-secondary text-[26px] lg:text-[39px] mb-[30px] lg:mb-[60px] text-center leading-[1.5]">
         {title}
       </h2>
