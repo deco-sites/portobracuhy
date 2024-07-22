@@ -51,6 +51,9 @@
     },
     {
       "__resolveType": "site/sections/Curadoria.tsx"
+    },
+    {
+      "__resolveType": "Footer"
     }
   ],
   "__resolveType": "website/pages/Page.tsx"

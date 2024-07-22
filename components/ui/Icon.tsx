@@ -41,6 +41,8 @@ export type AvailableIcons =
   | "CaretDown"
   | "LocationDot"
   | "DollarSign"
+  | "Youtube"
+  | "Envelope"
   | "Close";
 
 interface Props extends JSX.SVGAttributes<SVGSVGElement> {
