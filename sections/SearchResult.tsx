@@ -1,9 +1,9 @@
 import { AppContext } from "site/apps/site.ts";
 import { SectionProps } from "deco/types.ts";
 import { Imovel } from "site/sdk/types.ts";
-import { usePartialSection } from "deco/hooks/usePartialSection.ts";
 import ShelfItem from "site/components/ui/ShelfItem.tsx";
-import { useSection } from "deco/hooks/useSection.ts";
+import { usePagination, DOTS } from "site/sdk/usePagination.ts";
+import { clx } from "site/sdk/clx.ts";
 
 export interface Props {
   filters?: {
@@ -36,33 +36,20 @@ export interface Props {
   itemsPerPage?: number;
 }
 
-// const useUrlRebased = (overrides: string | undefined, base: string) => {
-//   let url: string | undefined = undefined;
-
-//   if (overrides) {
-//     const temp = new URL(overrides, base);
-//     const final = new URL(base);
-
-//     final.pathname = temp.pathname;
-//     for (const [key, value] of temp.searchParams.entries()) {
-//       final.searchParams.set(key, value);
-//     }
-
-//     url = final.href;
-//   }
-
-//   return url;
-// };
-
 export default function SearchResult({
   imoveis,
   total,
   page,
   totalPages,
   itemsPerPage,
-  nextPageUrl,
-  previousPageUrl,
+  paginationInfo,
 }: SectionProps<typeof loader>) {
+  const paginationRange = usePagination({
+    currentPage: page,
+    totalCount: total,
+    pageSize: itemsPerPage,
+  });
+
   return (
     <div id="searchResult" class="px-[15px] lg:w-[90%] mx-auto">
       <div class="flex flex-col mt-[30px] w-full">
@@ -78,9 +65,45 @@ export default function SearchResult({
           ))}
         </div>
 
-        <div class="flex">
-          {previousPageUrl && <a href={previousPageUrl}>Anterior</a>}
-          {nextPageUrl && <a href={nextPageUrl}>Próximo</a>}
+        <div class="mt-[60px] lg:mt-0 flex flex-wrap gap-2 w-full justify-center items-center">
+          {paginationInfo.previousPageUrl && page > 1 && (
+            <a
+              class="border-2 border-secondary px-[14px] text-[13px] font-bold leading-[35px] text-secondary hover:bg-secondary hover:text-base-100 transition-colors duration-200 rounded-tl-[4px] rounded-bl-[4px] uppercase"
+              href={paginationInfo.previousPageUrl}
+            >
+              Anterior
+            </a>
+          )}
+
+          {paginationRange?.map((pageNumber) => {
+            if (typeof pageNumber === "string") {
+              return <span class="font-bold text-[13px] text-accent self-end">&#8230;</span>;
+            }
+
+            return (
+              <a
+                class={clx(
+                  "border-2 border-secondary px-[14px] text-[13px] font-bold leading-[35px]",
+                  "hover:bg-secondary hover:text-base-100 transition-colors duration-200",
+                  pageNumber === page
+                    ? "bg-secondary text-base-100"
+                    : "bg-base-100 text-secondary"
+                )}
+                href={paginationInfo.url(pageNumber)}
+              >
+                {pageNumber}
+              </a>
+            );
+          })}
+
+          {paginationInfo.nextPageUrl && page < totalPages && (
+            <a
+              class="border-2 border-secondary px-[14px] text-[13px] font-bold leading-[35px] text-secondary hover:bg-secondary hover:text-base-100 transition-colors duration-200 rounded-tr-[4px] rounded-br-[4px] uppercase"
+              href={paginationInfo.nextPageUrl}
+            >
+              Próximo
+            </a>
+          )}
         </div>
       </div>
     </div>
@@ -155,11 +178,35 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     )
     .reverse(); // Reverso para mostrar os mais recentes (CHECK WHY IS THIS NEEDED)
 
+  const currentPageUrl = new URL(req.url);
+  currentPageUrl.searchParams.set("page", page.toString());
+
   const nextPageUrl = new URL(req.url);
   nextPageUrl.searchParams.set("page", (parseInt(page) + 1).toString());
 
   const previousPageUrl = new URL(req.url);
   previousPageUrl.searchParams.set("page", (parseInt(page) - 1).toString());
+
+  const firstPageUrl = new URL(req.url);
+  firstPageUrl.searchParams.set("page", "1");
+
+  const lastPageUrl = new URL(req.url);
+  lastPageUrl.searchParams.set("page", response.paginas.toString());
+
+  const url = (pageNumber: number) => {
+    const url = new URL(req.url);
+    url.searchParams.set("page", pageNumber.toString());
+    return url.toString();
+  };
+
+  const paginationInfo = {
+    firstPageUrl: firstPageUrl.toString(),
+    currentPageUrl: currentPageUrl.toString(),
+    nextPageUrl: nextPageUrl.toString(),
+    previousPageUrl: previousPageUrl.toString(),
+    lastPageUrl: lastPageUrl.toString(),
+    url,
+  };
 
   return {
     ...props,
@@ -168,8 +215,6 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     totalPages: response.paginas,
     page: response.pagina,
     itemsPerPage: response.quantidade,
-    nextPageUrl:
-      parseInt(page) < response.paginas ? nextPageUrl.toString() : "",
-    previousPageUrl: parseInt(page) > 1 ? previousPageUrl.toString() : "",
+    paginationInfo,
   };
 }
