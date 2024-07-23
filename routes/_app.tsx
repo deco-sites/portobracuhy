@@ -22,6 +22,23 @@ export default defineApp(async (_req, ctx) => {
           rel="stylesheet"
         />
 
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+          
+          @font-face {
+              font-family: 'icomoon';
+              src: url('/icomoon.eot?518y1');
+              src: url('/icomoon.eot?518y1#iefix') format('embedded-opentype'), url('/icomoon.ttf?518y1') format('truetype'), url('/icomoon.woff?518y1') format('woff'), url('/icomoon.svg?518y1#icomoon') format('svg');
+              font-weight: normal;
+              font-style: normal;
+              font-display: block
+          }
+      
+        `,
+          }}
+        />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

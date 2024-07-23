@@ -9,6 +9,7 @@ export default {
     fontFamily: {
       sans: ["Roboto", "sans-serif"],
       slab: ["Roboto Slab", "serif"],
+      icomoon: ["icomoon", "Roboto", "sans-serif"],
     },
   },
 };
