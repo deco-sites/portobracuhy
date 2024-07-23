@@ -44,5 +44,15 @@
   "/.deco/blocks/deco-htmx.json": {
     "blockType": "apps",
     "__resolveType": "site/apps/deco/htmx.ts"
+  },
+  "/.deco/blocks/pages-Busca-863584.json": {
+    "name": "Busca",
+    "path": "/busca",
+    "blockType": "pages",
+    "__resolveType": "website/pages/Page.tsx"
+  },
+  "/.deco/blocks/Header.json": {
+    "blockType": "sections",
+    "__resolveType": "site/sections/Header.tsx"
   }
 }
