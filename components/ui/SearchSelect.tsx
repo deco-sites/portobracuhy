@@ -13,6 +13,7 @@ interface Props {
   setOpened?: () => void;
   variant?: "default" | "small";
   showFooter?: boolean;
+  allowMultipleSelection?: boolean;
 }
 
 export default function SearchSelect({
@@ -26,6 +27,7 @@ export default function SearchSelect({
   setOpened,
   variant = "default",
   showFooter = true,
+  allowMultipleSelection = true,
 }: Props) {
   const [search, setSearch] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -35,6 +37,11 @@ export default function SearchSelect({
   );
 
   const handleSelectOption = (option: string) => {
+    if (!allowMultipleSelection) {
+      setSelectedOptions([option]);
+      return;
+    }
+
     if (selectedOptions.includes(option)) {
       setSelectedOptions(selectedOptions.filter((o) => o !== option));
     } else {
@@ -112,12 +119,14 @@ export default function SearchSelect({
           {searchable && (
             <div class="flex flex-col mb-[10px]">
               <div class="flex justify-between w-full">
-                <label class="text-[13px] font-bold text-[#4a4a4a]">
-                  {searchPlaceholder}
-                </label>
+                {searchPlaceholder && (
+                  <label class="text-[13px] font-bold text-[#4a4a4a]">
+                    {searchPlaceholder}
+                  </label>
+                )}
                 <button
                   onClick={setOpened}
-                  class="bg-transparent outline-none text-secondary text-[11px]"
+                  class="bg-transparent outline-none text-secondary text-[11px] ml-auto"
                 >
                   Fechar
                 </button>
@@ -139,10 +148,12 @@ export default function SearchSelect({
                 )}
                 onClick={() => handleSelectOption(option)}
               >
-                {isOptionSelected(option) ? (
+                {isOptionSelected(option) && allowMultipleSelection ? (
                   <Icon id="SquareCheck" width={12} height={25} />
                 ) : (
-                  <Icon id="Square" width={12} height={25} />
+                  allowMultipleSelection && (
+                    <Icon id="Square" width={12} height={25} />
+                  )
                 )}
                 {option}
               </li>
@@ -150,18 +161,22 @@ export default function SearchSelect({
           </ul>
           {showFooter && (
             <div class="bg-[#eee] flex flex-col items-start gap-[2.6px] border-t border-[#9b9b9b] pt-[4.375px] pr-[4.375px] pl-[6.125px] font-sans">
-              <button
-                onClick={handleSelectAll}
-                class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
-              >
-                Marcar todos
-              </button>
-              <button
-                onClick={handleSelectAll}
-                class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
-              >
-                Desmarcar todos
-              </button>
+              {allowMultipleSelection && (
+                <>
+                  <button
+                    onClick={handleSelectAll}
+                    class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
+                  >
+                    Marcar todos
+                  </button>
+                  <button
+                    onClick={handleSelectAll}
+                    class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"
+                  >
+                    Desmarcar todos
+                  </button>
+                </>
+              )}
               <button
                 onClick={setOpened}
                 class="pl-[12.23px] text-[12px] font-semibold hover:text-secondary border-none outline-none bg-transparent"

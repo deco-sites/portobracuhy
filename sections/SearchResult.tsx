@@ -5,6 +5,7 @@ import ShelfItem from "site/components/ui/ShelfItem.tsx";
 import { usePagination } from "site/sdk/usePagination.ts";
 import { clx } from "site/sdk/clx.ts";
 import Icon from "site/components/ui/Icon.tsx";
+import Filters from "site/islands/Filters.tsx";
 
 export interface Props {
   filters?: {
@@ -44,6 +45,7 @@ export default function SearchResult({
   totalPages,
   itemsPerPage,
   paginationInfo,
+  filterFields,
 }: SectionProps<typeof loader>) {
   const paginationRange = usePagination({
     currentPage: page,
@@ -52,72 +54,110 @@ export default function SearchResult({
   });
 
   return (
-    <div id="searchResult" class="px-[15px] lg:w-[90%] mx-auto">
-      <div class="flex flex-col mt-[30px] w-full">
-        <div class="flex flex-wrap justify-between w-full mb-10 pb-[10px border-b border-accent">
-          <h1 class="text-secondary text-[17px] font-normal lg:text-[26px] flex gap-[15px] items-center">
-            <Icon id="MagnifyingGlass" size={17} class="block lg:hidden" />
-            <Icon id="MagnifyingGlass" size={26} class="hidden lg:block" />
-            {total} imóveis
-          </h1>
-        </div>
+    <>
+      <Filters
+        bairros={filterFields.bairros}
+        cidades={filterFields.cidades}
+        categorias={filterFields.categorias}
+      />
 
-        <div class="flex flex-col gap-[55px] lg:flex-row lg:flex-wrap lg:gap-0 lg:-mx-[15px]">
-          {imoveis.map((imovel) => (
-            <div class="box-border w-full lg:w-1/3 lg:px-[15px] lg:mb-[60px]">
-              <ShelfItem imovel={imovel} />
-            </div>
-          ))}
-        </div>
+      <div id="searchResult" class="px-[15px] lg:w-[90%] mx-auto">
+        <div class="flex flex-col mt-[30px] w-full">
+          <div class="flex flex-wrap justify-between w-full mb-10 pb-[10px border-b border-accent">
+            <h1 class="text-secondary text-[17px] font-normal lg:text-[26px] flex gap-[15px] items-center">
+              <Icon id="MagnifyingGlass" size={17} class="block lg:hidden" />
+              <Icon id="MagnifyingGlass" size={26} class="hidden lg:block" />
+              {total} imóveis
+            </h1>
+          </div>
 
-        <div class="mt-[60px] lg:mt-0 flex flex-wrap gap-2 w-full justify-center items-center">
-          {paginationInfo.previousPageUrl && page > 1 && (
-            <a
-              class="border-2 border-secondary px-[14px] text-[13px] font-bold leading-[35px] text-secondary hover:bg-secondary hover:text-base-100 transition-colors duration-200 rounded-tl-[4px] rounded-bl-[4px] uppercase"
-              href={paginationInfo.previousPageUrl}
-            >
-              Anterior
-            </a>
-          )}
+          <div class="flex flex-col gap-[55px] lg:flex-row lg:flex-wrap lg:gap-0 lg:-mx-[15px]">
+            {imoveis.map((imovel) => (
+              <div class="box-border w-full lg:w-1/3 lg:px-[15px] lg:mb-[60px]">
+                <ShelfItem imovel={imovel} />
+              </div>
+            ))}
+          </div>
 
-          {paginationRange?.map((pageNumber) => {
-            if (typeof pageNumber === "string") {
-              return (
-                <span class="font-bold text-[13px] text-accent self-end">
-                  &#8230;
-                </span>
-              );
-            }
-
-            return (
+          <div class="mt-[60px] lg:mt-0 flex flex-wrap gap-2 w-full justify-center items-center">
+            {paginationInfo.previousPageUrl && page > 1 && (
               <a
-                class={clx(
-                  "border-2 border-secondary px-[14px] text-[13px] font-bold leading-[35px]",
-                  "hover:bg-secondary hover:text-base-100 transition-colors duration-200",
-                  pageNumber === page
-                    ? "bg-secondary text-base-100"
-                    : "bg-base-100 text-secondary"
-                )}
-                href={paginationInfo.url(pageNumber)}
+                class="border-2 border-secondary px-[14px] text-[13px] font-bold leading-[35px] text-secondary hover:bg-secondary hover:text-base-100 transition-colors duration-200 rounded-tl-[4px] rounded-bl-[4px] uppercase"
+                href={paginationInfo.previousPageUrl}
               >
-                {pageNumber}
+                Anterior
               </a>
-            );
-          })}
+            )}
 
-          {paginationInfo.nextPageUrl && page < totalPages && (
-            <a
-              class="border-2 border-secondary px-[14px] text-[13px] font-bold leading-[35px] text-secondary hover:bg-secondary hover:text-base-100 transition-colors duration-200 rounded-tr-[4px] rounded-br-[4px] uppercase"
-              href={paginationInfo.nextPageUrl}
-            >
-              Próximo
-            </a>
-          )}
+            {paginationRange?.map((pageNumber) => {
+              if (typeof pageNumber === "string") {
+                return (
+                  <span class="font-bold text-[13px] text-accent self-end">
+                    &#8230;
+                  </span>
+                );
+              }
+
+              return (
+                <a
+                  class={clx(
+                    "border-2 border-secondary px-[14px] text-[13px] font-bold leading-[35px]",
+                    "hover:bg-secondary hover:text-base-100 transition-colors duration-200",
+                    pageNumber === page
+                      ? "bg-secondary text-base-100"
+                      : "bg-base-100 text-secondary"
+                  )}
+                  href={paginationInfo.url(pageNumber)}
+                >
+                  {pageNumber}
+                </a>
+              );
+            })}
+
+            {paginationInfo.nextPageUrl && page < totalPages && (
+              <a
+                class="border-2 border-secondary px-[14px] text-[13px] font-bold leading-[35px] text-secondary hover:bg-secondary hover:text-base-100 transition-colors duration-200 rounded-tr-[4px] rounded-br-[4px] uppercase"
+                href={paginationInfo.nextPageUrl}
+              >
+                Próximo
+              </a>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
+
+export const getFilterFields = async (ctx: AppContext) => {
+  type FieldsResponse = {
+    Bairro: string[];
+    Cidade: string[];
+    Categoria: string[];
+  };
+
+  const apiRoute =
+    '/imoveis/listarConteudo?pesquisa={"fields":["Bairro","Cidade","Categoria"]}';
+
+  const apiUrl = ctx.loft.baseUrl + apiRoute + "&key=" + ctx.loft.apiKey.get();
+
+  const getContent = await fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    signal: new AbortController().signal,
+  });
+
+  const content = (await getContent.json()) as FieldsResponse;
+
+  return {
+    bairros: content.Bairro.sort(),
+    cidades: content.Cidade.sort(),
+    categorias: content.Categoria.sort(),
+  };
+};
 
 export async function loader(props: Props, req: Request, ctx: AppContext) {
   interface ImoveisResponse {
@@ -209,6 +249,8 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     url,
   };
 
+  const filterFields = await getFilterFields(ctx);
+
   return {
     ...props,
     imoveis,
@@ -217,5 +259,6 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     page: response.pagina,
     itemsPerPage: response.quantidade,
     paginationInfo,
+    filterFields,
   };
 }
