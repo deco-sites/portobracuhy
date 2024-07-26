@@ -8,33 +8,33 @@ import Icon from "site/components/ui/Icon.tsx";
 import Filters from "site/islands/Filters.tsx";
 
 export interface Props {
-  filters?: {
-    DestaqueWeb?: "Sim" | "Nao";
-    ExibirNoSite?: "Sim" | "Nao";
-    Status?:
-      | "Alugado Imobiliária"
-      | "Alugado Terceiros"
-      | "Aluguel"
-      | "Aluguel e Aluguel Temporada"
-      | "Aluguel temporada"
-      | "Pendente"
-      | "Suspenso"
-      | "Trabalho Interno"
-      | "Venda"
-      | "Venda Aluguel e Aluguel Temporada"
-      | "Venda e Aluguel"
-      | "Venda e Aluguel Temporada"
-      | "Vendido Imobiliária"
-      | "Vendido Terceiros";
+  // filters?: {
+  //   DestaqueWeb?: "Sim" | "Nao";
+  //   ExibirNoSite?: "Sim" | "Nao";
+  //   Status?:
+  //     | "Alugado Imobiliária"
+  //     | "Alugado Terceiros"
+  //     | "Aluguel"
+  //     | "Aluguel e Aluguel Temporada"
+  //     | "Aluguel temporada"
+  //     | "Pendente"
+  //     | "Suspenso"
+  //     | "Trabalho Interno"
+  //     | "Venda"
+  //     | "Venda Aluguel e Aluguel Temporada"
+  //     | "Venda e Aluguel"
+  //     | "Venda e Aluguel Temporada"
+  //     | "Vendido Imobiliária"
+  //     | "Vendido Terceiros";
 
-    Exclusivo?: "Sim" | "Nao";
-  };
-  order?: {
-    Bairro?: "ASC" | "DESC";
-    Cidade?: "ASC" | "DESC";
-    Codigo?: "ASC" | "DESC";
-    Status?: "ASC" | "DESC";
-  };
+  //   Exclusivo?: "Sim" | "Nao";
+  // };
+  // order?: {
+  //   Bairro?: "ASC" | "DESC";
+  //   Cidade?: "ASC" | "DESC";
+  //   Codigo?: "ASC" | "DESC";
+  //   Status?: "ASC" | "DESC";
+  // };
   itemsPerPage?: number;
 }
 
@@ -43,10 +43,13 @@ export default function SearchResult({
   total,
   page,
   totalPages,
-  itemsPerPage,
+  itemsPerPage = 9,
   paginationInfo,
   filterFields,
+  initialFilters,
 }: SectionProps<typeof loader>) {
+  const notFound = imoveis.length === 0;
+
   const paginationRange = usePagination({
     currentPage: page,
     totalCount: total,
@@ -56,9 +59,13 @@ export default function SearchResult({
   return (
     <>
       <Filters
+        initialFilters={initialFilters}
         bairros={filterFields.bairros}
         cidades={filterFields.cidades}
         categorias={filterFields.categorias}
+        caracteristicas={filterFields.caracteristicas}
+        infraestruturas={filterFields.infraestruturas}
+        empreendimentos={filterFields.empreendimentos}
       />
 
       <div id="searchResult" class="px-[15px] lg:w-[90%] mx-auto">
@@ -67,7 +74,7 @@ export default function SearchResult({
             <h1 class="text-secondary text-[17px] font-normal lg:text-[26px] flex gap-[15px] items-center">
               <Icon id="MagnifyingGlass" size={17} class="block lg:hidden" />
               <Icon id="MagnifyingGlass" size={26} class="hidden lg:block" />
-              {total} imóveis
+              {notFound ? "Nenhum imóvel encontrado" : `${total} imóveis`}
             </h1>
           </div>
 
@@ -107,7 +114,7 @@ export default function SearchResult({
                       ? "bg-secondary text-base-100"
                       : "bg-base-100 text-secondary"
                   )}
-                  href={paginationInfo.url(pageNumber)}
+                  href={paginationInfo.pageUrl(pageNumber)}
                 >
                   {pageNumber}
                 </a>
@@ -129,15 +136,39 @@ export default function SearchResult({
   );
 }
 
+export const getCaracteristicasFields = async (ctx: AppContext) => {
+  type FieldsResponse = {
+    carac: string[];
+    infra: string[];
+  };
+
+  const apiRoute = "/imoveis/listarcampos";
+  const apiUrl = ctx.loft.baseUrl + apiRoute + "?key=" + ctx.loft.apiKey.get();
+
+  const getContent = await fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    signal: new AbortController().signal,
+  });
+
+  const content = (await getContent.json()) as FieldsResponse;
+
+  return { caracteristicas: content.carac, infraestrutura: content.infra };
+};
+
 export const getFilterFields = async (ctx: AppContext) => {
   type FieldsResponse = {
     Bairro: string[];
     Cidade: string[];
     Categoria: string[];
+    Empreendimento: string[];
   };
 
   const apiRoute =
-    '/imoveis/listarConteudo?pesquisa={"fields":["Bairro","Cidade","Categoria"]}';
+    '/imoveis/listarConteudo?pesquisa={"fields":["Bairro","Cidade","Categoria", "Empreendimento"]}';
 
   const apiUrl = ctx.loft.baseUrl + apiRoute + "&key=" + ctx.loft.apiKey.get();
 
@@ -152,11 +183,55 @@ export const getFilterFields = async (ctx: AppContext) => {
 
   const content = (await getContent.json()) as FieldsResponse;
 
+  const { caracteristicas, infraestrutura } = await getCaracteristicasFields(
+    ctx
+  );
+
   return {
     bairros: content.Bairro.sort(),
     cidades: content.Cidade.sort(),
     categorias: content.Categoria.sort(),
+    empreendimentos: content.Empreendimento.sort(),
+    caracteristicas: caracteristicas.sort(),
+    infraestruturas: infraestrutura.sort(),
   };
+};
+
+const getUrlFilters = (url: string) => {
+  const obrigatoryFilters = {
+    ExibirNoSite: "Sim",
+  };
+
+  // deno-lint-ignore no-explicit-any
+  const filters: { [key: string]: any } = { ...obrigatoryFilters };
+
+  try {
+    const urlFilters = new URL(url).searchParams;
+
+    const paramsMapping: { [key: string]: string } = {
+      tipo: "Categoria",
+      cidade: "Cidade",
+      bairro: "Bairro",
+      codigo: "Codigo",
+      dormitorios: "Dormitorios",
+      vagas: "Vagas",
+      suites: "Suites",
+      banheiros: "BanheiroSocialQtd",
+      finalidade: "Status",
+      lancamento: "Lancamento",
+    };
+
+    Object.keys(paramsMapping).forEach((key) => {
+      if (urlFilters.has(key)) {
+        filters[paramsMapping[key]] = urlFilters.getAll(key)[0].split(",");
+      }
+    });
+
+    return JSON.stringify(filters);
+  } catch (err) {
+    console.error("Error getting url filters", err);
+    return JSON.stringify(obrigatoryFilters);
+  }
 };
 
 export async function loader(props: Props, req: Request, ctx: AppContext) {
@@ -190,12 +265,9 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     "Suites",
   ]);
 
-  const filters = JSON.stringify(
-    props.filters ?? {
-      ExibirNoSite: "Sim",
-    }
-  );
-  const order = JSON.stringify(props.order ?? { Codigo: "desc" });
+  const filters = getUrlFilters(req.url);
+
+  const order = JSON.stringify({ Codigo: "desc" });
   const count = props.itemsPerPage ?? 9;
 
   const page = new URL(req.url).searchParams.get("page") ?? "1";
@@ -210,13 +282,34 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    signal: req.signal,
+    signal: new AbortController().signal,
   });
 
   const content = await getContent.json();
 
   if (getContent.status !== 200) {
     throw new Error(content.message ?? "[Shelf] Error requesting shelf data");
+  }
+
+  const filterFields = await getFilterFields(ctx);
+
+  // Handle Not Found case
+  if (!content.paginas && content.message) {
+    return {
+      ...props,
+      imoveis: [],
+      total: 0,
+      totalPages: 1,
+      page: 1,
+      paginationInfo: {
+        nextPageUrl: "",
+        previousPageUrl: "",
+        lastPageUrl: "",
+        pageUrl: (pageNumber: number) => "",
+      },
+      filterFields,
+      initialFilters: filters,
+    };
   }
 
   const response = content as ImoveisResponse;
@@ -236,7 +329,7 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
   const lastPageUrl = new URL(req.url);
   lastPageUrl.searchParams.set("page", response.paginas.toString());
 
-  const url = (pageNumber: number) => {
+  const pageUrl = (pageNumber: number) => {
     const url = new URL(req.url);
     url.searchParams.set("page", pageNumber.toString());
     return url.toString();
@@ -246,10 +339,8 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     nextPageUrl: nextPageUrl.toString(),
     previousPageUrl: previousPageUrl.toString(),
     lastPageUrl: lastPageUrl.toString(),
-    url,
+    pageUrl,
   };
-
-  const filterFields = await getFilterFields(ctx);
 
   return {
     ...props,
@@ -257,8 +348,8 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     total: response.total,
     totalPages: response.paginas,
     page: response.pagina,
-    itemsPerPage: response.quantidade,
     paginationInfo,
     filterFields,
+    initialFilters: filters,
   };
 }

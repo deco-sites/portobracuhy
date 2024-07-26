@@ -7,13 +7,14 @@ interface Props {
   searchable?: boolean;
   searchPlaceholder?: string;
   options: string[];
-  onChange?: (value: string) => void;
   barClass?: string;
   opened?: boolean;
   setOpened?: () => void;
   variant?: "default" | "small";
   showFooter?: boolean;
   allowMultipleSelection?: boolean;
+  selectedOptions: string[];
+  setSelectedOptions: (options: string[]) => void;
 }
 
 export default function SearchSelect({
@@ -21,16 +22,16 @@ export default function SearchSelect({
   searchable,
   searchPlaceholder,
   options,
-  onChange,
   barClass,
   opened,
   setOpened,
   variant = "default",
   showFooter = true,
   allowMultipleSelection = true,
+  selectedOptions,
+  setSelectedOptions,
 }: Props) {
   const [search, setSearch] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const filteredOptions = options.filter((option) =>
     option.toLowerCase().includes(search.toLowerCase())
@@ -70,12 +71,6 @@ export default function SearchSelect({
       return label;
     }
   };
-
-  useEffect(() => {
-    if (onChange) {
-      onChange(search);
-    }
-  }, [search]);
 
   return (
     <div class="relative w-full">

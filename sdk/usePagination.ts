@@ -26,7 +26,6 @@ export const usePagination = ({
     const totalPageNumbers = leftSiblingCount + rightSiblingCount + 5;
 
     if (totalPageNumbers >= totalPageCount) {
-      console.log("caiu aqui 0");
       return range(1, totalPageCount);
     }
 
