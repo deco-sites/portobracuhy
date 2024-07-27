@@ -1,6 +1,7 @@
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { useState } from "preact/hooks";
 import SearchSelect from "site/components/ui/SearchSelect.tsx";
+import { priceOptions } from "site/constants.ts";
 
 interface Props {
   bairros: string[];
@@ -23,18 +24,50 @@ export default function Filters({
 }: Props) {
   console.log(initialFilters);
 
+  const initialFiltersObj = JSON.parse(initialFilters);
+  const initialStatus = initialFiltersObj.Status || "Venda";
+
   const [showFilters, setShowFilters] = useState(false);
   const [selectOpened, setSelectOpened] = useState("none");
   const [selectedCategorias, setSelectedCategorias] = useState<string[]>(
-    JSON.parse(initialFilters).Categoria || []
+    initialFiltersObj.Categoria || []
   );
   const [selectedCidades, setSelectedCidades] = useState<string[]>(
-    JSON.parse(initialFilters).Cidade || []
+    initialFiltersObj.Cidade || []
   );
   const [selectedBairros, setSelectedBairros] = useState<string[]>(
-    JSON.parse(initialFilters).Bairro || []
+    initialFiltersObj.Bairro || []
   );
-  const [selectedPrice, setSelectedPrice] = useState<string[]>([]);
+
+  const [selectedPrice, setSelectedPrice] = useState([
+    priceOptions[initialStatus as keyof typeof priceOptions].find(
+      (p: { min: string; max: string }) => {
+        if (initialFiltersObj.ValorVenda) {
+          return (
+            p.min === initialFiltersObj.ValorVenda[0] &&
+            p.max === initialFiltersObj.ValorVenda[1]
+          );
+        }
+
+        if (initialFiltersObj.ValorLocacao) {
+          return (
+            p.min === initialFiltersObj.ValorLocacao[0] &&
+            p.max === initialFiltersObj.ValorLocacao[1]
+          );
+        }
+
+        if (initialFiltersObj.ValorDiaria) {
+          return (
+            p.min === initialFiltersObj.ValorDiaria[0] &&
+            p.max === initialFiltersObj.ValorDiaria[1]
+          );
+        }
+
+        return false;
+      }
+    )?.label ?? "",
+  ]);
+
   const [selectedCaracteristicas, setSelectedCaracteristicas] = useState<
     string[]
   >([]);
@@ -44,82 +77,37 @@ export default function Filters({
   const [selectedEmpreendimentos, setSelectedEmpreendimentos] = useState<
     string[]
   >([]);
-  const [codigo, setCodigo] = useState<string>(
-    JSON.parse(initialFilters).Codigo || ""
-  );
+  const [codigo, setCodigo] = useState<string>(initialFiltersObj.Codigo || "");
   const [dormitorios, setDormitorios] = useState<string[]>(
-    JSON.parse(initialFilters).Dormitorios || []
+    initialFiltersObj.Dormitorios || []
   );
-  const [vagas, setVagas] = useState<string[]>(
-    JSON.parse(initialFilters).Vagas || []
-  );
+  const [vagas, setVagas] = useState<string[]>(initialFiltersObj.Vagas || []);
   const [suites, setSuites] = useState<string[]>(
-    JSON.parse(initialFilters).Suites || []
+    initialFiltersObj.Suites || []
   );
   const [banheiros, setBanheiros] = useState<string[]>(
-    JSON.parse(initialFilters).BanheiroSocialQtd || []
+    initialFiltersObj.BanheiroSocialQtd || []
   );
   const [areaTotal, setAreaTotal] = useState({
-    min: "",
-    max: "",
+    min: (initialFiltersObj.AreaTotal && initialFiltersObj.AreaTotal[0]) || "",
+    max: (initialFiltersObj.AreaTotal && initialFiltersObj.AreaTotal[1]) || "",
   });
   const [areaPrivativa, setAreaPrivativa] = useState({
-    min: "",
-    max: "",
+    min:
+      (initialFiltersObj.AreaPrivativa && initialFiltersObj.AreaPrivativa[0]) ||
+      "",
+    max:
+      (initialFiltersObj.AreaPrivativa && initialFiltersObj.AreaPrivativa[1]) ||
+      "",
   });
 
   const [finalidade, setFinalidade] = useState<
     "Venda" | "Aluguel" | "Temporada"
-  >(JSON.parse(initialFilters).Status || "Venda");
+  >(initialFiltersObj.Status || "Venda");
 
   const [lancamento, setLancamento] = useState<"Sim" | "Nao">(
-    JSON.parse(initialFilters).Lancamento || "Nao"
+    initialFiltersObj.Lancamento || "Nao"
   );
-
-  const priceOptions = {
-    Venda: [
-      "Até 40.001",
-      "De 40.000,00 a 60.000,00",
-      "De 60.000,00 a 80.000,00",
-      "De 100.000,00 a 200.000,00",
-      "De 200.000,00 a 400.000,00",
-      "De 400.000,00 a 600.000,00",
-      "De 600.000,00 a 800.000,00",
-      "De 800.000,00 a 1.000.000,00",
-      "De 1.000.000,00 a 2.000.000,00",
-      "De 2.000.000,00 a 4.000.000,00",
-      "De 4.000.000,00 a 6.000.000,00",
-      "Acima de 6.000.000,00",
-    ],
-    Aluguel: [
-      "Ate 600,00",
-      "De 600,00 a 800,00",
-      "De 800,00 a 1.000,00",
-      "De 1.000,00 a 2.000,00",
-      "De 4.000,00 a 6.000,00",
-      "De 6.000,00 a 8.000,00",
-      "De 8.000,00 a 10.000,00",
-      "De 10.000,00 a 20.000,00",
-      "De 20.000,00 a 40.000,00",
-      "De 40.000,00 a 60.000,00",
-      "De 60.000,00 a 80.000,00",
-      "Acima de 80.000,00",
-    ],
-    Temporada: [
-      "Ate 600,00",
-      "De 600,00 a 800,00",
-      "De 800,00 a 1.000,00",
-      "De 1.000,00 a 2.000,00",
-      "De 4.000,00 a 6.000,00",
-      "De 6.000,00 a 8.000,00",
-      "De 8.000,00 a 10.000,00",
-      "De 10.000,00 a 20.000,00",
-      "De 20.000,00 a 40.000,00",
-      "De 40.000,00 a 60.000,00",
-      "De 60.000,00 a 80.000,00",
-      "Acima de 80.000,00",
-    ],
-  };
 
   const mountFiltersUrl = () => {
     if (IS_BROWSER) {
@@ -160,6 +148,28 @@ export default function Filters({
       selectedCaracteristicas.forEach((item) => {
         url.searchParams.set(item, "Sim");
       });
+
+      const price = priceOptions[finalidade].find(
+        (i) => i.label === selectedPrice[0]
+      );
+
+      if (price) {
+        const { min, max } = price;
+        url.searchParams.set("minimo", min);
+        url.searchParams.set("maximo", max);
+      }
+
+      if (areaTotal.min || areaTotal.max) {
+        const { min, max } = areaTotal;
+        if (min) url.searchParams.set("areaTotalMinima", min);
+        if (max) url.searchParams.set("areaTotalMaxima", max);
+      }
+
+      if (areaPrivativa.min || areaPrivativa.max) {
+        const { min, max } = areaPrivativa;
+        if (min) url.searchParams.set("areaPrivativaMinima", min);
+        if (max) url.searchParams.set("areaPrivativaMaxima", max);
+      }
 
       if (lancamento === "Sim") {
         url.searchParams.set("lancamento", "Sim");
@@ -273,7 +283,7 @@ export default function Filters({
             variant="small"
             barClass="bg-white !border-[#ccc]"
             label={`Preço para ${finalidade}`}
-            options={priceOptions[finalidade]}
+            options={priceOptions[finalidade].map((o) => o.label)}
             searchable
             showFooter
             setOpened={() =>
@@ -547,7 +557,7 @@ export default function Filters({
           <div class="flex gap-[10px]">
             <input
               class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-              type="text"
+              type="number"
               placeholder="Área mín."
               value={areaTotal.min}
               onChange={(e) =>
@@ -556,7 +566,7 @@ export default function Filters({
             />
             <input
               class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-              type="text"
+              type="number"
               placeholder="Área max."
               value={areaTotal.max}
               onChange={(e) =>
@@ -569,7 +579,7 @@ export default function Filters({
           <div class="flex gap-[10px]">
             <input
               class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-              type="text"
+              type="number"
               placeholder="Área mín."
               value={areaPrivativa.min}
               onChange={(e) =>
@@ -581,7 +591,7 @@ export default function Filters({
             />
             <input
               class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-              type="text"
+              type="number"
               placeholder="Área max."
               value={areaPrivativa.max}
               onChange={(e) =>

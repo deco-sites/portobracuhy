@@ -8,27 +8,6 @@ import Icon from "site/components/ui/Icon.tsx";
 import Filters from "site/islands/Filters.tsx";
 
 export interface Props {
-  // filters?: {
-  //   DestaqueWeb?: "Sim" | "Nao";
-  //   ExibirNoSite?: "Sim" | "Nao";
-  //   Status?:
-  //     | "Alugado Imobiliária"
-  //     | "Alugado Terceiros"
-  //     | "Aluguel"
-  //     | "Aluguel e Aluguel Temporada"
-  //     | "Aluguel temporada"
-  //     | "Pendente"
-  //     | "Suspenso"
-  //     | "Trabalho Interno"
-  //     | "Venda"
-  //     | "Venda Aluguel e Aluguel Temporada"
-  //     | "Venda e Aluguel"
-  //     | "Venda e Aluguel Temporada"
-  //     | "Vendido Imobiliária"
-  //     | "Vendido Terceiros";
-
-  //   Exclusivo?: "Sim" | "Nao";
-  // };
   // order?: {
   //   Bairro?: "ASC" | "DESC";
   //   Cidade?: "ASC" | "DESC";
@@ -223,9 +202,78 @@ const getUrlFilters = (url: string) => {
 
     Object.keys(paramsMapping).forEach((key) => {
       if (urlFilters.has(key)) {
-        filters[paramsMapping[key]] = urlFilters.getAll(key)[0].split(",");
+        const value = urlFilters.getAll(key)[0].split(",");
+
+        if (value.length > 1) {
+          filters[paramsMapping[key]] = value;
+        } else {
+          filters[paramsMapping[key]] = value[0];
+        }
+
+        // filters[paramsMapping[key]] = urlFilters.getAll(key)[0].split(",");
       }
     });
+
+    if (urlFilters.has("minimo") && urlFilters.has("maximo")) {
+      switch (urlFilters.get("finalidade")) {
+        case "Venda":
+          filters.ValorVenda = [
+            urlFilters.get("minimo"),
+            urlFilters.get("maximo"),
+          ];
+          break;
+        case "Aluguel":
+          filters.ValorLocacao = [
+            urlFilters.get("minimo"),
+            urlFilters.get("maximo"),
+          ];
+          break;
+        case "Temporada":
+          filters.ValorDiaria = [
+            urlFilters.get("minimo"),
+            urlFilters.get("maximo"),
+          ];
+          break;
+        default:
+          filters.ValorVenda = [
+            urlFilters.get("minimo"),
+            urlFilters.get("maximo"),
+          ];
+          break;
+      }
+    }
+
+    if (
+      urlFilters.has("areaTotalMinima") ||
+      urlFilters.has("areaTotalMaxima")
+    ) {
+      const min = urlFilters.get("areaTotalMinima");
+      const max = urlFilters.get("areaTotalMaxima");
+
+      if (min && max && min?.length > 0 && max?.length > 0) {
+        filters.AreaTotal = [min, max];
+      } else if (min && min?.length > 0) {
+        filters.AreaTotal = [">=", min];
+      } else if (max && max?.length > 0) {
+        filters.AreaTotal = ["<=", max];
+      }
+    }
+
+    if (
+      urlFilters.has("areaPrivativaMinima") ||
+      urlFilters.has("areaPrivativaMaxima")
+    ) {
+      const min = urlFilters.get("areaPrivativaMinima");
+      const max = urlFilters.get("areaPrivativaMaxima");
+
+      if (min && max && min?.length > 0 && max?.length > 0) {
+        filters.AreaPrivativa = [min, max];
+      } else if (min && min?.length > 0) {
+        filters.AreaPrivativa = [">=", min];
+      } else if (max && max?.length > 0) {
+        filters.AreaPrivativa = ["<=", max];
+      }
+    }
 
     return JSON.stringify(filters);
   } catch (err) {
@@ -275,6 +323,8 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
   const apiRoute = `/imoveis/listar?showtotal=1&pesquisa={"fields":${fields},"filter":${filters},"order":${order},"paginacao":{"pagina":${page},"quantidade":${count}}}`;
 
   const apiUrl = ctx.loft.baseUrl + apiRoute + "&key=" + ctx.loft.apiKey.get();
+
+  console.log(apiUrl, "api");
 
   const getContent = await fetch(apiUrl, {
     method: "GET",
