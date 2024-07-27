@@ -7,6 +7,17 @@ interface Props {
   imovel: Imovel;
 }
 
+function slugify(str: string) {
+  return String(str)
+    .normalize("NFKD") // split accented characters into their base characters and diacritical marks
+    .replace(/[\u0300-\u036f]/g, "") // remove all the accents, which happen to be all in the \u03xx UNICODE block.
+    .trim() // trim leading or trailing whitespace
+    .toLowerCase() // convert to lowercase
+    .replace(/[^a-z0-9 -]/g, "") // remove non-alphanumeric characters
+    .replace(/\s+/g, "-") // replace spaces with hyphens
+    .replace(/-+/g, "-"); // remove consecutive hyphens
+}
+
 export default function ShelfItem({ imovel }: Props) {
   const stringToCurrency = (value: string) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -64,6 +75,22 @@ export default function ShelfItem({ imovel }: Props) {
     return caracteristicas;
   };
 
+  const getImovelSlug = () => {
+    const { Dormitorios, Codigo, Categoria, Bairro, Cidade, Status } = imovel;
+    const quartos = Number(Dormitorios);
+
+    const baseSlug = `/imovel/${Codigo}/${slugify(Categoria)}`;
+    const locationSlug = `${slugify(Bairro)}-${slugify(Cidade)}`;
+    const statusSlug = `/${slugify(Status)}`;
+
+    if (quartos > 0) {
+      const quartosSlug = `${quartos}-${quartos > 1 ? "quartos" : "quarto"}`;
+      return `${baseSlug}-${quartosSlug}-${locationSlug}${statusSlug}`;
+    }
+
+    return `${baseSlug}-${locationSlug}${statusSlug}`;
+  };
+
   return (
     <>
       <style
@@ -91,7 +118,10 @@ export default function ShelfItem({ imovel }: Props) {
         `,
         }}
       />
-      <div class="w-full flex flex-col bg-info shadow-[2px_4px_7px_#00000024]">
+      <a
+        href={getImovelSlug()}
+        class="w-full flex flex-col bg-info shadow-[2px_4px_7px_#00000024]"
+      >
         <div class="relative h-[350px]">
           <Image
             class="w-full h-full object-cover"
@@ -138,7 +168,7 @@ export default function ShelfItem({ imovel }: Props) {
             ))}
           </div>
         </div>
-      </div>
+      </a>
     </>
   );
 }
