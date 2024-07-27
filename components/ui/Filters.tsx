@@ -22,8 +22,6 @@ export default function Filters({
   empreendimentos,
   initialFilters,
 }: Props) {
-  console.log(initialFilters);
-
   const initialFiltersObj = JSON.parse(initialFilters);
   const initialStatus = initialFiltersObj.Status || "Venda";
 
@@ -111,8 +109,6 @@ export default function Filters({
 
   const mountFiltersUrl = () => {
     if (IS_BROWSER) {
-      console.log(selectedCidades, "cidades!");
-
       const filterObject = {
         tipo: selectedCategorias,
         cidade: selectedCidades,
@@ -184,11 +180,9 @@ export default function Filters({
     return "";
   };
 
-  console.log(mountFiltersUrl(), "mountFiltersUrl()");
-
   return (
     <div class="flex flex-col">
-      <div class="px-[15px]">
+      <div class="px-[15px] block lg:hidden">
         <button
           onClick={() => setShowFilters(!showFilters)}
           class="bg-secondary text-base-100 text-[18px] font-normal w-full h-[42px] flex items-center justify-center rounded-[5px] my-5"
@@ -197,479 +191,519 @@ export default function Filters({
         </button>
       </div>
 
-      {showFilters && (
-        <div class="flex flex-col bg-info w-full pt-[50px] pb-[30px] px-[15px]">
-          <label class="text-[16.9px] mb-[10px]">O que deseja?</label>
-          <select
-            value={finalidade}
-            onChange={(e) =>
-              setFinalidade(e.currentTarget.value as typeof finalidade)
-            }
-            class="h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-          >
-            <option value="Venda">Venda</option>
-            <option value="Aluguel">Aluguel</option>
-            <option value="Temporada">Temporada</option>
-          </select>
-
-          <label class="text-[16.9px] my-[10px]">Código</label>
-          <input
-            class="h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-            type="text"
-            placeholder="Código"
-            value={codigo}
-            onChange={(e) => setCodigo(e.currentTarget.value)}
-          />
-
-          <label class="text-[16.9px] my-[10px]">Tipo</label>
-          <SearchSelect
-            variant="small"
-            barClass="bg-white !border-[#ccc]"
-            label={"Tipo"}
-            options={categorias}
-            searchable
-            searchPlaceholder="Que tipo de imóvel procura?"
-            showFooter
-            setOpened={() =>
-              selectOpened === "tipo"
-                ? setSelectOpened("none")
-                : setSelectOpened("tipo")
-            }
-            opened={selectOpened === "tipo"}
-            selectedOptions={selectedCategorias}
-            setSelectedOptions={setSelectedCategorias}
-          />
-
-          <label class="text-[16.9px] my-[10px]">Cidade</label>
-          <SearchSelect
-            variant="small"
-            barClass="bg-white !border-[#ccc]"
-            label={"Tipo"}
-            options={cidades}
-            searchable
-            searchPlaceholder="Escolha a(s) cidade(s)"
-            showFooter
-            setOpened={() =>
-              selectOpened === "cidade"
-                ? setSelectOpened("none")
-                : setSelectOpened("cidade")
-            }
-            opened={selectOpened === "cidade"}
-            selectedOptions={selectedCidades}
-            setSelectedOptions={setSelectedCidades}
-          />
-
-          <label class="text-[16.9px] my-[10px]">Bairro</label>
-          <SearchSelect
-            variant="small"
-            barClass="bg-white !border-[#ccc]"
-            label={"Tipo"}
-            options={bairros}
-            searchable
-            searchPlaceholder="Escolha o Bairro"
-            showFooter
-            setOpened={() =>
-              selectOpened === "bairro"
-                ? setSelectOpened("none")
-                : setSelectOpened("bairro")
-            }
-            opened={selectOpened === "bairro"}
-            selectedOptions={selectedBairros}
-            setSelectedOptions={setSelectedBairros}
-          />
-
-          <label class="text-[16.9px] my-[10px]">Preço para {finalidade}</label>
-          <SearchSelect
-            variant="small"
-            barClass="bg-white !border-[#ccc]"
-            label={`Preço para ${finalidade}`}
-            options={priceOptions[finalidade].map((o) => o.label)}
-            searchable
-            showFooter
-            setOpened={() =>
-              selectOpened === "preco-venda"
-                ? setSelectOpened("none")
-                : setSelectOpened("preco-venda")
-            }
-            opened={selectOpened === "preco-venda"}
-            allowMultipleSelection={false}
-            selectedOptions={selectedPrice}
-            setSelectedOptions={setSelectedPrice}
-          />
-
-          <label class="text-[16.9px] mt-[30px] mb-[10px]">Dormitório(s)</label>
-          <div class="flex gap-4">
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={dormitorios.includes("1")}
-                onChange={(e) => {
-                  if (dormitorios.includes("1")) {
-                    setDormitorios(dormitorios.filter((d) => d !== "1"));
-                  } else {
-                    setDormitorios([...dormitorios, "1"]);
-                  }
-                }}
-              />
-              1
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={dormitorios.includes("2")}
-                onChange={(e) => {
-                  if (dormitorios.includes("2")) {
-                    setDormitorios(dormitorios.filter((d) => d !== "2"));
-                  } else {
-                    setDormitorios([...dormitorios, "2"]);
-                  }
-                }}
-              />
-              2
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={dormitorios.includes("3")}
-                onChange={(e) => {
-                  if (dormitorios.includes("3")) {
-                    setDormitorios(dormitorios.filter((d) => d !== "3"));
-                  } else {
-                    setDormitorios([...dormitorios, "3"]);
-                  }
-                }}
-              />
-              3
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={dormitorios.includes("4")}
-                onChange={(e) => {
-                  if (dormitorios.includes("4")) {
-                    setDormitorios(dormitorios.filter((d) => d !== "4"));
-                  } else {
-                    setDormitorios([...dormitorios, "4"]);
-                  }
-                }}
-              />
-              4+
-            </label>
-          </div>
-
-          <label class="text-[16.9px] mt-[30px] mb-[10px]">Vaga(s)</label>
-          <div class="flex gap-4">
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={vagas.includes("1")}
-                onChange={(e) => {
-                  if (vagas.includes("1")) {
-                    setVagas(vagas.filter((d) => d !== "1"));
-                  } else {
-                    setVagas([...vagas, "1"]);
-                  }
-                }}
-              />
-              1
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={vagas.includes("2")}
-                onChange={(e) => {
-                  if (vagas.includes("2")) {
-                    setVagas(vagas.filter((d) => d !== "2"));
-                  } else {
-                    setVagas([...vagas, "2"]);
-                  }
-                }}
-              />
-              2
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={vagas.includes("3")}
-                onChange={(e) => {
-                  if (vagas.includes("3")) {
-                    setVagas(vagas.filter((d) => d !== "3"));
-                  } else {
-                    setVagas([...vagas, "3"]);
-                  }
-                }}
-              />
-              3
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={vagas.includes("4")}
-                onChange={(e) => {
-                  if (vagas.includes("4")) {
-                    setVagas(vagas.filter((d) => d !== "4"));
-                  } else {
-                    setVagas([...vagas, "4"]);
-                  }
-                }}
-              />
-              4+
-            </label>
-          </div>
-
-          <label class="text-[16.9px] mt-[30px] mb-[10px]">Suíte(s)</label>
-          <div class="flex gap-4">
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={suites.includes("1")}
-                onChange={(e) => {
-                  if (suites.includes("1")) {
-                    setSuites(suites.filter((d) => d !== "1"));
-                  } else {
-                    setSuites([...suites, "1"]);
-                  }
-                }}
-              />
-              1
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={suites.includes("2")}
-                onChange={(e) => {
-                  if (suites.includes("2")) {
-                    setSuites(suites.filter((d) => d !== "2"));
-                  } else {
-                    setSuites([...suites, "2"]);
-                  }
-                }}
-              />
-              2
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={suites.includes("3")}
-                onChange={(e) => {
-                  if (suites.includes("3")) {
-                    setSuites(suites.filter((d) => d !== "3"));
-                  } else {
-                    setSuites([...suites, "3"]);
-                  }
-                }}
-              />
-              3
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={suites.includes("4")}
-                onChange={(e) => {
-                  if (suites.includes("4")) {
-                    setSuites(suites.filter((d) => d !== "4"));
-                  } else {
-                    setSuites([...suites, "4"]);
-                  }
-                }}
-              />
-              4+
-            </label>
-          </div>
-
-          <label class="text-[16.9px] mt-[30px] mb-[10px]">Banheiro(s)</label>
-          <div class="flex gap-4">
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={banheiros.includes("1")}
-                onChange={(e) => {
-                  if (banheiros.includes("1")) {
-                    setBanheiros(banheiros.filter((d) => d !== "1"));
-                  } else {
-                    setBanheiros([...banheiros, "1"]);
-                  }
-                }}
-              />
-              1
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={banheiros.includes("2")}
-                onChange={(e) => {
-                  if (banheiros.includes("2")) {
-                    setBanheiros(banheiros.filter((d) => d !== "2"));
-                  } else {
-                    setBanheiros([...banheiros, "2"]);
-                  }
-                }}
-              />
-              2
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={banheiros.includes("3")}
-                onChange={(e) => {
-                  if (banheiros.includes("3")) {
-                    setBanheiros(banheiros.filter((d) => d !== "3"));
-                  } else {
-                    setBanheiros([...banheiros, "3"]);
-                  }
-                }}
-              />
-              3
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                class="mr-2"
-                checked={banheiros.includes("4")}
-                onChange={(e) => {
-                  if (banheiros.includes("4")) {
-                    setBanheiros(banheiros.filter((d) => d !== "4"));
-                  } else {
-                    setBanheiros([...banheiros, "4"]);
-                  }
-                }}
-              />
-              4+
-            </label>
-          </div>
-
-          <label class="text-[16.9px] my-[10px]">Área Total (M²)</label>
-          <div class="flex gap-[10px]">
-            <input
-              class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-              type="number"
-              placeholder="Área mín."
-              value={areaTotal.min}
+      <div
+        class={`${
+          showFilters ? "flex" : "hidden"
+        } lg:flex bg-info w-full pt-[50px] pb-[30px] px-[15px]`}
+      >
+        <div class="flex flex-col lg:flex-row lg:flex-wrap w-full lg:mx-auto lg:w-[90%] lg:gap-y-5">
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] mb-[10px]">O que deseja?</label>
+            <select
+              value={finalidade}
               onChange={(e) =>
-                setAreaTotal({ ...areaTotal, min: e.currentTarget.value })
+                setFinalidade(e.currentTarget.value as typeof finalidade)
               }
-            />
+              class="h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
+            >
+              <option value="Venda">Venda</option>
+              <option value="Aluguel">Aluguel</option>
+              <option value="Temporada">Temporada</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px] lg:mt-0">Código</label>
             <input
-              class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-              type="number"
-              placeholder="Área max."
-              value={areaTotal.max}
-              onChange={(e) =>
-                setAreaTotal({ ...areaTotal, max: e.currentTarget.value })
-              }
+              class="h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
+              type="text"
+              placeholder="Código"
+              value={codigo}
+              onChange={(e) => setCodigo(e.currentTarget.value)}
             />
           </div>
 
-          <label class="text-[16.9px] my-[10px]">Área Privativa</label>
-          <div class="flex gap-[10px]">
-            <input
-              class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-              type="number"
-              placeholder="Área mín."
-              value={areaPrivativa.min}
-              onChange={(e) =>
-                setAreaPrivativa({
-                  ...areaPrivativa,
-                  min: e.currentTarget.value,
-                })
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px] lg:mt-0">Tipo</label>
+            <SearchSelect
+              variant="small"
+              barClass="bg-white !border-[#ccc]"
+              label={"Tipo"}
+              options={categorias}
+              searchable
+              searchPlaceholder="Que tipo de imóvel procura?"
+              showFooter
+              setOpened={() =>
+                selectOpened === "tipo"
+                  ? setSelectOpened("none")
+                  : setSelectOpened("tipo")
               }
-            />
-            <input
-              class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-              type="number"
-              placeholder="Área max."
-              value={areaPrivativa.max}
-              onChange={(e) =>
-                setAreaPrivativa({
-                  ...areaPrivativa,
-                  max: e.currentTarget.value,
-                })
-              }
+              opened={selectOpened === "tipo"}
+              selectedOptions={selectedCategorias}
+              setSelectedOptions={setSelectedCategorias}
             />
           </div>
 
-          <label class="text-[16.9px] my-[10px]">Característica(s)</label>
-          <SearchSelect
-            variant="small"
-            barClass="bg-white !border-[#ccc]"
-            label={`Característica`}
-            options={caracteristicas}
-            searchable
-            showFooter
-            setOpened={() =>
-              selectOpened === "caracteristicas"
-                ? setSelectOpened("none")
-                : setSelectOpened("caracteristicas")
-            }
-            opened={selectOpened === "caracteristicas"}
-            selectedOptions={selectedCaracteristicas}
-            setSelectedOptions={setSelectedCaracteristicas}
-          />
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px] lg:mt-0">Cidade</label>
+            <SearchSelect
+              variant="small"
+              barClass="bg-white !border-[#ccc]"
+              label={"Tipo"}
+              options={cidades}
+              searchable
+              searchPlaceholder="Escolha a(s) cidade(s)"
+              showFooter
+              setOpened={() =>
+                selectOpened === "cidade"
+                  ? setSelectOpened("none")
+                  : setSelectOpened("cidade")
+              }
+              opened={selectOpened === "cidade"}
+              selectedOptions={selectedCidades}
+              setSelectedOptions={setSelectedCidades}
+            />
+          </div>
 
-          <label class="text-[16.9px] my-[10px]">Infraestrutura(s)</label>
-          <SearchSelect
-            variant="small"
-            barClass="bg-white !border-[#ccc]"
-            label={`Infraestrutura`}
-            options={infraestruturas}
-            searchable
-            showFooter
-            setOpened={() =>
-              selectOpened === "infraestruturas"
-                ? setSelectOpened("none")
-                : setSelectOpened("infraestruturas")
-            }
-            opened={selectOpened === "infraestruturas"}
-            selectedOptions={selectedInfraestruturas}
-            setSelectedOptions={setSelectedInfraestruturas}
-          />
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px] lg:mt-0">Bairro</label>
+            <SearchSelect
+              variant="small"
+              barClass="bg-white !border-[#ccc]"
+              label={"Tipo"}
+              options={bairros}
+              searchable
+              searchPlaceholder="Escolha o Bairro"
+              showFooter
+              setOpened={() =>
+                selectOpened === "bairro"
+                  ? setSelectOpened("none")
+                  : setSelectOpened("bairro")
+              }
+              opened={selectOpened === "bairro"}
+              selectedOptions={selectedBairros}
+              setSelectedOptions={setSelectedBairros}
+            />
+          </div>
 
-          <label class="text-[16.9px] my-[10px]">Empreendimento(s)</label>
-          <SearchSelect
-            variant="small"
-            barClass="bg-white !border-[#ccc]"
-            label={`Empreendimento`}
-            options={empreendimentos}
-            searchable
-            showFooter
-            setOpened={() =>
-              selectOpened === "empreendimentos"
-                ? setSelectOpened("none")
-                : setSelectOpened("empreendimentos")
-            }
-            opened={selectOpened === "empreendimentos"}
-            selectedOptions={selectedEmpreendimentos}
-            setSelectedOptions={setSelectedEmpreendimentos}
-          />
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px] lg:mt-0">
+              Preço para {finalidade}
+            </label>
+            <SearchSelect
+              variant="small"
+              barClass="bg-white !border-[#ccc]"
+              label={`Preço para ${finalidade}`}
+              options={priceOptions[finalidade].map((o) => o.label)}
+              searchable
+              showFooter
+              setOpened={() =>
+                selectOpened === "preco-venda"
+                  ? setSelectOpened("none")
+                  : setSelectOpened("preco-venda")
+              }
+              opened={selectOpened === "preco-venda"}
+              allowMultipleSelection={false}
+              selectedOptions={selectedPrice}
+              setSelectedOptions={setSelectedPrice}
+            />
+          </div>
 
-          <label class="text-[16.9px] my-[10px]">Lançamento</label>
-          <select
-            value={lancamento}
-            onChange={(e) =>
-              setLancamento(e.currentTarget.value as typeof lancamento)
-            }
-            class="h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
-          >
-            <option value="Nao">Exibir Todos</option>
-            <option value="Sim">Exibir Apenas Lançamentos</option>
-          </select>
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] mt-[30px] mb-[10px] lg:mt-0">
+              Dormitório(s)
+            </label>
+            <div class="flex gap-4">
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={dormitorios.includes("1")}
+                  onChange={(e) => {
+                    if (dormitorios.includes("1")) {
+                      setDormitorios(dormitorios.filter((d) => d !== "1"));
+                    } else {
+                      setDormitorios([...dormitorios, "1"]);
+                    }
+                  }}
+                />
+                1
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={dormitorios.includes("2")}
+                  onChange={(e) => {
+                    if (dormitorios.includes("2")) {
+                      setDormitorios(dormitorios.filter((d) => d !== "2"));
+                    } else {
+                      setDormitorios([...dormitorios, "2"]);
+                    }
+                  }}
+                />
+                2
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={dormitorios.includes("3")}
+                  onChange={(e) => {
+                    if (dormitorios.includes("3")) {
+                      setDormitorios(dormitorios.filter((d) => d !== "3"));
+                    } else {
+                      setDormitorios([...dormitorios, "3"]);
+                    }
+                  }}
+                />
+                3
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={dormitorios.includes("4")}
+                  onChange={(e) => {
+                    if (dormitorios.includes("4")) {
+                      setDormitorios(dormitorios.filter((d) => d !== "4"));
+                    } else {
+                      setDormitorios([...dormitorios, "4"]);
+                    }
+                  }}
+                />
+                4+
+              </label>
+            </div>
+          </div>
 
-          <div class="flex flex-wrap justify-center items-center mt-[30px]">
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] mt-[30px] mb-[10px] lg:mt-0">Vaga(s)</label>
+            <div class="flex gap-4">
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={vagas.includes("1")}
+                  onChange={(e) => {
+                    if (vagas.includes("1")) {
+                      setVagas(vagas.filter((d) => d !== "1"));
+                    } else {
+                      setVagas([...vagas, "1"]);
+                    }
+                  }}
+                />
+                1
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={vagas.includes("2")}
+                  onChange={(e) => {
+                    if (vagas.includes("2")) {
+                      setVagas(vagas.filter((d) => d !== "2"));
+                    } else {
+                      setVagas([...vagas, "2"]);
+                    }
+                  }}
+                />
+                2
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={vagas.includes("3")}
+                  onChange={(e) => {
+                    if (vagas.includes("3")) {
+                      setVagas(vagas.filter((d) => d !== "3"));
+                    } else {
+                      setVagas([...vagas, "3"]);
+                    }
+                  }}
+                />
+                3
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={vagas.includes("4")}
+                  onChange={(e) => {
+                    if (vagas.includes("4")) {
+                      setVagas(vagas.filter((d) => d !== "4"));
+                    } else {
+                      setVagas([...vagas, "4"]);
+                    }
+                  }}
+                />
+                4+
+              </label>
+            </div>
+          </div>
+
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] mt-[30px] mb-[10px]">Suíte(s)</label>
+            <div class="flex gap-4">
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={suites.includes("1")}
+                  onChange={(e) => {
+                    if (suites.includes("1")) {
+                      setSuites(suites.filter((d) => d !== "1"));
+                    } else {
+                      setSuites([...suites, "1"]);
+                    }
+                  }}
+                />
+                1
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={suites.includes("2")}
+                  onChange={(e) => {
+                    if (suites.includes("2")) {
+                      setSuites(suites.filter((d) => d !== "2"));
+                    } else {
+                      setSuites([...suites, "2"]);
+                    }
+                  }}
+                />
+                2
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={suites.includes("3")}
+                  onChange={(e) => {
+                    if (suites.includes("3")) {
+                      setSuites(suites.filter((d) => d !== "3"));
+                    } else {
+                      setSuites([...suites, "3"]);
+                    }
+                  }}
+                />
+                3
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={suites.includes("4")}
+                  onChange={(e) => {
+                    if (suites.includes("4")) {
+                      setSuites(suites.filter((d) => d !== "4"));
+                    } else {
+                      setSuites([...suites, "4"]);
+                    }
+                  }}
+                />
+                4+
+              </label>
+            </div>
+          </div>
+
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] mt-[30px] mb-[10px]">Banheiro(s)</label>
+            <div class="flex gap-4">
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={banheiros.includes("1")}
+                  onChange={(e) => {
+                    if (banheiros.includes("1")) {
+                      setBanheiros(banheiros.filter((d) => d !== "1"));
+                    } else {
+                      setBanheiros([...banheiros, "1"]);
+                    }
+                  }}
+                />
+                1
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={banheiros.includes("2")}
+                  onChange={(e) => {
+                    if (banheiros.includes("2")) {
+                      setBanheiros(banheiros.filter((d) => d !== "2"));
+                    } else {
+                      setBanheiros([...banheiros, "2"]);
+                    }
+                  }}
+                />
+                2
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={banheiros.includes("3")}
+                  onChange={(e) => {
+                    if (banheiros.includes("3")) {
+                      setBanheiros(banheiros.filter((d) => d !== "3"));
+                    } else {
+                      setBanheiros([...banheiros, "3"]);
+                    }
+                  }}
+                />
+                3
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  class="mr-2"
+                  checked={banheiros.includes("4")}
+                  onChange={(e) => {
+                    if (banheiros.includes("4")) {
+                      setBanheiros(banheiros.filter((d) => d !== "4"));
+                    } else {
+                      setBanheiros([...banheiros, "4"]);
+                    }
+                  }}
+                />
+                4+
+              </label>
+            </div>
+          </div>
+
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px]">Área Total (M²)</label>
+            <div class="flex gap-[10px]">
+              <input
+                class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
+                type="number"
+                placeholder="Área mín."
+                value={areaTotal.min}
+                onChange={(e) =>
+                  setAreaTotal({ ...areaTotal, min: e.currentTarget.value })
+                }
+              />
+              <input
+                class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
+                type="number"
+                placeholder="Área max."
+                value={areaTotal.max}
+                onChange={(e) =>
+                  setAreaTotal({ ...areaTotal, max: e.currentTarget.value })
+                }
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px]">Área Privativa</label>
+            <div class="flex gap-[10px]">
+              <input
+                class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
+                type="number"
+                placeholder="Área mín."
+                value={areaPrivativa.min}
+                onChange={(e) =>
+                  setAreaPrivativa({
+                    ...areaPrivativa,
+                    min: e.currentTarget.value,
+                  })
+                }
+              />
+              <input
+                class="w-full h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
+                type="number"
+                placeholder="Área max."
+                value={areaPrivativa.max}
+                onChange={(e) =>
+                  setAreaPrivativa({
+                    ...areaPrivativa,
+                    max: e.currentTarget.value,
+                  })
+                }
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px]">Característica(s)</label>
+            <SearchSelect
+              variant="small"
+              barClass="bg-white !border-[#ccc]"
+              label={`Característica`}
+              options={caracteristicas}
+              searchable
+              showFooter
+              setOpened={() =>
+                selectOpened === "caracteristicas"
+                  ? setSelectOpened("none")
+                  : setSelectOpened("caracteristicas")
+              }
+              opened={selectOpened === "caracteristicas"}
+              selectedOptions={selectedCaracteristicas}
+              setSelectedOptions={setSelectedCaracteristicas}
+            />
+          </div>
+
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px]">Infraestrutura(s)</label>
+            <SearchSelect
+              variant="small"
+              barClass="bg-white !border-[#ccc]"
+              label={`Infraestrutura`}
+              options={infraestruturas}
+              searchable
+              showFooter
+              setOpened={() =>
+                selectOpened === "infraestruturas"
+                  ? setSelectOpened("none")
+                  : setSelectOpened("infraestruturas")
+              }
+              opened={selectOpened === "infraestruturas"}
+              selectedOptions={selectedInfraestruturas}
+              setSelectedOptions={setSelectedInfraestruturas}
+            />
+          </div>
+
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px]">Empreendimento(s)</label>
+            <SearchSelect
+              variant="small"
+              barClass="bg-white !border-[#ccc]"
+              label={`Empreendimento`}
+              options={empreendimentos}
+              searchable
+              showFooter
+              setOpened={() =>
+                selectOpened === "empreendimentos"
+                  ? setSelectOpened("none")
+                  : setSelectOpened("empreendimentos")
+              }
+              opened={selectOpened === "empreendimentos"}
+              selectedOptions={selectedEmpreendimentos}
+              setSelectedOptions={setSelectedEmpreendimentos}
+            />
+          </div>
+
+          <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
+            <label class="text-[16.9px] my-[10px]">Lançamento</label>
+            <select
+              value={lancamento}
+              onChange={(e) =>
+                setLancamento(e.currentTarget.value as typeof lancamento)
+              }
+              class="h-[35px] border border-[#ccc] active:border-black focus:border-black py-[6px] px-3 text-[13px] font-normal outline-none"
+            >
+              <option value="Nao">Exibir Todos</option>
+              <option value="Sim">Exibir Apenas Lançamentos</option>
+            </select>
+          </div>
+
+          <div class="flex flex-wrap justify-center items-center mt-[30px] lg:mx-auto">
             <a
               href={mountFiltersUrl()}
               class="bg-secondary h-[42px] flex items-center justify-center px-[30px] text-[18px] font-medium text-base-100"
@@ -684,7 +718,7 @@ export default function Filters({
             </a>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
