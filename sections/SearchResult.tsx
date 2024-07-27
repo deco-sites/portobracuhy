@@ -193,6 +193,7 @@ const getUrlFilters = (url: string) => {
       bairro: "Bairro",
       codigo: "Codigo",
       dormitorios: "Dormitorios",
+      empreendimentos: "Empreendimento",
       vagas: "Vagas",
       suites: "Suites",
       banheiros: "BanheiroSocialQtd",
@@ -213,6 +214,24 @@ const getUrlFilters = (url: string) => {
         // filters[paramsMapping[key]] = urlFilters.getAll(key)[0].split(",");
       }
     });
+
+    // loop through the rest of url parameters (for infraeestrutura and caracteristicas filters)
+    for (const [key, value] of urlFilters) {
+      if (
+        !Object.keys(paramsMapping).includes(key) &&
+        ![
+          "page",
+          "minimo",
+          "maximo",
+          "areaTotalMinima",
+          "areaTotalMaxima",
+          "areaPrivativaMinima",
+          "areaPrivativaMaxima",
+        ].includes(key)
+      ) {
+        filters[key] = value;
+      }
+    }
 
     if (urlFilters.has("minimo") && urlFilters.has("maximo")) {
       switch (urlFilters.get("finalidade")) {
@@ -298,6 +317,7 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     "DestaqueWeb",
     "Cidade",
     "Bairro",
+    "Empreendimento",
     "UF",
     "ExibirNoSite",
     "Exclusivo",
@@ -323,8 +343,6 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
   const apiRoute = `/imoveis/listar?showtotal=1&pesquisa={"fields":${fields},"filter":${filters},"order":${order},"paginacao":{"pagina":${page},"quantidade":${count}}}`;
 
   const apiUrl = ctx.loft.baseUrl + apiRoute + "&key=" + ctx.loft.apiKey.get();
-
-  console.log(apiUrl, "api");
 
   const getContent = await fetch(apiUrl, {
     method: "GET",

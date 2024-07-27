@@ -1,9 +1,16 @@
 interface Props {
   placeholder?: string;
   isCurrency?: boolean;
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
-export default function TextInput({ placeholder, isCurrency }: Props) {
+export default function TextInput({
+  placeholder,
+  isCurrency,
+  value,
+  onChange,
+}: Props) {
   const handleInput = (e: Event) => {
     const target = e.target as HTMLInputElement;
 
@@ -24,6 +31,8 @@ export default function TextInput({ placeholder, isCurrency }: Props) {
       className="w-full border border-accent text-[13px] text-base-200 font-light placeholder:font-light placeholder:text-base-200 py-[6px] px-3 outline-none"
       placeholder={placeholder}
       onInput={handleInput}
+      value={value}
+      onChange={(e) => onChange?.(e.currentTarget.value)}
     />
   );
 }

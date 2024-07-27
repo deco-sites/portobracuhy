@@ -6,9 +6,17 @@ import { AppContext } from "site/apps/site.ts";
 import { SectionProps } from "deco/types.ts";
 import { clx } from "site/sdk/clx.ts";
 import TextInput from "site/components/ui/TextInput.tsx";
+import { IS_BROWSER } from "$fresh/runtime.ts";
 
 export interface Props {
   title?: string;
+}
+
+function currencyToNumber(str: string) {
+  let numStr = str.replace(/[R$\s.]/g, "");
+  numStr = numStr.replace(",", ".");
+  const num = parseFloat(numStr);
+  return num;
 }
 
 function RegularSearch({
@@ -16,13 +24,59 @@ function RegularSearch({
   categorias,
   finalidade,
   setFinalidade,
+  selectedDormitorios,
+  selectedSuites,
+  selectedEmpreendimentos,
+  precoMin,
+  precoMax,
 }: {
   bairros: string[];
   categorias: string[];
   finalidade: string;
-  setFinalidade: StateUpdater<"Venda" | "Aluguel" | "Temporada">;
+  setFinalidade: StateUpdater<"" | "Venda" | "Aluguel" | "Temporada">;
+  selectedDormitorios: string[];
+  selectedSuites: string[];
+  selectedEmpreendimentos: string[];
+  precoMin: string;
+  precoMax: string;
 }) {
   const [selectOpened, setSelectOpened] = useState("none");
+  const [selectedCategorias, setSelectedCategorias] = useState<string[]>([]);
+  const [selectedBairros, setSelectedBairros] = useState<string[]>([]);
+
+  // mount filter url
+  const mountFiltersUrl = () => {
+    if (IS_BROWSER) {
+      const filterObject = {
+        tipo: selectedCategorias,
+        bairro: selectedBairros,
+        finalidade,
+        dormitorios: selectedDormitorios,
+        suites: selectedSuites,
+        empreendimentos: selectedEmpreendimentos,
+        minimo: precoMin ? currencyToNumber(precoMin).toString() : "",
+        maximo: precoMax ? currencyToNumber(precoMax).toString() : "",
+      };
+
+      const url = new URL(window.location.origin + "/busca");
+
+      Object.keys(filterObject).forEach((key) => {
+        const value = filterObject[key as keyof typeof filterObject];
+
+        if (value.length > 0) {
+          url.searchParams.set(
+            key,
+            Array.isArray(value) ? value.join(",") : value
+          );
+        }
+      });
+
+      url.searchParams.set("page", "1");
+      return url.toString();
+    }
+
+    return "";
+  };
 
   return (
     <div class="flex flex-col pb-[3px]">
@@ -114,6 +168,8 @@ function RegularSearch({
               : setSelectOpened("imovel")
           }
           opened={selectOpened === "imovel"}
+          selectedOptions={selectedCategorias}
+          setSelectedOptions={setSelectedCategorias}
         />
         <SearchSelect
           label="Condomínios"
@@ -127,12 +183,17 @@ function RegularSearch({
               : setSelectOpened("condominio")
           }
           opened={selectOpened === "condominio"}
+          selectedOptions={selectedBairros}
+          setSelectedOptions={setSelectedBairros}
         />
 
         <div class="rounded-[30px] lg:rounded-bl-none lg:rounded-tl-none shadow-[0px_3px_7px_#00000059] lg:h-16 lg:w-full">
-          <button class="w-full bg-secondary text-white rounded-br-[30px] rounded-bl-[30px] h-[60px] flex justify-center items-center text-[24px] lg:rounded-bl-none lg:rounded-tr-[30px] lg:h-16">
+          <a
+            href={mountFiltersUrl()}
+            class="w-full bg-secondary text-white rounded-br-[30px] rounded-bl-[30px] h-[60px] flex justify-center items-center text-[24px] lg:rounded-bl-none lg:rounded-tr-[30px] lg:h-16"
+          >
             Buscar
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -140,6 +201,8 @@ function RegularSearch({
 }
 
 function CodeSearch() {
+  const [codigo, setCodigo] = useState("");
+
   return (
     <div class="flex items-center lg:mb-[30px]">
       <div class="w-full px-[15px]">
@@ -147,15 +210,20 @@ function CodeSearch() {
           class="w-full bg-secondary outline-none text-black placeholder:text-black text-2xl px-[15px] h-12 lg:h-16"
           type="text"
           placeholder="Código"
+          value={codigo}
+          onChange={(e) => setCodigo(e.currentTarget.value)}
         />
       </div>
       <div class="w-full lg:w-[16.66666667%]">
-        <button class="w-full bg-secondary text-white text-2xl flex justify-center items-center h-12 lg:h-16">
+        <a
+          href={`/busca?codigo=${codigo}`}
+          class="w-full bg-secondary text-white text-2xl flex justify-center items-center h-12 lg:h-16"
+        >
           <span class="flex items-baseline whitespace-pre">
             <Icon id="MagnifyingGlass" width={24} height={25} />
             {" Buscar "}
           </span>
-        </button>
+        </a>
       </div>
     </div>
   );
@@ -164,13 +232,33 @@ function CodeSearch() {
 function MoreFilters({
   handleMoreFilters,
   setSearchType,
-  bairros,
   finalidade,
+  empreendimentos,
+  selectedDormitorios,
+  setSelectedDormitorios,
+  selectedSuites,
+  setSelectedSuites,
+  selectedEmpreendimentos,
+  setSelectedEmpreendimentos,
+  precoMin,
+  setPrecoMin,
+  precoMax,
+  setPrecoMax,
 }: {
   handleMoreFilters: () => void;
   setSearchType: StateUpdater<"normal" | "code" | "filtering">;
-  bairros: string[];
   finalidade: string;
+  empreendimentos: string[];
+  selectedDormitorios: string[];
+  setSelectedDormitorios: StateUpdater<string[]>;
+  selectedSuites: string[];
+  setSelectedSuites: StateUpdater<string[]>;
+  selectedEmpreendimentos: string[];
+  setSelectedEmpreendimentos: StateUpdater<string[]>;
+  precoMin: string;
+  setPrecoMin: StateUpdater<string>;
+  precoMax: string;
+  setPrecoMax: StateUpdater<string>;
 }) {
   const [selectOpened, setSelectOpened] = useState("none");
 
@@ -194,6 +282,8 @@ function MoreFilters({
               }
               opened={selectOpened === "dormitorio"}
               showFooter={false}
+              selectedOptions={selectedDormitorios}
+              setSelectedOptions={setSelectedDormitorios}
             />
           </div>
 
@@ -213,6 +303,8 @@ function MoreFilters({
               }
               opened={selectOpened === "suite"}
               showFooter={false}
+              selectedOptions={selectedSuites}
+              setSelectedOptions={setSelectedSuites}
             />
           </div>
 
@@ -221,8 +313,18 @@ function MoreFilters({
               Faixa de preço para {finalidade}
             </span>
             <div class="flex flex-col lg:flex-row gap-5 mb-5">
-              <TextInput placeholder="Valor mín." isCurrency />
-              <TextInput placeholder="Valor máx." isCurrency />
+              <TextInput
+                value={precoMin}
+                onChange={(val) => setPrecoMin(val)}
+                placeholder="Valor mín."
+                isCurrency
+              />
+              <TextInput
+                value={precoMax}
+                onChange={(val) => setPrecoMax(val)}
+                placeholder="Valor máx."
+                isCurrency
+              />
             </div>
           </div>
         </div>
@@ -234,7 +336,7 @@ function MoreFilters({
           <SearchSelect
             variant="small"
             label="Empreendimento"
-            options={bairros}
+            options={empreendimentos}
             barClass="mb-5"
             setOpened={() =>
               selectOpened === "empreendimento"
@@ -245,6 +347,8 @@ function MoreFilters({
             showFooter
             searchable
             searchPlaceholder="Escolha o(s) empreendimento(s)"
+            selectedOptions={selectedEmpreendimentos}
+            setSelectedOptions={setSelectedEmpreendimentos}
           />
         </div>
 
@@ -277,14 +381,21 @@ export default function BuscaImovel({
   title = "Encontre seu imóvel ideal",
   bairros,
   categorias,
+  empreendimentos,
 }: SectionProps<typeof loader>) {
   const [searchType, setSearchType] = useState<"normal" | "code" | "filtering">(
     "normal"
   );
-
   const [finalidade, setFinalidade] = useState<
-    "Venda" | "Aluguel" | "Temporada"
-  >("Venda");
+    "" | "Venda" | "Aluguel" | "Temporada"
+  >("");
+  const [selectedDormitorios, setSelectedDormitorios] = useState<string[]>([]);
+  const [selectedSuites, setSelectedSuites] = useState<string[]>([]);
+  const [selectedEmpreendimentos, setSelectedEmpreendimentos] = useState<
+    string[]
+  >([]);
+  const [precoMin, setPrecoMin] = useState("");
+  const [precoMax, setPrecoMax] = useState("");
 
   const handleMoreFilters = () => {
     if (searchType === "code" || searchType === "filtering") {
@@ -335,6 +446,11 @@ export default function BuscaImovel({
           setFinalidade={setFinalidade}
           bairros={bairros}
           categorias={categorias}
+          selectedDormitorios={selectedDormitorios}
+          selectedEmpreendimentos={selectedEmpreendimentos}
+          selectedSuites={selectedSuites}
+          precoMin={precoMin}
+          precoMax={precoMax}
         />
       </div>
 
@@ -349,8 +465,18 @@ export default function BuscaImovel({
         <MoreFilters
           handleMoreFilters={handleMoreFilters}
           setSearchType={setSearchType}
-          bairros={bairros}
           finalidade={finalidade}
+          empreendimentos={empreendimentos}
+          selectedDormitorios={selectedDormitorios}
+          setSelectedDormitorios={setSelectedDormitorios}
+          selectedSuites={selectedSuites}
+          setSelectedSuites={setSelectedSuites}
+          selectedEmpreendimentos={selectedEmpreendimentos}
+          setSelectedEmpreendimentos={setSelectedEmpreendimentos}
+          precoMin={precoMin}
+          setPrecoMin={setPrecoMin}
+          precoMax={precoMax}
+          setPrecoMax={setPrecoMax}
         />
       </div>
 
@@ -389,10 +515,11 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     Bairro: string[];
     Cidade: string[];
     Categoria: string[];
+    Empreendimento: string[];
   };
 
   const apiRoute =
-    '/imoveis/listarConteudo?pesquisa={"fields":["Bairro","Cidade","Categoria"]}';
+    '/imoveis/listarConteudo?pesquisa={"fields":["Bairro","Cidade","Categoria", "Empreendimento"]}';
 
   const apiUrl = ctx.loft.baseUrl + apiRoute + "&key=" + ctx.loft.apiKey.get();
 
@@ -412,5 +539,6 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     bairros: content.Bairro.sort(),
     cidades: content.Cidade.sort(),
     categorias: content.Categoria.sort(),
+    empreendimentos: content.Empreendimento.sort(),
   };
 }

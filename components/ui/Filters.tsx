@@ -13,6 +13,72 @@ interface Props {
   initialFilters: string;
 }
 
+const getInitialFilter = (filter: unknown) => {
+  if (Array.isArray(filter)) {
+    return filter;
+  }
+
+  if (typeof filter === "string" && filter !== "") {
+    return [filter];
+  }
+
+  return [];
+};
+
+const getInitialInfraFilter = (infraestruturas: string[], filtersObj: any) => {
+  if (infraestruturas.length > 0) {
+    return infraestruturas.filter((infra) => filtersObj[infra]);
+  }
+
+  return [];
+};
+
+const getInitialCaracteristicasFilter = (
+  caracteristicas: string[],
+  filtersObj: any
+) => {
+  if (caracteristicas.length > 0) {
+    return caracteristicas.filter((carac) => filtersObj[carac]);
+  }
+
+  return [];
+};
+
+const getInitialPriceFilter = (
+  initialStatus: keyof typeof priceOptions,
+  initialFiltersObj: any
+) => {
+  const initialPrice = priceOptions[initialStatus].find(
+    (p: { min: string; max: string }) => {
+      if (initialFiltersObj.ValorVenda) {
+        return (
+          p.min === initialFiltersObj.ValorVenda[0] &&
+          p.max === initialFiltersObj.ValorVenda[1]
+        );
+      }
+
+      if (initialFiltersObj.ValorLocacao) {
+        return (
+          p.min === initialFiltersObj.ValorLocacao[0] &&
+          p.max === initialFiltersObj.ValorLocacao[1]
+        );
+      }
+
+      if (initialFiltersObj.ValorDiaria) {
+        return (
+          p.min === initialFiltersObj.ValorDiaria[0] &&
+          p.max === initialFiltersObj.ValorDiaria[1]
+        );
+      }
+
+      return false;
+    }
+  );
+
+  if (initialPrice) return [initialPrice.label];
+  return [];
+};
+
 export default function Filters({
   bairros,
   cidades,
@@ -24,57 +90,31 @@ export default function Filters({
 }: Props) {
   const initialFiltersObj = JSON.parse(initialFilters);
   const initialStatus = initialFiltersObj.Status || "Venda";
-
   const [showFilters, setShowFilters] = useState(false);
   const [selectOpened, setSelectOpened] = useState("none");
   const [selectedCategorias, setSelectedCategorias] = useState<string[]>(
-    initialFiltersObj.Categoria || []
+    getInitialFilter(initialFiltersObj.Categoria)
   );
   const [selectedCidades, setSelectedCidades] = useState<string[]>(
-    initialFiltersObj.Cidade || []
+    getInitialFilter(initialFiltersObj.Cidade)
   );
   const [selectedBairros, setSelectedBairros] = useState<string[]>(
-    initialFiltersObj.Bairro || []
+    getInitialFilter(initialFiltersObj.Bairro)
   );
-
-  const [selectedPrice, setSelectedPrice] = useState([
-    priceOptions[initialStatus as keyof typeof priceOptions].find(
-      (p: { min: string; max: string }) => {
-        if (initialFiltersObj.ValorVenda) {
-          return (
-            p.min === initialFiltersObj.ValorVenda[0] &&
-            p.max === initialFiltersObj.ValorVenda[1]
-          );
-        }
-
-        if (initialFiltersObj.ValorLocacao) {
-          return (
-            p.min === initialFiltersObj.ValorLocacao[0] &&
-            p.max === initialFiltersObj.ValorLocacao[1]
-          );
-        }
-
-        if (initialFiltersObj.ValorDiaria) {
-          return (
-            p.min === initialFiltersObj.ValorDiaria[0] &&
-            p.max === initialFiltersObj.ValorDiaria[1]
-          );
-        }
-
-        return false;
-      }
-    )?.label ?? "",
-  ]);
+  const [selectedPrice, setSelectedPrice] = useState(
+    getInitialPriceFilter(initialStatus, initialFiltersObj)
+  );
 
   const [selectedCaracteristicas, setSelectedCaracteristicas] = useState<
     string[]
-  >([]);
+  >(getInitialCaracteristicasFilter(caracteristicas, initialFiltersObj));
   const [selectedInfraestruturas, setSelectedInfraestruturas] = useState<
     string[]
-  >([]);
+  >(getInitialInfraFilter(infraestruturas, initialFiltersObj));
   const [selectedEmpreendimentos, setSelectedEmpreendimentos] = useState<
     string[]
-  >([]);
+  >(getInitialFilter(initialFiltersObj.Empreendimento));
+
   const [codigo, setCodigo] = useState<string>(initialFiltersObj.Codigo || "");
   const [dormitorios, setDormitorios] = useState<string[]>(
     initialFiltersObj.Dormitorios || []
@@ -120,8 +160,6 @@ export default function Filters({
         banheiros,
         finalidade,
         empreendimentos: selectedEmpreendimentos,
-        // areaTotal,
-        // areaPrivativa,
       };
 
       const url = new URL(window.location.origin + window.location.pathname);
@@ -378,7 +416,9 @@ export default function Filters({
           </div>
 
           <div class="flex flex-col w-full lg:w-1/4 lg:px-[15px]">
-            <label class="text-[16.9px] mt-[30px] mb-[10px] lg:mt-0">Vaga(s)</label>
+            <label class="text-[16.9px] mt-[30px] mb-[10px] lg:mt-0">
+              Vaga(s)
+            </label>
             <div class="flex gap-4">
               <label>
                 <input
