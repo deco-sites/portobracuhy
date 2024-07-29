@@ -6,14 +6,9 @@ import { usePagination } from "site/sdk/usePagination.ts";
 import { clx } from "site/sdk/clx.ts";
 import Icon from "site/components/ui/Icon.tsx";
 import Filters from "site/islands/Filters.tsx";
+import OrderBy from "site/islands/OrderBy.tsx";
 
 export interface Props {
-  // order?: {
-  //   Bairro?: "ASC" | "DESC";
-  //   Cidade?: "ASC" | "DESC";
-  //   Codigo?: "ASC" | "DESC";
-  //   Status?: "ASC" | "DESC";
-  // };
   itemsPerPage?: number;
 }
 
@@ -26,6 +21,7 @@ export default function SearchResult({
   paginationInfo,
   filterFields,
   initialFilters,
+  initialOrderBy,
 }: SectionProps<typeof loader>) {
   const notFound = imoveis.length === 0;
 
@@ -49,12 +45,16 @@ export default function SearchResult({
 
       <div id="searchResult" class="px-[15px] lg:w-[90%] mx-auto">
         <div class="flex flex-col mt-[30px] w-full">
-          <div class="flex flex-wrap justify-between w-full mb-10 pb-[10px border-b border-accent">
+          <div class="flex flex-wrap justify-between w-full mb-10 pb-[10px] border-b border-accent">
             <h1 class="text-secondary text-[17px] font-normal lg:text-[26px] flex gap-[15px] items-center">
               <Icon id="MagnifyingGlass" size={17} class="block lg:hidden" />
               <Icon id="MagnifyingGlass" size={26} class="hidden lg:block" />
               {notFound ? "Nenhum imóvel encontrado" : `${total} imóveis`}
             </h1>
+
+            <div class="flex">
+              <OrderBy initialOrderBy={initialOrderBy} />
+            </div>
           </div>
 
           <div class="flex flex-col gap-[55px] lg:flex-row lg:flex-wrap lg:gap-0 lg:-mx-[15px]">
@@ -221,6 +221,7 @@ const getUrlFilters = (url: string) => {
         !Object.keys(paramsMapping).includes(key) &&
         ![
           "page",
+          "ordenar",
           "minimo",
           "maximo",
           "areaTotalMinima",
@@ -301,6 +302,52 @@ const getUrlFilters = (url: string) => {
   }
 };
 
+const getOrderBy = (url: string) => {
+  const orderBy = new URL(url).searchParams.get("ordenar");
+
+  let order: { [key: string]: string } = {
+    Codigo: "desc",
+  };
+
+  if (orderBy) {
+    switch (orderBy) {
+      case "mais-recente":
+        order = { Codigo: "desc" };
+        break;
+      case "maior-preco":
+        order = {
+          ValorVenda: "desc",
+          ValorLocacao: "desc",
+          ValorDiaria: "desc",
+        };
+        break;
+      case "menor-preco":
+        order = {
+          ValorVenda: "asc",
+          ValorLocacao: "asc",
+          ValorDiaria: "asc",
+        };
+        break;
+      case "mais-dormitorio":
+        order = { Dormitorios: "desc" };
+        break;
+      case "menos-dormitorio":
+        order = { Dormitorios: "asc" };
+        break;
+      case "menor-area":
+        order = { AreaTotal: "asc" };
+        break;
+      case "maior-area":
+        order = { AreaTotal: "desc" };
+        break;
+      default:
+        break;
+    }
+  }
+
+  return JSON.stringify(order);
+};
+
 export async function loader(props: Props, req: Request, ctx: AppContext) {
   interface ImoveisResponse {
     [key: string]: Imovel | number;
@@ -334,13 +381,15 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
   ]);
 
   const filters = getUrlFilters(req.url);
+  const orderBy = getOrderBy(req.url);
+  const initialOrderBy =
+    new URL(req.url).searchParams.get("ordenar") ?? "mais-recente";
 
-  const order = JSON.stringify({ Codigo: "desc" });
   const count = props.itemsPerPage ?? 9;
 
   const page = new URL(req.url).searchParams.get("page") ?? "1";
 
-  const apiRoute = `/imoveis/listar?showtotal=1&pesquisa={"fields":${fields},"filter":${filters},"order":${order},"paginacao":{"pagina":${page},"quantidade":${count}}}`;
+  const apiRoute = `/imoveis/listar?showtotal=1&pesquisa={"fields":${fields},"filter":${filters},"order":${orderBy},"paginacao":{"pagina":${page},"quantidade":${count}}}`;
 
   const apiUrl = ctx.loft.baseUrl + apiRoute + "&key=" + ctx.loft.apiKey.get();
 
@@ -377,16 +426,38 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
       },
       filterFields,
       initialFilters: filters,
+      initialOrderBy,
     };
   }
 
   const response = content as ImoveisResponse;
 
-  const imoveis: Imovel[] = Object.values(response)
-    .filter(
-      (item): item is Imovel => typeof item === "object" && "Codigo" in item
-    )
-    .reverse(); // Reverso para mostrar os mais recentes (CHECK WHY IS THIS NEEDED)
+  const imoveis: Imovel[] = Object.values(response).filter(
+    (item): item is Imovel => typeof item === "object" && "Codigo" in item
+  );
+
+  // ordenar imoveis
+  // deno-lint-ignore no-explicit-any
+  imoveis.sort((a: any, b: any) => {
+    switch (initialOrderBy) {
+      case "mais-recente":
+        return b.Codigo - a.Codigo;
+      case "maior-preco":
+        return Number(b.ValorVenda) - Number(a.ValorVenda);
+      case "menor-preco":
+        return Number(a.ValorVenda) - Number(b.ValorVenda);
+      case "mais-dormitorio":
+        return Number(b.Dormitorios) - Number(a.Dormitorios);
+      case "menos-dormitorio":
+        return Number(a.Dormitorios) - Number(b.Dormitorios);
+      case "menor-area":
+        return Number(a.AreaTotal) - Number(b.AreaTotal);
+      case "maior-area":
+        return Number(b.AreaTotal) - Number(a.AreaTotal);
+      default:
+        return 0;
+    }
+  });
 
   const nextPageUrl = new URL(req.url);
   nextPageUrl.searchParams.set("page", (parseInt(page) + 1).toString());
@@ -419,5 +490,6 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     paginationInfo,
     filterFields,
     initialFilters: filters,
+    initialOrderBy,
   };
 }

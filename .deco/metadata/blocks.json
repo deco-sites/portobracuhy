@@ -60,5 +60,11 @@
     "path": "/sobre",
     "blockType": "pages",
     "__resolveType": "website/pages/Page.tsx"
+  },
+  "/.deco/blocks/pages-Imovel-991719.json": {
+    "name": "Imovel",
+    "path": "/imovel/:codigo*",
+    "blockType": "pages",
+    "__resolveType": "website/pages/Page.tsx"
   }
 }

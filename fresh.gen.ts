@@ -6,7 +6,9 @@ import * as $_app from "./routes/_app.tsx";
 import * as $BuscaImovel from "./islands/BuscaImovel.tsx";
 import * as $CuradoriaItem from "./islands/CuradoriaItem.tsx";
 import * as $Filters from "./islands/Filters.tsx";
+import * as $OrderBy from "./islands/OrderBy.tsx";
 import * as $SearchSelect from "./islands/SearchSelect.tsx";
+import * as $SimpleSelect from "./islands/SimpleSelect.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -17,7 +19,9 @@ const manifest = {
     "./islands/BuscaImovel.tsx": $BuscaImovel,
     "./islands/CuradoriaItem.tsx": $CuradoriaItem,
     "./islands/Filters.tsx": $Filters,
+    "./islands/OrderBy.tsx": $OrderBy,
     "./islands/SearchSelect.tsx": $SearchSelect,
+    "./islands/SimpleSelect.tsx": $SimpleSelect,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
