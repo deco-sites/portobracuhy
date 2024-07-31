@@ -19,4 +19,13 @@ export interface Imovel {
   BanheiroSocialQtd: string;
   Vagas: string;
   Suites: string;
+  Foto?: {
+    [key: string]: {
+      Codigo: string;
+      Foto: string;
+      FotoPequena: string;
+      Destaque: "Sim" | "Nao";
+    };
+  };
+  DescricaoWeb?: string;
 }

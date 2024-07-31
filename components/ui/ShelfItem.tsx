@@ -19,11 +19,6 @@ function slugify(str: string) {
     .replace(/-+/g, "-"); // remove consecutive hyphens
 }
 
-const variants = {
-  default: "text-primary",
-  listItem: "text-primary",
-};
-
 export default function ShelfItem({ imovel, variant = "default" }: Props) {
   const stringToCurrency = (value: string) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -68,7 +63,9 @@ export default function ShelfItem({ imovel, variant = "default" }: Props) {
 
     for (const field of caracteristicasFields) {
       if (Object.hasOwn(imovel, field)) {
-        const value = imovel[field as keyof Imovel];
+        const value =
+          imovel[field as keyof Omit<Imovel, "Foto" | "DescricaoWeb">] || "";
+
         const icon =
           caracteristicasIcons[field as keyof typeof caracteristicasIcons];
 

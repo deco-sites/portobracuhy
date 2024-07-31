@@ -6,6 +6,9 @@
       "__resolveType": "Header"
     },
     {
+      "__resolveType": "site/sections/PropertyDetails.tsx"
+    },
+    {
       "__resolveType": "Footer"
     }
   ],
