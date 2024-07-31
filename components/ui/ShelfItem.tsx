@@ -5,6 +5,7 @@ import { Imovel } from "site/sdk/types.ts";
 
 interface Props {
   imovel: Imovel;
+  variant?: "default" | "listItem";
 }
 
 function slugify(str: string) {
@@ -18,7 +19,12 @@ function slugify(str: string) {
     .replace(/-+/g, "-"); // remove consecutive hyphens
 }
 
-export default function ShelfItem({ imovel }: Props) {
+const variants = {
+  default: "text-primary",
+  listItem: "text-primary",
+};
+
+export default function ShelfItem({ imovel, variant = "default" }: Props) {
   const stringToCurrency = (value: string) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -120,52 +126,97 @@ export default function ShelfItem({ imovel }: Props) {
       />
       <a
         href={getImovelSlug()}
-        class="w-full flex flex-col bg-info shadow-[2px_4px_7px_#00000024]"
+        class={`w-full flex ${
+          variant === "listItem" ? "flex-col lg:flex-row" : "flex-col"
+        } bg-info shadow-[2px_4px_7px_#00000024]`}
       >
-        <div class="relative h-[350px]">
+        <div
+          class={`relative ${
+            variant === "listItem"
+              ? "h-[350px] lg:w-[41.66666667%] lg:h-[360px] lg:shrink-0"
+              : "h-[350px]"
+          }`}
+        >
           <Image
             class="w-full h-full object-cover"
             src={imovel.FotoDestaque}
             width={551}
-            height={350}
+            height={360}
           />
-          <div
-            class={clx(
-              "absolute top-[10px] left-[10px]",
-              "py-1 px-[10px]",
-              "text-[14.3px] text-white font-light",
-              "bg-[rgba(51,51,51,0.8)]"
-            )}
-          >
-            Cód: {imovel.Codigo}
-          </div>
+          {variant === "default" && (
+            <div
+              class={clx(
+                "absolute top-[10px] left-[10px]",
+                "py-1 px-[10px]",
+                "text-[14.3px] text-white font-light",
+                "bg-[rgba(51,51,51,0.8)]"
+              )}
+            >
+              Cód: {imovel.Codigo}
+            </div>
+          )}
         </div>
-        <div class="flex flex-col p-[15px] min-h-[300px] text-base-200">
-          <h3 class="text-[16.705px] font-normal mb-2">{imovel.Categoria}</h3>
-          <span class="text-[13px] font-normal flex items-center gap-2">
-            <Icon class="text-[#ff4646]" id="LocationDot" size={22} />{" "}
-            {imovel.Bairro} - {imovel.Cidade}/{imovel.UF}
-          </span>
-          <span class="text-[19.5px] font-medium flex items-center gap-2 h-[39px] flex-wrap">
-            <Icon class="text-[#87CE74]" id="DollarSign" size={22} />
-            {getPrice(imovel)}
-            <span class="font-normal text-info-content text-[16.9px]">
-              {" - "} {imovel.Status}
+        <div
+          class={`flex flex-col w-full p-[15px] text-base-200 ${
+            variant === "listItem" ? "justify-center" : ""
+          }`}
+        >
+          <div
+            class={`flex flex-col ${
+              variant === "listItem"
+                ? "h-auto pt-[15px] px-[25px] min-h-[273px]"
+                : "min-h-[300px]"
+            }`}
+          >
+            <h3
+              class={`text-[16.705px] font-normal mb-2 flex gap-[10px] ${
+                variant === "listItem" ? "leading-[1.4]" : ""
+              }`}
+            >
+              {imovel.Categoria}{" "}
+              {variant === "listItem" && (
+                <div
+                  class={clx(
+                    "border border-black",
+                    "py-[2px] px-[5px]",
+                    "text-[11.44px] font-light leading-[1.4]"
+                  )}
+                >
+                  Cód: {imovel.Codigo}
+                </div>
+              )}
+            </h3>
+            <span class="text-[13px] font-normal flex items-center gap-2">
+              <Icon class="text-[#ff4646]" id="LocationDot" size={22} />{" "}
+              {imovel.Bairro} - {imovel.Cidade}/{imovel.UF}
             </span>
-          </span>
-          <div class="flex justify-around w-full h-12 mt-auto border border-black">
-            {getCaracteristicas(imovel).map(({ label, value, icon }) => (
-              <div class="flex flex-col items-center justify-center">
-                {icon.charAt(0) !== "e" ? (
-                  <Icon id={label as AvailableIcons} size={16} />
-                ) : (
-                  <i
-                    class={`font-icomoon icomoon-${label} not-italic font-black`}
-                  ></i>
-                )}
-                <span class="text-[11.375px] font-medium">{value}</span>
-              </div>
-            ))}
+            <span class="text-[19.5px] font-medium flex items-center gap-2 h-[39px] flex-wrap">
+              <Icon class="text-[#87CE74]" id="DollarSign" size={22} />
+              {getPrice(imovel)}
+              {variant === "default" && (
+                <span class="font-normal text-info-content text-[16.9px]">
+                  {" - "} {imovel.Status}
+                </span>
+              )}
+            </span>
+            <div class="flex justify-around w-full h-12 mt-auto border border-black">
+              {getCaracteristicas(imovel).map(({ label, value, icon }) => (
+                <div class="flex flex-col items-center justify-center">
+                  {icon.charAt(0) !== "e" ? (
+                    <Icon id={label as AvailableIcons} size={16} />
+                  ) : (
+                    <i
+                      class={`font-icomoon icomoon-${label} not-italic font-black`}
+                    ></i>
+                  )}
+                  <span class="text-[11.375px] font-medium">
+                    {label === "AreaTotal" || label === "AreaPrivativa"
+                      ? `${Number(value).toFixed(2).replaceAll(".", ",")} m²`
+                      : value}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </a>

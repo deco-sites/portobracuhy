@@ -45,6 +45,9 @@ export type AvailableIcons =
   | "Envelope"
   | "Suites"
   | "Sort"
+  | "Grid"
+  | "List"
+  | "Share"
   | "Close";
 
 interface Props extends JSX.SVGAttributes<SVGSVGElement> {

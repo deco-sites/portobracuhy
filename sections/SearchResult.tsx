@@ -7,6 +7,7 @@ import { clx } from "site/sdk/clx.ts";
 import Icon from "site/components/ui/Icon.tsx";
 import Filters from "site/islands/Filters.tsx";
 import OrderBy from "site/islands/OrderBy.tsx";
+import ShareButton from "site/islands/ShareButton.tsx";
 
 export interface Props {
   itemsPerPage?: number;
@@ -22,6 +23,7 @@ export default function SearchResult({
   filterFields,
   initialFilters,
   initialOrderBy,
+  viewMode,
 }: SectionProps<typeof loader>) {
   const notFound = imoveis.length === 0;
 
@@ -52,15 +54,48 @@ export default function SearchResult({
               {notFound ? "Nenhum imóvel encontrado" : `${total} imóveis`}
             </h1>
 
-            <div class="flex">
+            <div class="flex gap-[15px]">
               <OrderBy initialOrderBy={initialOrderBy} />
+
+              <div
+                class={`hidden lg:flex self-end ${
+                  viewMode !== "lista" ? "bg-[#F6F3FB]" : "bg-transparent"
+                } rounded-[10px]`}
+              >
+                <a
+                  class="p-[7px] text-secondary hover:text-black"
+                  href="?listagem=grid"
+                >
+                  <Icon id="Grid" size={19} />
+                </a>
+              </div>
+              <div
+                class={`hidden lg:flex self-end ${
+                  viewMode === "lista" ? "bg-[#F6F3FB]" : "bg-transparent"
+                } rounded-[10px]`}
+              >
+                <a
+                  class="p-[7px] text-secondary hover:text-black"
+                  href="?listagem=lista"
+                >
+                  <Icon id="List" size={19} />
+                </a>
+              </div>
+              <ShareButton />
             </div>
           </div>
 
           <div class="flex flex-col gap-[55px] lg:flex-row lg:flex-wrap lg:gap-0 lg:-mx-[15px]">
             {imoveis.map((imovel) => (
-              <div class="box-border w-full lg:w-1/3 lg:px-[15px] lg:mb-[60px]">
-                <ShelfItem imovel={imovel} />
+              <div
+                class={`box-border w-full ${
+                  viewMode === "lista" ? "lg:w-full" : "lg:w-1/3"
+                } lg:px-[15px] lg:mb-[60px]`}
+              >
+                <ShelfItem
+                  imovel={imovel}
+                  variant={viewMode === "lista" ? "listItem" : "default"}
+                />
               </div>
             ))}
           </div>
@@ -222,6 +257,7 @@ const getUrlFilters = (url: string) => {
         ![
           "page",
           "ordenar",
+          "listagem",
           "minimo",
           "maximo",
           "areaTotalMinima",
@@ -380,6 +416,8 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     "Suites",
   ]);
 
+  const viewMode = new URL(req.url).searchParams.get("listagem") ?? "grid";
+
   const filters = getUrlFilters(req.url);
   const orderBy = getOrderBy(req.url);
   const initialOrderBy =
@@ -427,6 +465,7 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
       filterFields,
       initialFilters: filters,
       initialOrderBy,
+      viewMode,
     };
   }
 
@@ -491,5 +530,6 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     filterFields,
     initialFilters: filters,
     initialOrderBy,
+    viewMode,
   };
 }
