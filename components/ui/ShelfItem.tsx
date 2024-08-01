@@ -2,6 +2,7 @@ import Image from "apps/website/components/Image.tsx";
 import { clx } from "site/sdk/clx.ts";
 import Icon, { AvailableIcons } from "site/components/ui/Icon.tsx";
 import { Imovel } from "site/sdk/types.ts";
+import { getPrice } from "site/sdk/getPrice.ts";
 
 interface Props {
   imovel: Imovel;
@@ -20,25 +21,6 @@ function slugify(str: string) {
 }
 
 export default function ShelfItem({ imovel, variant = "default" }: Props) {
-  const stringToCurrency = (value: string) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(parseFloat(value));
-  };
-
-  const getPrice = (imovel: Imovel) => {
-    if (imovel.ValorVenda.length > 0 && imovel.ValorVenda !== "0") {
-      return stringToCurrency(imovel.ValorVenda);
-    } else if (imovel.ValorLocacao.length > 0 && imovel.ValorLocacao !== "0") {
-      return stringToCurrency(imovel.ValorLocacao);
-    } else if (imovel.ValorDiaria.length > 0 && imovel.ValorDiaria !== "0") {
-      return stringToCurrency(imovel.ValorDiaria);
-    }
-
-    return "Consulte-nos";
-  };
-
   const getCaracteristicas = (imovel: Imovel) => {
     const caracteristicasFields = [
       "AreaTotal",
@@ -64,7 +46,7 @@ export default function ShelfItem({ imovel, variant = "default" }: Props) {
     for (const field of caracteristicasFields) {
       if (Object.hasOwn(imovel, field)) {
         const value =
-          imovel[field as keyof Omit<Imovel, "Foto" | "DescricaoWeb">] || "";
+          imovel[field as keyof Omit<Imovel, "Foto">] || "";
 
         const icon =
           caracteristicasIcons[field as keyof typeof caracteristicasIcons];

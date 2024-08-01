@@ -10,6 +10,11 @@
     },
     {
       "__resolveType": "Footer"
+    },
+    {
+      "__resolveType": "website/sections/Seo/Seo.tsx",
+      "titleTemplate": "%s - Porto Bracuhy",
+      "type": "website"
     }
   ],
   "seo": {

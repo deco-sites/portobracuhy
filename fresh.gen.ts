@@ -7,6 +7,7 @@ import * as $BuscaImovel from "./islands/BuscaImovel.tsx";
 import * as $CuradoriaItem from "./islands/CuradoriaItem.tsx";
 import * as $Filters from "./islands/Filters.tsx";
 import * as $OrderBy from "./islands/OrderBy.tsx";
+import * as $PropertyProposal from "./islands/PropertyProposal.tsx";
 import * as $SearchSelect from "./islands/SearchSelect.tsx";
 import * as $ShareButton from "./islands/ShareButton.tsx";
 import * as $SimpleSelect from "./islands/SimpleSelect.tsx";
@@ -21,6 +22,7 @@ const manifest = {
     "./islands/CuradoriaItem.tsx": $CuradoriaItem,
     "./islands/Filters.tsx": $Filters,
     "./islands/OrderBy.tsx": $OrderBy,
+    "./islands/PropertyProposal.tsx": $PropertyProposal,
     "./islands/SearchSelect.tsx": $SearchSelect,
     "./islands/ShareButton.tsx": $ShareButton,
     "./islands/SimpleSelect.tsx": $SimpleSelect,

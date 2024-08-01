@@ -28,4 +28,8 @@ export interface Imovel {
     };
   };
   DescricaoWeb?: string;
+  VlrDiariaBaixa?: string;
+  ExibirValorDiariaBaixa?: string;
+  ValorCondominio?: string;
+  ValorIptu?: string;
 }

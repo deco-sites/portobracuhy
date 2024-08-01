@@ -3,7 +3,10 @@ import { SectionProps } from "deco/types.ts";
 import { Imovel } from "site/sdk/types.ts";
 import { useId } from "site/sdk/useId.ts";
 import Slider from "site/components/ui/Slider.tsx";
-import Icon from "site/components/ui/Icon.tsx";
+import Icon, { AvailableIcons } from "site/components/ui/Icon.tsx";
+import { getPrice } from "site/sdk/getPrice.ts";
+import { stringToCurrency } from "site/sdk/stringToCurrency.ts";
+import PropertyProposal from "site/islands/PropertyProposal.tsx";
 
 export interface Props {
   /** Use para forçar um id de imóvel, deixe em branco para consultar da URL */
@@ -16,8 +19,78 @@ export default function PropertyDetails({
   const id = useId();
   const photos = imovel.Foto ? Object.values(imovel.Foto) : [];
 
+  const showValorDiariaAlta =
+    imovel.ExibirValorDiariaBaixa &&
+    imovel.VlrDiariaBaixa &&
+    imovel.ValorDiaria &&
+    Number(imovel.ValorDiaria) > Number(imovel.VlrDiariaBaixa);
+
+  const getCaracteristicas = (imovel: Imovel) => {
+    const caracteristicasFields = [
+      "AreaTotal",
+      "AreaPrivativa",
+      "Dormitorios",
+      "BanheiroSocialQtd",
+      "Vagas",
+      "Suites",
+    ];
+
+    // icomoon / fontawesome
+    const caracteristicasIcons = {
+      AreaTotal: "e902",
+      AreaPrivativa: "e901",
+      Dormitorios: "e908",
+      BanheiroSocialQtd: "e903",
+      Vagas: "e911",
+      Suites: "Suites",
+    };
+
+    const caracteristicas = [];
+
+    for (const field of caracteristicasFields) {
+      if (Object.hasOwn(imovel, field)) {
+        const value = imovel[field as keyof Omit<Imovel, "Foto">] || "";
+
+        const icon =
+          caracteristicasIcons[field as keyof typeof caracteristicasIcons];
+
+        if (value.length > 0 && value !== "0") {
+          caracteristicas.push({ label: field, value: value, icon });
+        }
+      }
+    }
+
+    return caracteristicas;
+  };
+
   return (
     <>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+          .icomoon-AreaTotal::before {
+            content: "\\e902";
+          }
+
+          .icomoon-AreaPrivativa::before {
+            content: "\\e901";
+          }
+
+          .icomoon-Dormitorios::before {
+            content: "\\e908";
+          }
+
+          .icomoon-BanheiroSocialQtd::before {
+            content: "\\e903";
+          }
+
+          .icomoon-Vagas::before {
+            content: "\\e911";
+          }
+        `,
+        }}
+      />
+
       <div id={id} class="relative">
         <Slider class="carousel carousel-center w-full h-[435px]">
           {photos.map(({ Foto }, index) => (
@@ -31,7 +104,7 @@ export default function PropertyDetails({
           ))}
         </Slider>
 
-        <div class="absolute top-1/2 -translate-y-1/2 left-0 w-full flex justify-between px-[10px]">
+        <div class="absolute top-1/2 -translate-y-1/2 left-0 w-full flex justify-between px-[10px] lg:px-[5%]">
           <Slider.PrevButton
             class="bg-secondary w-[32px] h-[38px] flex justify-center items-center text-white group"
             disabled={false}
@@ -57,14 +130,14 @@ export default function PropertyDetails({
       </div>
       <Slider.JS rootId={id} />
 
-      <div class="mx-auto w-full lg:w-[90%] px-[15px] mt-[30px]">
+      <div class="flex flex-col mx-auto w-full lg:w-[90%] px-[15px] mt-[30px]">
         <div class="flex flex-col pb-[15px] border-b border-black">
           <small class="w-max py-[1px] px-[5px] text-[16.77px] font-light leading-[20px] text-base-200 border border-base-200">
             Cód: {imovel.Codigo}
           </small>
 
           <div class="flex flex-col lg:flex-row">
-            <h1 class="text-secondary text-[26px] font-black lg:text-[41.6px]">
+            <h1 class="text-secondary text-[26px] font-black lg:text-[41.6px] w-full">
               {imovel.Categoria}
             </h1>
 
@@ -74,7 +147,7 @@ export default function PropertyDetails({
                   style={{
                     textShadow: "0 0 4px #2B4C5A",
                   }}
-                  class="font-icomoon text-white text-[32px] lg:text-[39px]"
+                  class="font-icomoon text-white hover:text-[#ee8f7a] text-[32px] lg:text-[39px]"
                 >
                   
                 </span>
@@ -87,40 +160,120 @@ export default function PropertyDetails({
           </div>
         </div>
 
-        <div class="flex flex-col pt-[30px] w-full">
-          <div class="flex mb-5 w-full">
-            <ol class="flex whitespace-pre font-medium text-base-200 text-[13px]">
-              <li>
-                <a href="/">Home</a>
-              </li>
-              <li>
-                <span class="px-[5px]">{"> "}</span>
-                <a href={`/busca?tipo=${imovel.Categoria}`}>Busca imóveis</a>
-                <span class="px-[5px]">{"> "}</span>
-              </li>
-            </ol>
+        <div class="flex flex-col lg:flex-row gap-[30px]">
+          <div class="lg:w-3/4">
+            <div class="flex flex-col pt-[30px] w-full">
+              <div class="flex mb-5 w-full">
+                <ol class="flex whitespace-pre font-medium text-base-200 text-[13px]">
+                  <li>
+                    <a href="/">Home</a>
+                  </li>
+                  <li>
+                    <span class="px-[5px]">{"> "}</span>
+                    <a href={`/busca?tipo=${imovel.Categoria}`}>
+                      Busca imóveis
+                    </a>
+                    <span class="px-[5px]">{"> "}</span>
+                  </li>
+                </ol>
+              </div>
+              {imovel.DescricaoWeb && (
+                <div
+                  class="text-[18.2px] font-light leading-[23.66px] mb-[30px]"
+                  dangerouslySetInnerHTML={{
+                    __html: imovel.DescricaoWeb.replaceAll("\r\n", "<br />"),
+                  }}
+                />
+              )}
+              <span class="text-[13px] font-medium flex items-center gap-2 lg:text-[22.1px] mb-5">
+                <Icon
+                  class="text-[#ff4646] block lg:hidden"
+                  id="LocationDot"
+                  size={22}
+                />
+                <Icon
+                  class="text-[#ff4646] hidden lg:block"
+                  id="LocationDot"
+                  size={31}
+                />{" "}
+                {imovel.Bairro} - {imovel.Cidade}/{imovel.UF}
+              </span>
+              <span class="text-[19.5px] lg:text-[28.6px] font-medium flex items-center gap-2 flex-wrap">
+                <Icon
+                  class="text-[#87CE74] block lg:hidden"
+                  id="DollarSign"
+                  size={22}
+                />
+                <Icon
+                  class="text-[#87CE74] hidden lg:block"
+                  id="DollarSign"
+                  size={39}
+                />
+                {getPrice(imovel)}
+                <span class="font-normal text-info-content text-[19.5px] lg:text-[28.6px]">
+                  {" - "} {imovel.Status}
+                </span>
+              </span>
+              <div class="flex mt-[10px] mb-5">
+                {imovel.ValorCondominio &&
+                  Number(imovel.ValorCondominio) > 0 && (
+                    <span class="text-[19.5px] lg:text-[22.1px] font-bold flex items-center gap-2 text-info-content">
+                      Condomínio: {stringToCurrency(imovel.ValorCondominio)}
+                    </span>
+                  )}
+                {imovel.ValorIptu && Number(imovel.ValorIptu) > 0 && (
+                  <span
+                    class={`text-[19.5px] lg:text-[22.1px] font-bold flex items-center gap- text-info-content ${
+                      imovel.ValorCondominio
+                        ? "border-l-2 border-accent pl-[10px] ml-[10px]"
+                        : ""
+                    }`}
+                  >
+                    IPTU: {stringToCurrency(imovel.ValorIptu)}
+                  </span>
+                )}
+              </div>
+              <div class="flex flex-col mb-[35px]">
+                {imovel.ExibirValorDiariaBaixa && imovel.VlrDiariaBaixa && (
+                  <>
+                    {showValorDiariaAlta && (
+                      <div class="text-[18px] p-2 border-t border-[#ddd] font-bold flex items-center gap-2 text-base-200">
+                        <span class="w-2/3">Vlr Diaria Alta</span>
+                        <span>{stringToCurrency(imovel.ValorDiaria)}</span>
+                      </div>
+                    )}
+                    <div class="text-[18px] p-2 border-t border-[#ddd] font-bold flex items-center gap-2 text-base-200">
+                      <span class="w-2/3">Vlr Diaria Baixa</span>
+                      <span>{stringToCurrency(imovel.VlrDiariaBaixa)}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div class="flex justify-around w-full h-12 mt-auto border border-black mb-[55px]">
+                {getCaracteristicas(imovel).map(({ label, value, icon }) => (
+                  <div class="flex flex-col items-center justify-center">
+                    {icon.charAt(0) !== "e" ? (
+                      <Icon id={label as AvailableIcons} size={16} />
+                    ) : (
+                      <i
+                        class={`font-icomoon icomoon-${label} not-italic font-black`}
+                      ></i>
+                    )}
+                    <span class="text-[11.375px] font-medium">
+                      {label === "AreaTotal" || label === "AreaPrivativa"
+                        ? `${Number(value).toFixed(2).replaceAll(".", ",")} m²`
+                        : value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          {imovel.DescricaoWeb && (
-            <div
-              class="text-[18.2px] font-light leading-[23.66px] mb-[30px]"
-              dangerouslySetInnerHTML={{
-                __html: imovel.DescricaoWeb.replaceAll("\r\n", "<br />"),
-              }}
-            />
-          )}
-          <span class="text-[13px] font-medium flex items-center gap-2 lg:text-[22.1px]">
-            <Icon
-              class="text-[#ff4646] block lg:hidden"
-              id="LocationDot"
-              size={22}
-            />
-            <Icon
-              class="text-[#ff4646] hidden lg:block"
-              id="LocationDot"
-              size={31}
-            />{" "}
-            {imovel.Bairro} - {imovel.Cidade}/{imovel.UF}
-          </span>
+
+          <div class="lg:w-1/4">
+            <PropertyProposal />
+          </div>
         </div>
       </div>
     </>
@@ -158,6 +311,10 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     "Suites",
     { Foto: ["Foto", "FotoPequena", "Destaque"] },
     "DescricaoWeb",
+    "ExibirValorDiariaBaixa",
+    "VlrDiariaBaixa",
+    "ValorCondominio",
+    "ValorIptu",
   ]);
 
   const apiRoute = `/imoveis/detalhes?imovel=${imovelId}&pesquisa={"fields":${fields}}`;
@@ -180,6 +337,10 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
   }
 
   const imovel = content as Imovel;
+
+  if (ctx.seo) {
+    ctx.seo.title = `${imovel.Categoria}`;
+  }
 
   return {
     ...props,

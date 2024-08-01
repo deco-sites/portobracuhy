@@ -9,4 +9,8 @@ export default defineConfig({
     // deno-lint-ignore no-explicit-any
     tailwind: tailwind as any,
   }),
+  render: (ctx, render) => {
+    ctx.lang = "pt-BR";
+    render();
+  },
 });
