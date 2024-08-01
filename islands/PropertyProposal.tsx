@@ -1,4 +1,24 @@
+import { JSX } from "preact/jsx-runtime";
+
 export default function PropertyProposal() {
+  const handlePhoneInput = (e: JSX.TargetedInputEvent<HTMLInputElement>) => {
+    let value = e.currentTarget.value.replace(/\D/g, ""); // Remove all non-numeric characters
+
+    if (value.length > 11) {
+      value = value.substring(0, 11); // Limit to 11 digits
+    }
+
+    if (value.length > 6) {
+      value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, "($1) $2-$3");
+    } else if (value.length > 2) {
+      value = value.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+    } else if (value.length > 0) {
+      value = value.replace(/^(\d{0,2})/, "($1");
+    }
+
+    e.currentTarget.value = value;
+  };
+
   return (
     <aside class="mt-[30px] mb-5 bg-info w-full shadow-[0px_4px_7px_#00000024] p-[25px]">
       <h3 class="text-secondary text-[16.9px] font-normal mb-[25px]">
@@ -19,11 +39,12 @@ export default function PropertyProposal() {
           type="text"
           placeholder="Telefone"
           name="fone"
+          onInput={handlePhoneInput}
         />
         <input
           required
           class="h-10 text-[14px] py-[6px] px-3 border border-[#ccc] outline-none focus:border-black"
-          type="text"
+          type="email"
           placeholder="E-mail"
           name="email"
         />
