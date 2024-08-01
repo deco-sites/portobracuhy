@@ -7,6 +7,7 @@ import Icon, { AvailableIcons } from "site/components/ui/Icon.tsx";
 import { getPrice } from "site/sdk/getPrice.ts";
 import { stringToCurrency } from "site/sdk/stringToCurrency.ts";
 import PropertyProposal from "site/islands/PropertyProposal.tsx";
+import { getCaracteristicas } from "site/sdk/getCaracteristicas.ts";
 
 export interface Props {
   /** Use para forçar um id de imóvel, deixe em branco para consultar da URL */
@@ -25,42 +26,32 @@ export default function PropertyDetails({
     imovel.ValorDiaria &&
     Number(imovel.ValorDiaria) > Number(imovel.VlrDiariaBaixa);
 
-  const getCaracteristicas = (imovel: Imovel) => {
-    const caracteristicasFields = [
-      "AreaTotal",
-      "AreaPrivativa",
-      "Dormitorios",
-      "BanheiroSocialQtd",
-      "Vagas",
-      "Suites",
-    ];
-
-    // icomoon / fontawesome
-    const caracteristicasIcons = {
-      AreaTotal: "e902",
-      AreaPrivativa: "e901",
-      Dormitorios: "e908",
-      BanheiroSocialQtd: "e903",
-      Vagas: "e911",
-      Suites: "Suites",
-    };
+  const getAdditionalCaracteristics = (imovel: Imovel) => {
+    if (!imovel.Caracteristicas) return [];
 
     const caracteristicas = [];
 
-    for (const field of caracteristicasFields) {
-      if (Object.hasOwn(imovel, field)) {
-        const value = imovel[field as keyof Omit<Imovel, "Foto">] || "";
-
-        const icon =
-          caracteristicasIcons[field as keyof typeof caracteristicasIcons];
-
-        if (value.length > 0 && value !== "0") {
-          caracteristicas.push({ label: field, value: value, icon });
-        }
+    for (const [key, value] of Object.entries(imovel.Caracteristicas)) {
+      if (value === "Sim") {
+        caracteristicas.push(key);
       }
     }
 
     return caracteristicas;
+  };
+
+  const getAdditionalInfras = (imovel: Imovel) => {
+    if (!imovel.InfraEstrutura) return [];
+
+    const infras = [];
+
+    for (const [key, value] of Object.entries(imovel.InfraEstrutura)) {
+      if (value === "Sim") {
+        infras.push(key);
+      }
+    }
+
+    return infras;
   };
 
   return (
@@ -268,6 +259,38 @@ export default function PropertyDetails({
                   </div>
                 ))}
               </div>
+
+              <div className="collapse collapse-plus bg-transparent mb-[70px]">
+                <input type="checkbox" checked />
+                <div className="collapse-title min-h-0 flex items-center justify-between p-0 pb-[10px] mb-[30px] text-info-content text-[24.7px] font-light border-b border-[#ccc] after:!leading-none after:!text-[42px] after:!font-normal after:!static after:!h-auto after:!w-auto">
+                  Outras características
+                </div>
+                <div className="collapse-content p-0">
+                  <div class="flex gap-[15px] flex-wrap pb-5 shadow-[0px_12px_8px_-16px_#111]">
+                    {getAdditionalCaracteristics(imovel).map((carac) => (
+                      <div class="flex justify-center items-center bg-[#ddd] rounded-[25px] py-[5px] px-5 text-[#383939] font-normal text-[13px] lg:text-[15.6px] font-slab">
+                        {carac}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="collapse collapse-plus bg-transparent mb-[70px]">
+                <input type="checkbox" checked />
+                <div className="collapse-title min-h-0 flex items-center justify-between p-0 pb-[10px] mb-[30px] text-info-content text-[24.7px] font-light border-b border-[#ccc] after:!leading-none after:!text-[42px] after:!font-normal after:!static after:!h-auto after:!w-auto">
+                  Infraestrutura
+                </div>
+                <div className="collapse-content p-0">
+                  <div class="flex gap-[15px] flex-wrap pb-5 shadow-[0px_12px_8px_-16px_#111]">
+                    {getAdditionalInfras(imovel).map((infra) => (
+                      <div class="flex justify-center items-center bg-[#ddd] rounded-[25px] py-[5px] px-5 text-[#383939] font-normal text-[13px] lg:text-[15.6px] font-slab">
+                        {infra}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -315,6 +338,8 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     "VlrDiariaBaixa",
     "ValorCondominio",
     "ValorIptu",
+    "Caracteristicas",
+    "InfraEstrutura",
   ]);
 
   const apiRoute = `/imoveis/detalhes?imovel=${imovelId}&pesquisa={"fields":${fields}}`;

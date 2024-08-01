@@ -32,4 +32,10 @@ export interface Imovel {
   ExibirValorDiariaBaixa?: string;
   ValorCondominio?: string;
   ValorIptu?: string;
+  Caracteristicas?: {
+    [key: string]: string;
+  };
+  InfraEstrutura?: {
+    [key: string]: string;
+  };
 }
