@@ -9,12 +9,21 @@
       "__resolveType": "site/sections/PropertyDetails.tsx"
     },
     {
+      "__resolveType": "site/sections/Shelf.tsx",
+      "title": "Podem lhe interessar",
+      "filters": {
+        "ExibirNoSite": "Sim",
+        "DestaqueWeb": "Sim"
+      }
+    },
+    {
       "__resolveType": "Footer"
     },
     {
       "__resolveType": "website/sections/Seo/Seo.tsx",
       "titleTemplate": "%s - Porto Bracuhy",
-      "type": "website"
+      "type": "website",
+      "canonical": "/imovel/"
     }
   ],
   "seo": {
