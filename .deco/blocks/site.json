@@ -20,6 +20,11 @@
     },
     {
       "__resolveType": "site/sections/FloatingActionButtons/BackToTop.tsx"
+    },
+    {
+      "__resolveType": "site/sections/FloatingActionButtons/SendEmail.tsx",
+      "label": "Envie um e-mail",
+      "href": "mailto:contato@portobracuhy.com.br"
     }
   ],
   "routes": [
