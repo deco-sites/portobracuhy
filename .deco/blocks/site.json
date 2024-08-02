@@ -13,6 +13,13 @@
   "global": [
     {
       "__resolveType": "htmx/sections/htmx.tsx"
+    },
+    {
+      "__resolveType": "site/sections/FloatingActionButtons/Whatsapp.tsx",
+      "url": "https://api.whatsapp.com/send?phone=5521998786389&text=Olá, estou visitando o site, gostaria de saber mais informações"
+    },
+    {
+      "__resolveType": "site/sections/FloatingActionButtons/BackToTop.tsx"
     }
   ],
   "routes": [

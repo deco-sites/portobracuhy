@@ -1,3 +1,1 @@
-export default function BackToTop() {
-  return <></>;
-}
+export { default } from "../../islands/BackToTop.tsx";

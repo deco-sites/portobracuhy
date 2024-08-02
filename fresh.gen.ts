@@ -3,6 +3,7 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import * as $_app from "./routes/_app.tsx";
+import * as $BackToTop from "./islands/BackToTop.tsx";
 import * as $BuscaImovel from "./islands/BuscaImovel.tsx";
 import * as $CuradoriaItem from "./islands/CuradoriaItem.tsx";
 import * as $Filters from "./islands/Filters.tsx";
@@ -18,6 +19,7 @@ const manifest = {
     "./routes/_app.tsx": $_app,
   },
   islands: {
+    "./islands/BackToTop.tsx": $BackToTop,
     "./islands/BuscaImovel.tsx": $BuscaImovel,
     "./islands/CuradoriaItem.tsx": $CuradoriaItem,
     "./islands/Filters.tsx": $Filters,
