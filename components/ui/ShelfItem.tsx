@@ -8,6 +8,7 @@ import { getCaracteristicas } from "site/sdk/getCaracteristicas.ts";
 interface Props {
   imovel: Imovel;
   variant?: "default" | "listItem";
+  showAllImagesSlider?: boolean;
 }
 
 function slugify(str: string) {
@@ -21,7 +22,11 @@ function slugify(str: string) {
     .replace(/-+/g, "-"); // remove consecutive hyphens
 }
 
-export default function ShelfItem({ imovel, variant = "default" }: Props) {
+export default function ShelfItem({
+  imovel,
+  variant = "default",
+  showAllImagesSlider = false,
+}: Props) {
   const getImovelSlug = () => {
     const { Dormitorios, Codigo, Categoria, Bairro, Cidade, Status } = imovel;
     const quartos = Number(Dormitorios);
@@ -78,12 +83,16 @@ export default function ShelfItem({ imovel, variant = "default" }: Props) {
               : "h-[350px]"
           }`}
         >
-          <Image
-            class="w-full h-full object-cover"
-            src={imovel.FotoDestaque}
-            width={551}
-            height={360}
-          />
+          {showAllImagesSlider ? (
+            <></>
+          ) : (
+            <Image
+              class="w-full h-full object-cover"
+              src={imovel.FotoDestaque}
+              width={551}
+              height={360}
+            />
+          )}
           {variant === "default" && (
             <div
               class={clx(

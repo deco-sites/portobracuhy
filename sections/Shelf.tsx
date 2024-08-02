@@ -8,6 +8,11 @@ import Icon from "site/components/ui/Icon.tsx";
 import ShelfItem from "site/components/ui/ShelfItem.tsx";
 export interface Props {
   title?: string;
+  /**
+   * @description Exibe todas as imagens do imóvel em um slider. Falso exibe somente a imagem principal
+   * @default false
+   */
+  showAllImagesSlider?: boolean;
   filters?: {
     DestaqueWeb?: "Sim" | "Nao";
     ExibirNoSite?: "Sim" | "Nao";
@@ -38,7 +43,11 @@ export interface Props {
   count?: number;
 }
 
-export default function Shelf({ title, imoveis }: SectionProps<typeof loader>) {
+export default function Shelf({
+  title,
+  imoveis,
+  showAllImagesSlider = false,
+}: SectionProps<typeof loader>) {
   const id = useId();
 
   return (
@@ -57,7 +66,10 @@ export default function Shelf({ title, imoveis }: SectionProps<typeof loader>) {
                   "w-full box-border lg:w-1/3 lg:px-[15px]"
                 )}
               >
-                <ShelfItem imovel={imovel} />
+                <ShelfItem
+                  showAllImagesSlider={showAllImagesSlider}
+                  imovel={imovel}
+                />
               </Slider.Item>
             ))}
           </Slider>
@@ -128,6 +140,7 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     "BanheiroSocialQtd",
     "Vagas",
     "Suites",
+    // { Foto: ["Foto", "FotoPequena", "Destaque"] },
   ]);
 
   const filters = JSON.stringify(

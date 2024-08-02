@@ -1,4 +1,5 @@
 import { JSX } from "preact/jsx-runtime";
+import { invoke } from "site/runtime.ts";
 
 export default function PropertyProposal() {
   const handlePhoneInput = (e: JSX.TargetedInputEvent<HTMLInputElement>) => {
@@ -19,13 +20,37 @@ export default function PropertyProposal() {
     e.currentTarget.value = value;
   };
 
+  const handleSubmit = async (e: JSX.TargetedEvent<HTMLFormElement>) => {
+    // const { name, fone, email, msg, productID } = e.currentTarget;
+    e.preventDefault();
+    console.log("Chegou no submit!");
+
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("nome") as string;
+    const fone = formData.get("fone") as string;
+    const email = formData.get("email") as string;
+    const msg = formData.get("msg") as string;
+    const aceito = formData.get("aceito") as string;
+    console.log(aceito, "aceito!");
+
+    const data = await invoke["site"].actions.createClient({
+      name,
+      fone,
+      email,
+      msg,
+      aceito,
+    });
+
+    console.log(data, "data client");
+  };
+
   return (
     <aside class="mt-[30px] mb-5 bg-info w-full shadow-[0px_4px_7px_#00000024] p-[25px]">
       <h3 class="text-secondary text-[16.9px] font-normal mb-[25px]">
         Proposta
       </h3>
 
-      <form class="flex flex-col gap-5">
+      <form onSubmit={handleSubmit} class="flex flex-col gap-5">
         <input
           required
           class="h-10 text-[14px] py-[6px] px-3 border border-[#ccc] outline-none focus:border-black"
