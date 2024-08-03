@@ -19,8 +19,9 @@ import * as $$$$$$10 from "./sections/PageTitle.tsx";
 import * as $$$$$$11 from "./sections/PropertyDetails.tsx";
 import * as $$$$$$12 from "./sections/RichText.tsx";
 import * as $$$$$$13 from "./sections/SearchResult.tsx";
-import * as $$$$$$14 from "./sections/Shelf.tsx";
-import * as $$$$$$15 from "./sections/Theme/Theme.tsx";
+import * as $$$$$$14 from "./sections/Services.tsx";
+import * as $$$$$$15 from "./sections/Shelf.tsx";
+import * as $$$$$$16 from "./sections/Theme/Theme.tsx";
 
 const manifest = {
   "sections": {
@@ -38,8 +39,9 @@ const manifest = {
     "site/sections/PropertyDetails.tsx": $$$$$$11,
     "site/sections/RichText.tsx": $$$$$$12,
     "site/sections/SearchResult.tsx": $$$$$$13,
-    "site/sections/Shelf.tsx": $$$$$$14,
-    "site/sections/Theme/Theme.tsx": $$$$$$15,
+    "site/sections/Services.tsx": $$$$$$14,
+    "site/sections/Shelf.tsx": $$$$$$15,
+    "site/sections/Theme/Theme.tsx": $$$$$$16,
   },
   "actions": {
     "site/actions/createClient.ts": $$$$$$$$$0,
