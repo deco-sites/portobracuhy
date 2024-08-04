@@ -4,6 +4,7 @@ import Icon, { AvailableIcons } from "site/components/ui/Icon.tsx";
 import { Imovel } from "site/sdk/types.ts";
 import { getPrice } from "site/sdk/getPrice.ts";
 import { getCaracteristicas } from "site/sdk/getCaracteristicas.ts";
+import WishlistButton from "site/islands/WishlistButton.tsx";
 
 interface Props {
   imovel: Imovel;
@@ -105,6 +106,9 @@ export default function ShelfItem({
               Cód: {imovel.Codigo}
             </div>
           )}
+          <div class={clx("absolute top-[10px] right-[10px]")}>
+            <WishlistButton imovelId={imovel.Codigo} />
+          </div>
         </div>
         <div
           class={`flex flex-col w-full p-[15px] text-base-200 ${

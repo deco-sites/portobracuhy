@@ -12,6 +12,7 @@ import * as $PropertyProposal from "./islands/PropertyProposal.tsx";
 import * as $SearchSelect from "./islands/SearchSelect.tsx";
 import * as $ShareButton from "./islands/ShareButton.tsx";
 import * as $SimpleSelect from "./islands/SimpleSelect.tsx";
+import * as $WishlistButton from "./islands/WishlistButton.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -28,6 +29,7 @@ const manifest = {
     "./islands/SearchSelect.tsx": $SearchSelect,
     "./islands/ShareButton.tsx": $ShareButton,
     "./islands/SimpleSelect.tsx": $SimpleSelect,
+    "./islands/WishlistButton.tsx": $WishlistButton,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
