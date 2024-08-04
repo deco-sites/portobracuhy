@@ -66,5 +66,17 @@
     "path": "/imovel/:codigo*",
     "blockType": "pages",
     "__resolveType": "website/pages/Page.tsx"
+  },
+  "/.deco/blocks/pages-contato-503557.json": {
+    "name": "contato",
+    "path": "/contato",
+    "blockType": "pages",
+    "__resolveType": "website/pages/Page.tsx"
+  },
+  "/.deco/blocks/pages-Favoritos-329361.json": {
+    "name": "Favoritos",
+    "path": "/favoritos",
+    "blockType": "pages",
+    "__resolveType": "website/pages/Page.tsx"
   }
 }
