@@ -21,13 +21,14 @@
     },
     {
       "__resolveType": "website/sections/Seo/Seo.tsx",
-      "titleTemplate": "%s - Porto Bracuhy",
-      "type": "website",
-      "canonical": "/imovel/"
+      "titleTemplate": "%s - Porto Bracuhy"
     }
   ],
   "seo": {
-    "__resolveType": "website/sections/Seo/SeoV2.tsx"
+    "__resolveType": "website/sections/Seo/SeoV2.tsx",
+    "type": "website",
+    "description": "Veja detalhes desta Casa de Canal para venda em Angra dos Reis no condomínio Portobello. Receba um atendimento personalizado!",
+    "title": ""
   },
   "__resolveType": "website/pages/Page.tsx"
 }

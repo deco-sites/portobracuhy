@@ -60,5 +60,11 @@
       "__resolveType": "Footer"
     }
   ],
-  "__resolveType": "website/pages/Page.tsx"
+  "__resolveType": "website/pages/Page.tsx",
+  "seo": {
+    "__resolveType": "website/sections/Seo/SeoV2.tsx",
+    "type": "website",
+    "title": "Porto Bracuhy Imóveis | Venda e Locação",
+    "description": "Com mais de 30 anos de experiência, somos uma imobiliária especializada na venda e locação de imóveis de alto padrão em Angra dos Reis (RJ)."
+  }
 }

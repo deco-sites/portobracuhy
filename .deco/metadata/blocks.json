@@ -78,5 +78,11 @@
     "path": "/favoritos",
     "blockType": "pages",
     "__resolveType": "website/pages/Page.tsx"
+  },
+  "/.deco/blocks/pages-Blog-947680.json": {
+    "name": "Blog",
+    "path": "/blog",
+    "blockType": "pages",
+    "__resolveType": "website/pages/Page.tsx"
   }
 }

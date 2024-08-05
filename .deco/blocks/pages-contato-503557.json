@@ -14,7 +14,9 @@
     }
   ],
   "seo": {
-    "__resolveType": "website/sections/Seo/SeoV2.tsx"
+    "__resolveType": "website/sections/Seo/SeoV2.tsx",
+    "title": "Contato | Porto Bracuhy Imóveis",
+    "description": "Entre em contato com os corretores da Porto Bracuhy Imóveis e tire dúvidas sobre nossos imóveis em Angra dos Reis."
   },
   "__resolveType": "website/pages/Page.tsx"
 }

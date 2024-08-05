@@ -42,7 +42,9 @@
     }
   ],
   "seo": {
-    "__resolveType": "website/sections/Seo/SeoV2.tsx"
+    "__resolveType": "website/sections/Seo/SeoV2.tsx",
+    "title": "Sobre | Porto Bracuhy Imóveis",
+    "description": "Descubra a Porto Bracuhy, sua imobiliária em Angra dos Reis. Com mais de 30 anos de experiência na região mais paradisíaca do Rio de Janeiro."
   },
   "__resolveType": "website/pages/Page.tsx"
 }

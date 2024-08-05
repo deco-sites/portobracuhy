@@ -13,7 +13,9 @@
     }
   ],
   "seo": {
-    "__resolveType": "website/sections/Seo/SeoV2.tsx"
+    "__resolveType": "website/sections/Seo/SeoV2.tsx",
+    "title": "Porto Bracuhy - Encontre seu imóvel em Angra dos Reis",
+    "description": "A Porto Bracuhy conta com os mais prestigiados imóveis em Angra dos Reis. Seja para venda ou locação, temos o imóvel perfeito pra você. Confira!"
   },
   "__resolveType": "website/pages/Page.tsx"
 }
