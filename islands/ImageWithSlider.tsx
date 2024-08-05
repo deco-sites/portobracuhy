@@ -34,7 +34,7 @@ export default function ImageWithSlider({ imovel }: Props) {
   };
 
   return (
-    <div class="relative">
+    <div class="relative w-full h-full">
       <Image
         class="w-full h-full object-cover"
         src={Object.values(imovel.Foto!)[currentImage].Foto}
