@@ -6,10 +6,32 @@
       "__resolveType": "Header"
     },
     {
-      "__resolveType": "site/sections/Hero.tsx"
+      "__resolveType": "site/sections/Hero.tsx",
+      "images": [
+        {
+          "desktop": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/5cee69f4-9b5e-4ac1-88af-c2a64c1dc876",
+          "mobile": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/5cee69f4-9b5e-4ac1-88af-c2a64c1dc876",
+          "alt": "Imóvel Casa Praia",
+          "action": {
+            "href": "/imovel/1869/casa-praia-10-quartos-estrada-do-contorno-angra-dos-reis/venda-e-aluguel-temporada/",
+            "label": "Ver Detalhes"
+          }
+        },
+        {
+          "desktop": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/5cee69f4-9b5e-4ac1-88af-c2a64c1dc876",
+          "mobile": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/5cee69f4-9b5e-4ac1-88af-c2a64c1dc876",
+          "alt": "Imóvel Casa Praia",
+          "action": {
+            "href": "/imovel/1869/casa-praia-10-quartos-estrada-do-contorno-angra-dos-reis/venda-e-aluguel-temporada/",
+            "label": "Ver Detalhes"
+          }
+        }
+      ],
+      "preload": true
     },
     {
-      "__resolveType": "site/sections/BuscaImovel.tsx"
+      "__resolveType": "site/sections/BuscaImovel.tsx",
+      "title": "Encontre seu imóvel ideal"
     },
     {
       "__resolveType": "site/sections/Shelf.tsx",
@@ -50,11 +72,92 @@
       "order": {}
     },
     {
-      "__resolveType": "site/sections/Curadoria.tsx"
+      "__resolveType": "site/sections/Curadoria.tsx",
+      "title": "Curadoria",
+      "curadorias": [
+        {
+          "finalidades": [
+            {
+              "label": "Venda",
+              "href": "/busca/?tipo=Casa%20Praia&finalidade=Venda"
+            },
+            {
+              "label": "Aluguel",
+              "href": "/busca/?tipo=Casa%20Praia&finalidade=Aluguel"
+            },
+            {
+              "label": "Temporada",
+              "href": "/busca/?tipo=Casa%20Praia&finalidade=Temporada"
+            }
+          ],
+          "label": "Casa de Praia",
+          "image": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/b04de5dc-6e7f-44c1-8ed6-df31575d81ad"
+        },
+        {
+          "finalidades": [
+            {
+              "label": "Venda",
+              "href": "/busca/?tipo=Casa%20Canal&finalidade=Venda"
+            },
+            {
+              "label": "Aluguel",
+              "href": "/busca/?tipo=Casa%20Canal&finalidade=Aluguel"
+            },
+            {
+              "label": "Temporada",
+              "href": "/busca/?tipo=Casa%20Canal&finalidade=Temporada"
+            }
+          ],
+          "label": "Casa de Canal",
+          "image": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/524a7260-7bc9-42de-b23a-5dbbae5e8e52"
+        },
+        {
+          "finalidades": [
+            {
+              "label": "Venda",
+              "href": "/busca/?tipo=Casa%20Ilha&finalidade=Venda"
+            },
+            {
+              "label": "Aluguel",
+              "href": "/busca/?tipo=Casa%20Ilha&finalidade=Aluguel"
+            },
+            {
+              "label": "Temporada",
+              "href": "/busca/?tipo=Casa%20Ilha&finalidade=Temporada"
+            }
+          ],
+          "label": "Casa de Ilha",
+          "image": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/b2f3a459-b1f3-4a17-9a5a-77269052450f"
+        },
+        {
+          "finalidades": [
+            {
+              "label": "Venda",
+              "href": "/busca/?tipo=Terreno%20Canal&finalidade=Venda"
+            },
+            {
+              "label": "Aluguel",
+              "href": "/busca/?tipo=Terreno%20Canal&finalidade=Aluguel"
+            },
+            {
+              "label": "Temporada",
+              "href": "/busca/?tipo=Terreno%20Canal&finalidade=Temporada"
+            }
+          ],
+          "label": "Terreno de Canal",
+          "image": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/ab62a79d-4f41-4dd4-963e-be8963f06d21"
+        }
+      ]
     },
     {
       "__resolveType": "site/sections/BannerCTA.tsx",
-      "content": "<div><div><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/9e1bcc21-3d94-47a1-a749-f7ab66a39038\" data-mce-src=\"https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/9e1bcc21-3d94-47a1-a749-f7ab66a39038\" data-mce-style=\"display: block; margin-left: auto; margin-right: auto;\"></div><div><br data-mce-bogus=\"1\"></div><div style=\"text-align: center;\" data-mce-style=\"text-align: center;\"><span style=\"font-size: 14px;\" data-mce-style=\"font-size: 14px;\">Assista vídeos produzidos semanalmente com qualidade cinematográfica, feitos para que você conheça de forma imersiva todos os detalhes dos imóveis mais incríveis de Angra dos Reis</span></div></div>"
+      "content": "<div><div><img style=\"display: block; margin-left: auto; margin-right: auto;\" src=\"https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/9e1bcc21-3d94-47a1-a749-f7ab66a39038\" data-mce-src=\"https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/9e1bcc21-3d94-47a1-a749-f7ab66a39038\" data-mce-style=\"display: block; margin-left: auto; margin-right: auto;\"></div><div><br data-mce-bogus=\"1\"></div><div style=\"text-align: center;\" data-mce-style=\"text-align: center;\"><span style=\"font-size: 14px;\" data-mce-style=\"font-size: 14px;\">Assista vídeos produzidos semanalmente com qualidade cinematográfica, feitos para que você conheça de forma imersiva todos os detalhes dos imóveis mais incríveis de Angra dos Reis</span></div></div>",
+      "backgroundColor": "#1f2832",
+      "image": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/4ea1990e-e592-4636-8edf-ae6128d06c7d",
+      "cta": {
+        "label": "Quero assistir mais vídeos",
+        "href": "https://www.youtube.com/channel/UCeMygH8ppTNiKSt6KPol7RQ"
+      }
     },
     {
       "__resolveType": "Footer"

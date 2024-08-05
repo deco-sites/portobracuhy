@@ -10,6 +10,7 @@ import OrderBy from "site/islands/OrderBy.tsx";
 import ShareButton from "site/islands/ShareButton.tsx";
 
 export interface Props {
+  /** @description Quantidade de itens por pagina */
   itemsPerPage?: number;
 }
 

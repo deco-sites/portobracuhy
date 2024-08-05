@@ -56,7 +56,8 @@
           "label": "Qual a sua mensagem?",
           "placeholder": "Explique sua necessidade que retornaremos o contato o mais rápido possível"
         }
-      ]
+      ],
+      "submitText": "Enviar Mensagem"
     },
     {
       "__resolveType": "Footer"

@@ -9,8 +9,11 @@ export interface CTA {
 export interface Props {
   /** @format color-input */
   backgroundColor?: string;
+  /** @title Imagem */
   image?: ImageWidget;
+  /** @title Conteúdo */
   content?: HTMLWidget;
+  /** @title Botão CTA */
   cta?: CTA;
 }
 

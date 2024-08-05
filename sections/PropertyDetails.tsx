@@ -10,7 +10,7 @@ import PropertyProposal from "site/islands/PropertyProposal.tsx";
 import { getCaracteristicas } from "site/sdk/getCaracteristicas.ts";
 
 export interface Props {
-  /** Use para forçar um id de imóvel, deixe em branco para consultar da URL */
+  /** @description Use para forçar um id de imóvel, deixe em branco para consultar da URL */
   imovelId?: string;
 }
 

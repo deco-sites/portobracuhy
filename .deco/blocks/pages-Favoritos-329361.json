@@ -10,7 +10,8 @@
       "title": "Favoritos"
     },
     {
-      "__resolveType": "site/sections/Wishlist.tsx"
+      "__resolveType": "site/sections/Wishlist.tsx",
+      "showForm": true
     },
     {
       "__resolveType": "Footer"

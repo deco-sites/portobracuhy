@@ -6,7 +6,8 @@
       "__resolveType": "Header"
     },
     {
-      "__resolveType": "site/sections/SearchResult.tsx"
+      "__resolveType": "site/sections/SearchResult.tsx",
+      "itemsPerPage": 9
     },
     {
       "__resolveType": "Footer"
