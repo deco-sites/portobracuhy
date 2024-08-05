@@ -9,7 +9,7 @@ import ShelfItem from "site/components/ui/ShelfItem.tsx";
 export interface Props {
   title?: string;
   /**
-   * @description Exibe todas as imagens do imóvel em um slider. Falso exibe somente a imagem principal
+   * @description Exibe todas as imagens do imóvel em um slider. Falso exibe somente a imagem principal. (Não recomendado ativar - pode aumentar significantemente o tempo de carregamento)
    * @default false
    */
   showAllImagesSlider?: boolean;
@@ -111,6 +111,51 @@ export default function Shelf({
   );
 }
 
+async function getImoveisWithAllImages(
+  imoveis: Imovel[],
+  ctx: AppContext
+): Promise<Imovel[]> {
+  const fields = [{ Foto: ["Foto", "FotoPequena", "Destaque"] }];
+
+  const urlBase = `${
+    ctx.loft.baseUrl
+  }/imoveis/detalhes?key=${ctx.loft.apiKey.get()}&pesquisa={"fields":${JSON.stringify(
+    fields
+  )}}`;
+
+  try {
+    const imoveisComImagens = await Promise.all(
+      imoveis.map(async (imovel) => {
+        const response = await fetch(`${urlBase}&imovel=${imovel.Codigo}`, {
+          headers: {
+            Accept: "application/json",
+          },
+          signal: new AbortController().signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch details for imovel ${imovel.Codigo} - ${response.status} - ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+
+        if (data.Foto) {
+          imovel.Foto = data.Foto;
+        }
+
+        return imovel;
+      })
+    );
+
+    return imoveisComImagens;
+  } catch (error) {
+    console.error(error);
+    return imoveis;
+  }
+}
+
 export async function loader(props: Props, req: Request, ctx: AppContext) {
   interface ImoveisResponse {
     [key: string]: Imovel | number;
@@ -161,7 +206,7 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    signal: req.signal,
+    signal: new AbortController().signal,
   });
 
   const content = await getContent.json();
@@ -175,6 +220,15 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
   const imoveis: Imovel[] = Object.values(response).filter(
     (item): item is Imovel => typeof item === "object" && "Codigo" in item
   );
+
+  if (props.showAllImagesSlider) {
+    const imoveisWithFoto = await getImoveisWithAllImages(imoveis, ctx);
+
+    return {
+      ...props,
+      imoveis: imoveisWithFoto,
+    };
+  }
 
   return {
     ...props,

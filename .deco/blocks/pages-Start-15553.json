@@ -43,7 +43,8 @@
         "ExibirNoSite": "Sim",
         "Exclusivo": "Nao"
       },
-      "order": {}
+      "order": {},
+      "showAllImagesSlider": true
     },
     {
       "__resolveType": "site/sections/Shelf.tsx",
@@ -56,7 +57,8 @@
         "Exclusivo": "Nao",
         "Status": "Venda"
       },
-      "order": {}
+      "order": {},
+      "showAllImagesSlider": true
     },
     {
       "__resolveType": "site/sections/Shelf.tsx",
@@ -69,7 +71,8 @@
         "Exclusivo": "Nao",
         "Status": "Aluguel temporada"
       },
-      "order": {}
+      "order": {},
+      "showAllImagesSlider": true
     },
     {
       "__resolveType": "site/sections/Curadoria.tsx",

@@ -7,6 +7,7 @@ import * as $BackToTop from "./islands/BackToTop.tsx";
 import * as $BuscaImovel from "./islands/BuscaImovel.tsx";
 import * as $CuradoriaItem from "./islands/CuradoriaItem.tsx";
 import * as $Filters from "./islands/Filters.tsx";
+import * as $ImageWithSlider from "./islands/ImageWithSlider.tsx";
 import * as $OrderBy from "./islands/OrderBy.tsx";
 import * as $PropertyProposal from "./islands/PropertyProposal.tsx";
 import * as $SearchSelect from "./islands/SearchSelect.tsx";
@@ -25,6 +26,7 @@ const manifest = {
     "./islands/BuscaImovel.tsx": $BuscaImovel,
     "./islands/CuradoriaItem.tsx": $CuradoriaItem,
     "./islands/Filters.tsx": $Filters,
+    "./islands/ImageWithSlider.tsx": $ImageWithSlider,
     "./islands/OrderBy.tsx": $OrderBy,
     "./islands/PropertyProposal.tsx": $PropertyProposal,
     "./islands/SearchSelect.tsx": $SearchSelect,

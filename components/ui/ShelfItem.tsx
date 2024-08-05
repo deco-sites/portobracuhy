@@ -5,6 +5,7 @@ import { Imovel } from "site/sdk/types.ts";
 import { getPrice } from "site/sdk/getPrice.ts";
 import { getCaracteristicas } from "site/sdk/getCaracteristicas.ts";
 import WishlistButton from "site/islands/WishlistButton.tsx";
+import ImageWithSlider from "site/islands/ImageWithSlider.tsx";
 
 interface BaseProps {
   imovel: Imovel;
@@ -99,7 +100,7 @@ export default function ShelfItem({
           }`}
         >
           {showAllImagesSlider ? (
-            <></>
+            <ImageWithSlider imovel={imovel} />
           ) : (
             <Image
               class="w-full h-full object-cover"
