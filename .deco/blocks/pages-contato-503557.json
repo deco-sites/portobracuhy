@@ -10,6 +10,55 @@
       "title": "Contato"
     },
     {
+      "__resolveType": "site/sections/ContactInformation.tsx",
+      "title": "Dados de contato",
+      "whatsapp": "(21) 99878-6389",
+      "whatsappUrl": "https://api.whatsapp.com/send?phone=5521998786389&text=Olá, estou visitando o site, gostaria de saber mais informações",
+      "telephone": "(21) 99148-2404",
+      "email": "contato@portobracuhy.com.br",
+      "location": "Cais de Honra Lars Grael - Rodovia Rio Santos, Km 500,5, Antigo Km 115, Condomínio Porto Bracuhy, Angra dos Reis, RJ, CEP - 23943105"
+    },
+    {
+      "__resolveType": "site/sections/ContactForm.tsx",
+      "title": "Envie uma mensagem para nós",
+      "fields": [
+        {
+          "options": [
+            "Vendas",
+            "Aluguel",
+            "Temporada",
+            "Financeiro",
+            "Outros"
+          ],
+          "label": "Qual assunto deseja tratar?"
+        },
+        {
+          "type": "text",
+          "width": "full",
+          "label": "Nome completo",
+          "placeholder": "Nome completo"
+        },
+        {
+          "type": "text",
+          "width": "1/2",
+          "label": "Telefone",
+          "placeholder": "Telefone"
+        },
+        {
+          "type": "email",
+          "width": "1/2",
+          "label": "E-mail",
+          "placeholder": "E-mail"
+        },
+        {
+          "type": "textarea",
+          "width": "full",
+          "label": "Qual a sua mensagem?",
+          "placeholder": "Explique sua necessidade que retornaremos o contato o mais rápido possível"
+        }
+      ]
+    },
+    {
       "__resolveType": "Footer"
     }
   ],

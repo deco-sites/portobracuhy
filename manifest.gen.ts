@@ -8,43 +8,47 @@ import * as $$$$$$$$$$$0 from "./apps/deco/htmx.ts";
 import * as $$$$$$$$$$$1 from "./apps/site.ts";
 import * as $$$$$$0 from "./sections/BannerCTA.tsx";
 import * as $$$$$$1 from "./sections/BuscaImovel.tsx";
-import * as $$$$$$2 from "./sections/Curadoria.tsx";
-import * as $$$$$$3 from "./sections/FloatingActionButtons/BackToTop.tsx";
-import * as $$$$$$4 from "./sections/FloatingActionButtons/SendEmail.tsx";
-import * as $$$$$$5 from "./sections/FloatingActionButtons/Whatsapp.tsx";
-import * as $$$$$$6 from "./sections/Footer.tsx";
-import * as $$$$$$7 from "./sections/Header.tsx";
-import * as $$$$$$8 from "./sections/Hero.tsx";
-import * as $$$$$$9 from "./sections/ItWorks.tsx";
-import * as $$$$$$10 from "./sections/PageTitle.tsx";
-import * as $$$$$$11 from "./sections/PropertyDetails.tsx";
-import * as $$$$$$12 from "./sections/RichText.tsx";
-import * as $$$$$$13 from "./sections/SearchResult.tsx";
-import * as $$$$$$14 from "./sections/Services.tsx";
-import * as $$$$$$15 from "./sections/Shelf.tsx";
-import * as $$$$$$16 from "./sections/Theme/Theme.tsx";
-import * as $$$$$$17 from "./sections/Wishlist.tsx";
+import * as $$$$$$2 from "./sections/ContactForm.tsx";
+import * as $$$$$$3 from "./sections/ContactInformation.tsx";
+import * as $$$$$$4 from "./sections/Curadoria.tsx";
+import * as $$$$$$5 from "./sections/FloatingActionButtons/BackToTop.tsx";
+import * as $$$$$$6 from "./sections/FloatingActionButtons/SendEmail.tsx";
+import * as $$$$$$7 from "./sections/FloatingActionButtons/Whatsapp.tsx";
+import * as $$$$$$8 from "./sections/Footer.tsx";
+import * as $$$$$$9 from "./sections/Header.tsx";
+import * as $$$$$$10 from "./sections/Hero.tsx";
+import * as $$$$$$11 from "./sections/ItWorks.tsx";
+import * as $$$$$$12 from "./sections/PageTitle.tsx";
+import * as $$$$$$13 from "./sections/PropertyDetails.tsx";
+import * as $$$$$$14 from "./sections/RichText.tsx";
+import * as $$$$$$15 from "./sections/SearchResult.tsx";
+import * as $$$$$$16 from "./sections/Services.tsx";
+import * as $$$$$$17 from "./sections/Shelf.tsx";
+import * as $$$$$$18 from "./sections/Theme/Theme.tsx";
+import * as $$$$$$19 from "./sections/Wishlist.tsx";
 
 const manifest = {
   "sections": {
     "site/sections/BannerCTA.tsx": $$$$$$0,
     "site/sections/BuscaImovel.tsx": $$$$$$1,
-    "site/sections/Curadoria.tsx": $$$$$$2,
-    "site/sections/FloatingActionButtons/BackToTop.tsx": $$$$$$3,
-    "site/sections/FloatingActionButtons/SendEmail.tsx": $$$$$$4,
-    "site/sections/FloatingActionButtons/Whatsapp.tsx": $$$$$$5,
-    "site/sections/Footer.tsx": $$$$$$6,
-    "site/sections/Header.tsx": $$$$$$7,
-    "site/sections/Hero.tsx": $$$$$$8,
-    "site/sections/ItWorks.tsx": $$$$$$9,
-    "site/sections/PageTitle.tsx": $$$$$$10,
-    "site/sections/PropertyDetails.tsx": $$$$$$11,
-    "site/sections/RichText.tsx": $$$$$$12,
-    "site/sections/SearchResult.tsx": $$$$$$13,
-    "site/sections/Services.tsx": $$$$$$14,
-    "site/sections/Shelf.tsx": $$$$$$15,
-    "site/sections/Theme/Theme.tsx": $$$$$$16,
-    "site/sections/Wishlist.tsx": $$$$$$17,
+    "site/sections/ContactForm.tsx": $$$$$$2,
+    "site/sections/ContactInformation.tsx": $$$$$$3,
+    "site/sections/Curadoria.tsx": $$$$$$4,
+    "site/sections/FloatingActionButtons/BackToTop.tsx": $$$$$$5,
+    "site/sections/FloatingActionButtons/SendEmail.tsx": $$$$$$6,
+    "site/sections/FloatingActionButtons/Whatsapp.tsx": $$$$$$7,
+    "site/sections/Footer.tsx": $$$$$$8,
+    "site/sections/Header.tsx": $$$$$$9,
+    "site/sections/Hero.tsx": $$$$$$10,
+    "site/sections/ItWorks.tsx": $$$$$$11,
+    "site/sections/PageTitle.tsx": $$$$$$12,
+    "site/sections/PropertyDetails.tsx": $$$$$$13,
+    "site/sections/RichText.tsx": $$$$$$14,
+    "site/sections/SearchResult.tsx": $$$$$$15,
+    "site/sections/Services.tsx": $$$$$$16,
+    "site/sections/Shelf.tsx": $$$$$$17,
+    "site/sections/Theme/Theme.tsx": $$$$$$18,
+    "site/sections/Wishlist.tsx": $$$$$$19,
   },
   "actions": {
     "site/actions/createClient.ts": $$$$$$$$$0,
