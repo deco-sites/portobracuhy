@@ -3,15 +3,17 @@ import { JSX } from "preact/jsx-runtime";
 import Icon from "site/components/ui/Icon.tsx";
 
 interface Props {
-  imovelId?: string;
+  imovelId: string;
   isWishlist?: boolean;
   removeCallback?: () => void;
+  size?: number;
 }
 
 export default function WishlistButton({
   imovelId,
   isWishlist = false,
   removeCallback,
+  size = 30,
 }: Props) {
   const [isOnWishlist, setIsOnWishlist] = useState(false);
 
@@ -59,10 +61,11 @@ export default function WishlistButton({
       <span
         style={{
           textShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+          fontSize: `${size}px`,
         }}
         class={`font-icomoon ${
           isOnWishlist ? "text-[#ff4646]" : "text-white"
-        } hover:text-[#ff4646] text-[30px]`}
+        } hover:text-[#ff4646]`}
       >
         
       </span>

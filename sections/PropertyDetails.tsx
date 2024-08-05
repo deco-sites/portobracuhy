@@ -8,6 +8,7 @@ import { getPrice } from "site/sdk/getPrice.ts";
 import { stringToCurrency } from "site/sdk/stringToCurrency.ts";
 import PropertyProposal from "site/islands/PropertyProposal.tsx";
 import { getCaracteristicas } from "site/sdk/getCaracteristicas.ts";
+import WishlistButton from "site/islands/WishlistButton.tsx";
 
 export interface Props {
   /** @description Use para forçar um id de imóvel, deixe em branco para consultar da URL */
@@ -133,16 +134,12 @@ export default function PropertyDetails({
             </h1>
 
             <div class="flex justify-end w-full items-center gap-5 h-[58px]">
-              <button class="bg-transparent outline-none border-none">
-                <span
-                  style={{
-                    textShadow: "0 0 4px #2B4C5A",
-                  }}
-                  class="font-icomoon text-white hover:text-[#ee8f7a] text-[32px] lg:text-[39px]"
-                >
-                  
-                </span>
-              </button>
+              <div class="hidden lg:block">
+                <WishlistButton size={39} imovelId={imovel.Codigo} />
+              </div>
+              <div class="block lg:hidden">
+                <WishlistButton size={32} imovelId={imovel.Codigo} />
+              </div>
               <button class="bg-transparent outline-none border-none">
                 <Icon id="Share" size={32} class="text-black block lg:hidden" />
                 <Icon id="Share" size={39} class="text-black hidden lg:block" />
