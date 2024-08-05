@@ -1,1 +1,64 @@
-{"__resolveType":"site/sections/Footer.tsx"}
+{
+  "__resolveType": "site/sections/Footer.tsx",
+  "socials": [
+    {
+      "icon": "Youtube",
+      "label": "Youtube",
+      "href": "https://www.youtube.com/channel/UCeMygH8ppTNiKSt6KPol7RQ"
+    },
+    {
+      "icon": "Instagram",
+      "label": "Instagram",
+      "href": "https://www.instagram.com/portobracuhy/"
+    },
+    {
+      "icon": "Facebook",
+      "label": "Facebook",
+      "href": "https://www.facebook.com/portobracuhyimoveis"
+    }
+  ],
+  "menu": [
+    {
+      "label": "Início",
+      "href": "/"
+    },
+    {
+      "label": "Sobre",
+      "href": "/sobre"
+    },
+    {
+      "label": "Busca de imóveis",
+      "href": "/busca"
+    },
+    {
+      "label": "Contato",
+      "href": "/contato"
+    },
+    {
+      "label": "Favoritos",
+      "href": "/favoritos"
+    },
+    {
+      "label": "Blog",
+      "href": "/blog"
+    }
+  ],
+  "legalInformations": [
+    {
+      "label": "Razão Social",
+      "text": "PORTO BRACUHY IMÓVEIS LTDA"
+    },
+    {
+      "label": "CRECI",
+      "text": "005485/0"
+    },
+    {
+      "label": "CNPJ",
+      "text": "07.850.368/0001-98"
+    }
+  ],
+  "image": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/be8febbd-6a6a-4c13-83d1-25c96f67fa16",
+  "title": "PORTO BRACUHY IMÓVEIS",
+  "subTitle": "<strong>CRECI:</strong> <span class=\"font-light\">005485/0</span>",
+  "locationText": "Cais de Honra Lars Grael - Rodovia Rio Santos, Km 500,5, Antigo Km 115,<br/>Condomínio Porto Bracuhy, Angra dos Reis, RJ"
+}

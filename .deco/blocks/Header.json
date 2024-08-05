@@ -1,3 +1,30 @@
 {
-  "__resolveType": "site/sections/Header.tsx"
+  "__resolveType": "site/sections/Header.tsx",
+  "navLinks": [
+    {
+      "label": "Início",
+      "href": "/"
+    },
+    {
+      "label": "Sobre",
+      "href": "/sobre"
+    },
+    {
+      "label": "Busca de imóveis",
+      "href": "/busca"
+    },
+    {
+      "label": "Contato",
+      "href": "/contato"
+    },
+    {
+      "label": "Favoritos",
+      "href": "/favoritos"
+    },
+    {
+      "label": "Blog",
+      "href": "/blog"
+    }
+  ],
+  "logo": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/be8febbd-6a6a-4c13-83d1-25c96f67fa16"
 }
