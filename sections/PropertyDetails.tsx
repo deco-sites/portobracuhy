@@ -13,10 +13,14 @@ import WishlistButton from "site/islands/WishlistButton.tsx";
 export interface Props {
   /** @description Use para forçar um id de imóvel, deixe em branco para consultar da URL */
   imovelId?: string;
+  /** @description Email de contato usado no botão de compartilhamento do imóvel */
+  shareEmail?: string;
 }
 
 export default function PropertyDetails({
   imovel,
+  url,
+  shareEmail,
 }: SectionProps<typeof loader>) {
   const id = useId();
   const photos = imovel.Foto ? Object.values(imovel.Foto) : [];
@@ -140,10 +144,108 @@ export default function PropertyDetails({
               <div class="block lg:hidden">
                 <WishlistButton size={32} imovelId={imovel.Codigo} />
               </div>
-              <button class="bg-transparent outline-none border-none">
-                <Icon id="Share" size={32} class="text-black block lg:hidden" />
-                <Icon id="Share" size={39} class="text-black hidden lg:block" />
-              </button>
+              {/* The button to open modal */}
+              <label
+                htmlFor="share_modal"
+                className="bg-transparent outline-none border-none cursor-pointer"
+              >
+                <Icon id="Share" size={32} class="text-black hover:text-secondary block lg:hidden" />
+                <Icon id="Share" size={39} class="text-black hover:text-secondary hidden lg:block" />
+              </label>
+
+              {/* Put this part before </body> tag */}
+              <input
+                type="checkbox"
+                id="share_modal"
+                className="modal-toggle"
+              />
+              <div className="modal" role="dialog">
+                <div className="modal-box w-[70%] lg:w-1/2 max-w-none pb-[30px] lg:pb-[150px] rounded-[6px] shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
+                  <h3 className="text-[19.5px] lg:text-[39px] font-normal text-center mb-[30px]">
+                    Compartilhe
+                  </h3>
+                  <div class="flex justify-around w-full items-center">
+                    <a
+                      href={`http://www.facebook.com/sharer/sharer.php?u=${url}&t=`}
+                      class="bg-[#0a246a] text-white rounded-full h-[35px] lg:h-max py-[6px] px-[15px] lg:py-[22px] lg:px-[33px] flex items-center justify-center"
+                      target="_blank"
+                    >
+                      <Icon
+                        id="FacebookLetter"
+                        width={8}
+                        height={13}
+                        class="block lg:hidden"
+                      />
+                      <Icon
+                        id="FacebookLetter"
+                        width={32}
+                        height={53}
+                        class="hidden lg:block"
+                      />
+                    </a>
+
+                    <a
+                      href={`http://api.whatsapp.com/send?text= - ${url}`}
+                      class="bg-[#159d0d] text-white rounded-full py-[6px] px-[15px] lg:py-[22px] lg:px-[26px] h-[35px] lg:h-max flex items-center justify-center"
+                      target="_blank"
+                    >
+                      <Icon
+                        id="WhatsApp"
+                        width={13}
+                        height={13}
+                        class="block lg:hidden"
+                      />
+                      <Icon
+                        id="WhatsApp"
+                        width={45}
+                        height={53}
+                        class="hidden lg:block"
+                      />
+                    </a>
+
+                    <a
+                      href={`mailto:${shareEmail}?subject=PORTO BRACUHY IMÓVEIS&body=Você visualizou um imóvel em nossa página. segue o endereço. ${url}`}
+                      class="bg-secondary text-white rounded-full py-[6px] px-[15px] lg:py-[17px] lg:px-[17px] h-[35px] lg:h-max flex items-center justify-center"
+                      target="_blank"
+                    >
+                      <Icon
+                        id="Envelope"
+                        width={13}
+                        height={13}
+                        class="block lg:hidden"
+                      />
+                      <Icon
+                        id="Envelope"
+                        width={52}
+                        height={53}
+                        class="hidden lg:block"
+                      />
+                    </a>
+
+                    <a
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+                      class="bg-[#0c66c2] text-white rounded-full py-[6px] px-[15px] lg:py-[22px] lg:px-[26px] h-[35px] lg:h-max flex items-center justify-center"
+                      target="_blank"
+                    >
+                      <Icon
+                        id="LinkedinLetter"
+                        width={13}
+                        height={13}
+                        class="block lg:hidden"
+                      />
+                      <Icon
+                        id="LinkedinLetter"
+                        width={45}
+                        height={53}
+                        class="hidden lg:block"
+                      />
+                    </a>
+                  </div>
+                </div>
+                <label className="modal-backdrop" htmlFor="share_modal">
+                  Close
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -368,5 +470,6 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     ...props,
     imovelId,
     imovel,
+    url: req.url,
   };
 }

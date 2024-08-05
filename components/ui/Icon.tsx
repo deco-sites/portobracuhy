@@ -27,6 +27,8 @@ export type AvailableIcons =
   | "Pix"
   | "Logo"
   | "Facebook"
+  | "FacebookLetter"
+  | "LinkedinLetter"
   | "Instagram"
   | "Tiktok"
   | "Truck"

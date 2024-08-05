@@ -6,7 +6,8 @@
       "__resolveType": "Header"
     },
     {
-      "__resolveType": "site/sections/PropertyDetails.tsx"
+      "__resolveType": "site/sections/PropertyDetails.tsx",
+      "shareEmail": "contato@portobracuhy.com.br"
     },
     {
       "__resolveType": "site/sections/Shelf.tsx",
