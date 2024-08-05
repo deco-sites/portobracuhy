@@ -1,11 +1,18 @@
 import { useEffect, useState } from "preact/hooks";
 import { JSX } from "preact/jsx-runtime";
+import Icon from "site/components/ui/Icon.tsx";
 
 interface Props {
   imovelId?: string;
+  isWishlist?: boolean;
+  removeCallback?: () => void;
 }
 
-export default function WishlistButton({ imovelId }: Props) {
+export default function WishlistButton({
+  imovelId,
+  isWishlist = false,
+  removeCallback,
+}: Props) {
   const [isOnWishlist, setIsOnWishlist] = useState(false);
 
   const handleClick = (e: JSX.TargetedEvent<HTMLButtonElement>) => {
@@ -19,6 +26,7 @@ export default function WishlistButton({ imovelId }: Props) {
       const newWishlist = wishlist.filter((i: any) => i.imovelId !== imovelId);
       localStorage.setItem("wishlist", JSON.stringify(newWishlist));
       setIsOnWishlist(false);
+      removeCallback?.();
     } else {
       const newWishlist = [...wishlist, { imovelId }];
       localStorage.setItem("wishlist", JSON.stringify(newWishlist));
@@ -31,6 +39,17 @@ export default function WishlistButton({ imovelId }: Props) {
     const isOnWishlist = wishlist.some((i: any) => i.imovelId === imovelId);
     setIsOnWishlist(isOnWishlist);
   }, [imovelId]);
+
+  if (isWishlist) {
+    return (
+      <button
+        onClick={handleClick}
+        class="bg-transparent outline-none border-none text-white hover:text-secondary"
+      >
+        <Icon id="XCircle" size={30} />
+      </button>
+    );
+  }
 
   return (
     <button

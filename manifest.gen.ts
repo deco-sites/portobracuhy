@@ -3,6 +3,7 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import * as $$$$$$$$$0 from "./actions/createClient.ts";
+import * as $$$$$$$$$1 from "./actions/getImoveis.ts";
 import * as $$$$$$$$$$$0 from "./apps/deco/htmx.ts";
 import * as $$$$$$$$$$$1 from "./apps/site.ts";
 import * as $$$$$$0 from "./sections/BannerCTA.tsx";
@@ -22,6 +23,7 @@ import * as $$$$$$13 from "./sections/SearchResult.tsx";
 import * as $$$$$$14 from "./sections/Services.tsx";
 import * as $$$$$$15 from "./sections/Shelf.tsx";
 import * as $$$$$$16 from "./sections/Theme/Theme.tsx";
+import * as $$$$$$17 from "./sections/Wishlist.tsx";
 
 const manifest = {
   "sections": {
@@ -42,9 +44,11 @@ const manifest = {
     "site/sections/Services.tsx": $$$$$$14,
     "site/sections/Shelf.tsx": $$$$$$15,
     "site/sections/Theme/Theme.tsx": $$$$$$16,
+    "site/sections/Wishlist.tsx": $$$$$$17,
   },
   "actions": {
     "site/actions/createClient.ts": $$$$$$$$$0,
+    "site/actions/getImoveis.ts": $$$$$$$$$1,
   },
   "apps": {
     "site/apps/deco/htmx.ts": $$$$$$$$$$$0,

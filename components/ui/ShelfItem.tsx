@@ -6,11 +6,23 @@ import { getPrice } from "site/sdk/getPrice.ts";
 import { getCaracteristicas } from "site/sdk/getCaracteristicas.ts";
 import WishlistButton from "site/islands/WishlistButton.tsx";
 
-interface Props {
+interface BaseProps {
   imovel: Imovel;
   variant?: "default" | "listItem";
   showAllImagesSlider?: boolean;
 }
+
+interface WishlistProps extends BaseProps {
+  isWishlist: true;
+  removeCallback: () => void;
+}
+
+interface NonWishlistProps extends BaseProps {
+  isWishlist?: false;
+  removeCallback?: never;
+}
+
+type Props = WishlistProps | NonWishlistProps;
 
 function slugify(str: string) {
   return String(str)
@@ -27,6 +39,8 @@ export default function ShelfItem({
   imovel,
   variant = "default",
   showAllImagesSlider = false,
+  isWishlist = false,
+  removeCallback,
 }: Props) {
   const getImovelSlug = () => {
     const { Dormitorios, Codigo, Categoria, Bairro, Cidade, Status } = imovel;
@@ -107,7 +121,11 @@ export default function ShelfItem({
             </div>
           )}
           <div class={clx("absolute top-[10px] right-[10px]")}>
-            <WishlistButton imovelId={imovel.Codigo} />
+            <WishlistButton
+              imovelId={imovel.Codigo}
+              isWishlist={isWishlist}
+              removeCallback={removeCallback}
+            />
           </div>
         </div>
         <div
