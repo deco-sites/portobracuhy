@@ -205,10 +205,10 @@ export default function BlogPost({
 }
 
 export async function loader(props: Props, req: Request, ctx: AppContext) {
-  const imovel = props.page?.post || DEFAULT_PROPS;
+  const post = props.page?.post || DEFAULT_PROPS;
 
   if (ctx.seo) {
-    ctx.seo.title = imovel.title;
+    ctx.seo.title = post.title;
   }
 
   return {

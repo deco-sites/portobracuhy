@@ -1,6 +1,6 @@
 {
   "name": "Blog Post",
-  "path": "/blog/:slug*",
+  "path": "/blog/:slug",
   "sections": [
     {
       "__resolveType": "Header"
@@ -37,8 +37,7 @@
   ],
   "seo": {
     "__resolveType": "website/sections/Seo/SeoV2.tsx",
-    "type": "article",
-    "title": ""
+    "type": "article"
   },
   "__resolveType": "website/pages/Page.tsx"
 }
