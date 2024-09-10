@@ -50,6 +50,19 @@ export default function Shelf({
 }: SectionProps<typeof loader>) {
   const id = useId();
 
+  if (!imoveis || imoveis.length === 0) {
+    return (
+      <div class="flex flex-col w-[90%] mx-auto bg-[#F2F2F2] lg:bg-base-100 pt-[15px] pb-[5px] my-[25px]">
+        <h2 class="text-secondary font-medium text-[26px] lg:text-[39px] mb-[30px] lg:mb-[60px] text-center">
+          {title}
+        </h2>
+        <div class="w-full flex justify-center items-center h-[300px] lg:h-[500px] bg-base-100">
+          <span>Nenhum imóvel encontrado</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div class="flex flex-col w-[90%] mx-auto bg-[#F2F2F2] lg:bg-base-100 pt-[15px] pb-[5px] my-[25px]">

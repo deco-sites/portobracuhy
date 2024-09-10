@@ -1,0 +1,18 @@
+{
+  "name": "collections/blog/posts/bfa5e49bd611",
+  "__resolveType": "blog/loaders/Blogpost.ts",
+  "post": {
+    "authors": [],
+    "categories": [
+      {
+        "name": "Angra dos Reis",
+        "slug": "angra-dos-reis"
+      }
+    ],
+    "title": "Casas à venda em Angra dos Reis: 9 mais caras da Costa Verde",
+    "date": "2024-03-20",
+    "image": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/df42a7db-0a39-4977-a94d-d9766374086b",
+    "excerpt": " O Réveillon é uma época especial, e nada melhor do que celebrar a chegada do ano novo em um dos destinos mais paradisíacos do Brasil: Angra dos Reis. Com mais de 365 ilhas, águas cristalinas",
+    "slug": "casas-a-venda-em-angra-dos-reis-2"
+  }
+}

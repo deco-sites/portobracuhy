@@ -1,0 +1,8 @@
+{
+  "name": "collections/blog/categories/2cf2da600350",
+  "__resolveType": "blog/loaders/Category.ts",
+  "category": {
+    "name": "Imóveis",
+    "slug": "imoveis"
+  }
+}

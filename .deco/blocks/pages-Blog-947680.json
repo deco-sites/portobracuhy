@@ -6,6 +6,20 @@
       "__resolveType": "Header"
     },
     {
+      "__resolveType": "site/sections/BlogPosts.tsx",
+      "posts": {
+        "__resolveType": "blog/loaders/BlogpostList.ts",
+        "count": 99999,
+        "page": 1
+      },
+      "pagination": {
+        "perPage": 3
+      },
+      "cta": {},
+      "categories": null,
+      "title": "Blog"
+    },
+    {
       "__resolveType": "Footer"
     }
   ],

@@ -138,7 +138,7 @@ export default function ShelfItem({
             class={`flex flex-col ${
               variant === "listItem"
                 ? "h-auto pt-[15px] px-[25px] min-h-[273px]"
-                : "min-h-[300px]"
+                : "min-h-[270px]"
             }`}
           >
             <h3

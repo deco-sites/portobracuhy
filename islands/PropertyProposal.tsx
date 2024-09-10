@@ -1,7 +1,8 @@
 import { JSX } from "preact/jsx-runtime";
 import { invoke } from "site/runtime.ts";
+import { Imovel } from "site/sdk/types.ts";
 
-export default function PropertyProposal() {
+export default function PropertyProposal({ imovel }: { imovel: Imovel }) {
   const handlePhoneInput = (e: JSX.TargetedInputEvent<HTMLInputElement>) => {
     let value = e.currentTarget.value.replace(/\D/g, ""); // Remove all non-numeric characters
 
@@ -21,24 +22,25 @@ export default function PropertyProposal() {
   };
 
   const handleSubmit = async (e: JSX.TargetedEvent<HTMLFormElement>) => {
-    // const { name, fone, email, msg, productID } = e.currentTarget;
     e.preventDefault();
-    console.log("Chegou no submit!");
 
     const formData = new FormData(e.currentTarget);
     const name = formData.get("nome") as string;
     const fone = formData.get("fone") as string;
     const email = formData.get("email") as string;
     const msg = formData.get("msg") as string;
-    const aceito = formData.get("aceito") as string;
-    console.log(aceito, "aceito!");
 
     const data = await invoke["site"].actions.createClient({
       name,
       fone,
       email,
-      msg,
-      aceito,
+      imovel: imovel.Codigo,
+      VeiculoCaptacao: "Formulário Site",
+      history: {
+        Assunto: "Imóvel de interesse",
+        Imovel: imovel.Codigo,
+        Texto: msg,
+      },
     });
 
     console.log(data, "data client");

@@ -84,5 +84,25 @@
     "path": "/blog",
     "blockType": "pages",
     "__resolveType": "website/pages/Page.tsx"
+  },
+  "/.deco/blocks/collections%2Fblog%2Fcategories%2F35442b686043.json": {
+    "blockType": "loaders",
+    "__resolveType": "blog/loaders/Category.ts"
+  },
+  "/.deco/blocks/collections%2Fblog%2Fposts%2Ff73bc8a767f4.json": {
+    "blockType": "loaders",
+    "__resolveType": "blog/loaders/Blogpost.ts"
+  },
+  "/.deco/blocks/collections%2Fblog%2Fposts%2Fbfa5e49bd611.json": {
+    "blockType": "loaders",
+    "__resolveType": "blog/loaders/Blogpost.ts"
+  },
+  "/.deco/blocks/collections%2Fblog%2Fcategories%2F2cf2da600350.json": {
+    "blockType": "loaders",
+    "__resolveType": "blog/loaders/Category.ts"
+  },
+  "/.deco/blocks/deco-blog.json": {
+    "blockType": "apps",
+    "__resolveType": "site/apps/deco/blog.ts"
   }
 }

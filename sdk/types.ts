@@ -38,4 +38,6 @@ export interface Imovel {
   InfraEstrutura?: {
     [key: string]: string;
   };
+  CodigoCorretor?: string;
+  CaptadorAccountId?: string;
 }

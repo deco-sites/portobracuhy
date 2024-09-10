@@ -149,8 +149,16 @@ export default function PropertyDetails({
                 htmlFor="share_modal"
                 className="bg-transparent outline-none border-none cursor-pointer"
               >
-                <Icon id="Share" size={32} class="text-black hover:text-secondary block lg:hidden" />
-                <Icon id="Share" size={39} class="text-black hover:text-secondary hidden lg:block" />
+                <Icon
+                  id="Share"
+                  size={32}
+                  class="text-black hover:text-secondary block lg:hidden"
+                />
+                <Icon
+                  id="Share"
+                  size={39}
+                  class="text-black hover:text-secondary hidden lg:block"
+                />
               </label>
 
               {/* Put this part before </body> tag */}
@@ -394,7 +402,7 @@ export default function PropertyDetails({
           </div>
 
           <div class="lg:w-1/4">
-            <PropertyProposal />
+            <PropertyProposal imovel={imovel} />
           </div>
         </div>
       </div>
@@ -439,6 +447,9 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
     "ValorIptu",
     "Caracteristicas",
     "InfraEstrutura",
+    "CodigoCorretor",
+    "CaptadorAccountId",
+    { Corretor: ["Codigo", "Corretor", "Tipo", "Agencia", "CodigoEquipe"] },
   ]);
 
   const apiRoute = `/imoveis/detalhes?imovel=${imovelId}&pesquisa={"fields":${fields}}`;
@@ -461,6 +472,8 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
   }
 
   const imovel = content as Imovel;
+
+  console.log(imovel, "im");
 
   if (ctx.seo) {
     ctx.seo.title = `${imovel.Categoria}`;

@@ -1,0 +1,8 @@
+{
+  "name": "collections/blog/categories/35442b686043",
+  "__resolveType": "blog/loaders/Category.ts",
+  "category": {
+    "name": "Angra dos Reis",
+    "slug": "angra-dos-reis"
+  }
+}
