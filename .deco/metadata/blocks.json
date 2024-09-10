@@ -104,5 +104,11 @@
   "/.deco/blocks/deco-blog.json": {
     "blockType": "apps",
     "__resolveType": "site/apps/deco/blog.ts"
+  },
+  "/.deco/blocks/pages-Blog%2520Post-794323.json": {
+    "name": "Blog Post",
+    "path": "/blog/:slug*",
+    "blockType": "pages",
+    "__resolveType": "website/pages/Page.tsx"
   }
 }

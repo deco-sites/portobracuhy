@@ -1,0 +1,44 @@
+{
+  "name": "Blog Post",
+  "path": "/blog/:slug*",
+  "sections": [
+    {
+      "__resolveType": "Header"
+    },
+    {
+      "__resolveType": "site/sections/BlogPost.tsx",
+      "page": {
+        "__resolveType": "blog/loaders/BlogPostPage.ts",
+        "slug": {
+          "__resolveType": "website/functions/requestToParam.ts",
+          "param": "slug"
+        }
+      }
+    },
+    {
+      "__resolveType": "site/sections/RelatedPosts.tsx",
+      "title": "Podem ser do seu interesse",
+      "posts": {
+        "__resolveType": "blog/loaders/BlogpostList.ts",
+        "count": 3
+      },
+      "page": {
+        "__resolveType": "blog/loaders/BlogPostPage.ts",
+        "slug": {
+          "__resolveType": "website/functions/requestToParam.ts",
+          "param": "slug"
+        }
+      },
+      "count": 3
+    },
+    {
+      "__resolveType": "Footer"
+    }
+  ],
+  "seo": {
+    "__resolveType": "website/sections/Seo/SeoV2.tsx",
+    "type": "article",
+    "title": ""
+  },
+  "__resolveType": "website/pages/Page.tsx"
+}

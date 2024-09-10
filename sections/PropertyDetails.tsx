@@ -473,8 +473,6 @@ export async function loader(props: Props, req: Request, ctx: AppContext) {
 
   const imovel = content as Imovel;
 
-  console.log(imovel, "im");
-
   if (ctx.seo) {
     ctx.seo.title = `${imovel.Categoria}`;
   }

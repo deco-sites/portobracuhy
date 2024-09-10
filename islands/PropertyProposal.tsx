@@ -42,8 +42,6 @@ export default function PropertyProposal({ imovel }: { imovel: Imovel }) {
         Texto: msg,
       },
     });
-
-    console.log(data, "data client");
   };
 
   return (

@@ -1,9 +1,7 @@
 import type { ImageWidget } from "apps/admin/widgets.ts";
 import Image from "apps/website/components/Image.tsx";
 import { useSection } from "deco/hooks/useSection.ts";
-import { ComponentChildren, Fragment } from "preact";
 import { BlogPost, Category } from "apps/blog/types.ts";
-import { useId } from "../sdk/useId.ts";
 import { AppContext } from "apps/blog/mod.ts";
 import { getRecordsByPath } from "apps/blog/utils/records.ts";
 import { SectionProps } from "deco/types.ts";
