@@ -1,0 +1,9 @@
+{
+  "__resolveType": "site/apps/deco/records.ts",
+  "url": "libsql://portobracuhy-decocx.turso.io",
+  "authToken": {
+    "__resolveType": "website/loaders/secret.ts",
+    "name": "DATABASE_AUTH_TOKEN",
+    "encrypted": "964d03ec0e8c2965e2e35ecd17c1f781469ad368f3efd65921365615e97cd82a864a182bd306775f402ce6fd52c6a43fc5f48911728f7c6da3b146aa31e583c079ba3bdf0de2414c5c549e7ec1c6cddbe566803c3f7f812dd345690372552bbb8ac305d500ce91b22a13daae04962687a4e49ae84aa33f4b7041e27458e2bfef42836d2dba9b1e7d7aed43cb06feb5841733afc05769465e2390d7ed32e0971ac99c0741156650e423297062aac940181b1db092f021a18e802bb6cc743d49e80d6cf7e304bbdbdca63095bdc43889e6900393238a3451489d1f6f69648eb6d1"
+  }
+}
