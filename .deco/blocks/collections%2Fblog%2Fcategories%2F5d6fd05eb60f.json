@@ -1,0 +1,8 @@
+{
+  "name": "collections/blog/categories/5d6fd05eb60f",
+  "__resolveType": "blog/loaders/Category.ts",
+  "category": {
+    "name": "Imobiliária",
+    "slug": "imobiliaria"
+  }
+}

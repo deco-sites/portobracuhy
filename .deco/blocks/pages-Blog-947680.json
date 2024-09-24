@@ -9,7 +9,7 @@
       "__resolveType": "site/sections/BlogPosts.tsx",
       "posts": {
         "__resolveType": "blog/loaders/BlogpostList.ts",
-        "count": 99999,
+        "count": 999,
         "page": 1
       },
       "pagination": {

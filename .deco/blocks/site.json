@@ -7,7 +7,8 @@
     "titleTemplate": "%s",
     "title": "Porto Bracuhy Imóveis",
     "favicon": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/11067/b5ab21ce-dbb4-46ec-bd56-5f056a8b08ca",
-    "image": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/8/07fd7c67-11d2-43a2-a322-6ffd0fbcdee1"
+    "image": "https://ozksgdmyrqcxcwhnbepg.supabase.co/storage/v1/object/public/assets/8/07fd7c67-11d2-43a2-a322-6ffd0fbcdee1",
+    "descriptionTemplate": "%s"
   },
   "global": [
     {
@@ -49,7 +50,7 @@
     }
   },
   "flavor": {
-    "framework": "fresh"
+    "framework": "htmx"
   },
   "loft": {
     "apiKey": {

@@ -1,0 +1,8 @@
+{
+  "name": "collections/blog/categories/97d0c81c2733",
+  "__resolveType": "blog/loaders/Category.ts",
+  "category": {
+    "name": "Casa Canal",
+    "slug": "casa-canal"
+  }
+}

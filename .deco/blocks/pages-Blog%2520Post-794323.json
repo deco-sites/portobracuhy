@@ -20,7 +20,7 @@
       "title": "Podem ser do seu interesse",
       "posts": {
         "__resolveType": "blog/loaders/BlogpostList.ts",
-        "count": 3
+        "count": 999
       },
       "page": {
         "__resolveType": "blog/loaders/BlogPostPage.ts",

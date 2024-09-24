@@ -1,5 +1,5 @@
 import { defineConfig } from "$fresh/server.ts";
-import plugins from "https://cdn.jsdelivr.net/gh/deco-sites/std@1.26.7/plugins/mod.ts";
+import plugins from "deco/plugins/fresh.ts";
 import manifest from "./manifest.gen.ts";
 import tailwind from "./tailwind.config.ts";
 
@@ -8,6 +8,7 @@ export default defineConfig({
     manifest,
     // deno-lint-ignore no-explicit-any
     tailwind: tailwind as any,
+    htmx: true,
   }),
   render: (ctx, render) => {
     ctx.lang = "pt-BR";

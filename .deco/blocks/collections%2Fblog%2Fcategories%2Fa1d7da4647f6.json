@@ -1,0 +1,8 @@
+{
+  "name": "collections/blog/categories/a1d7da4647f6",
+  "__resolveType": "blog/loaders/Category.ts",
+  "category": {
+    "name": "Ilhas",
+    "slug": "ilhas"
+  }
+}

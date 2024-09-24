@@ -28,9 +28,7 @@ export interface Props {
 
 function Container({ children }: { children: ComponentChildren }) {
   return (
-    <div class="container lg:mx-auto py-12 lg:py-14 px-[30px]">
-      {children}
-    </div>
+    <div class="container lg:mx-auto py-12 lg:py-14 px-[30px]">{children}</div>
   );
 }
 
@@ -64,12 +62,19 @@ export default function RelatedPosts({
 }: Props) {
   const { categories } = page?.post || DEFAULT_PROPS;
 
+  // Get All Posts That Belong To The Same Categories As The Current Post
   const filteredPosts = posts?.filter((post) => {
-    return post.categories.some((category) => categories.includes(category));
+    return (
+      post.slug !== page?.post?.slug &&
+      post.categories.some(
+        (category) =>
+          categories.findIndex((c) => c.slug === category.slug) !== -1
+      )
+    );
   });
 
   const from = 0;
-  const to = count - 1;
+  const to = count;
 
   return (
     <Container>

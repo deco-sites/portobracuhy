@@ -8,6 +8,7 @@ export interface Field {
   placeholder?: string;
   type: "text" | "email" | "textarea";
   width?: "full" | "1/2" | "1/3" | "1/4";
+  required?: boolean;
 }
 
 /** @description Campo de formulário: Field para campos de entrada de dados ou RadioOptionsField para campos de seleção  */
@@ -97,12 +98,15 @@ export default function ContactForm({
                 </label>
                 {field.type === "textarea" ? (
                   <textarea
+                    name={field.label}
                     rows={3}
                     placeholder={field.placeholder}
                     className="mt-[5px] text-[14px] block w-full py-[6px] px-3 border border-[#ccc] focus:border-base-200 outline-none"
                   />
                 ) : (
                   <input
+                    required={field.required}
+                    name={field.label}
                     type={field.type}
                     placeholder={field.placeholder}
                     className="mt-[5px] text-[14px] block w-full py-[6px] px-3 border border-[#ccc] focus:border-base-200 outline-none"

@@ -1,0 +1,8 @@
+{
+  "name": "collections/blog/categories/c54628abee7f",
+  "__resolveType": "blog/loaders/Category.ts",
+  "category": {
+    "name": "Locação de Temporada",
+    "slug": "locacao-de-temporada"
+  }
+}
