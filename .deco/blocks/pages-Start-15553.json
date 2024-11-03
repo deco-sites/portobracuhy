@@ -31,7 +31,31 @@
     },
     {
       "__resolveType": "site/sections/BuscaImovel.tsx",
-      "title": "Encontre seu imóvel ideal"
+      "title": "Encontre seu imóvel ideal",
+      "forceFieldsContent": {
+        "cidades": [
+          {
+            "bairros": [
+              "Angra Azul",
+              "Angra Inn"
+            ],
+            "label": "Angra dos Reis"
+          },
+          {
+            "bairros": [
+              "Rio de Janeiro",
+              "Barra da Tijuca"
+            ],
+            "label": "Rio de Janeiro"
+          },
+          {
+            "bairros": [
+              "Moema"
+            ],
+            "label": "São Paulo"
+          }
+        ]
+      }
     },
     {
       "__resolveType": "site/sections/Shelf.tsx",
